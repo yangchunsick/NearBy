@@ -119,7 +119,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Server Tomcat
-.Servers/
+# Tomcat Server
+Servers/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,windows
