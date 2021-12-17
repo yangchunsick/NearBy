@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.koreait.nearby.repository.ProfileRepository">
+	<resultMap type="ProFile" id="ProFileMap">
+		<result column="P_NO" property="pNo" />
+		<result column="ID" property="id" />
+		<result column="CONTENT" property="content" />
+		<result column="P_ORIGIN" property="pOrigin" />
+		<result column="P_SAVED" property="pSaved" />
+		<result column="PATH" property="path" />
+	</resultMap>
+	
+	
+</mapper>
