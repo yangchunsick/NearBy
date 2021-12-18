@@ -1,0 +1,186 @@
+*{
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+html{
+    background-color: rgb(240, 242, 245);
+}
+
+a{
+    text-decoration: 0;
+    color: black;
+}
+
+ul, ol{
+    list-style-type: none;
+}
+
+label{
+    display: block;
+    text-align: left;
+    padding-bottom: 5px;
+    font-size: 18px;
+}
+
+input{
+    background-color: rgb(232, 240, 254);
+    border: 2px solid rgb(0, 0, 0, 0);
+}
+
+input::placeholder{
+    padding-left: 20px;
+}
+
+input:focus{
+    outline: none;
+}
+
+.container{
+    width: 600px;
+    margin: 100px auto;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.head{
+    width: 100%;
+}
+
+/* 상단 로고 */
+.title{
+    padding-top: 1px;
+}
+
+.title > a{
+    display: block;
+    width: 200px; height: 76px;
+    margin: 10px auto;
+    text-align: center;
+    font-size: 0;
+
+    background-image: url(../image/logo_color.png);
+    background-size: 200px 76px;
+    background-repeat: no-repeat;
+}
+
+.join_form{
+    width: 600px;
+    margin: 0 auto;
+}
+
+/* 
+    아이디, 비밀번호, 비밀번호 재확인, 이름
+*/
+.input_box{
+    width: 450px;
+    margin: 35px auto;
+
+}
+
+.input_box input{
+    width: 100%; height: 45px;
+    border-radius: 10px;
+}
+
+/* 이메일 */
+.email_box{
+    width: 450px;
+    margin: 35px auto;
+}
+
+.email_box input[type=text]{
+    width: 75%; height: 45px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.email_box > input[type=button]{
+    width: 23%; height: 45px;
+    background: linear-gradient(#ff6e56,#ff3268);
+    border-radius: 10px;
+    font-size: 12px;
+    color: white;
+    outline: none;
+}
+
+.email_box > input[type=button]:hover{
+    border: 2px solid black;
+}
+
+/* 번호 */
+.tel_box{
+    width: 450px; height: 100%;
+    margin: 35px auto;
+
+}
+
+.tel_box input{
+    width: 450px; height: 45px;
+    border-radius: 10px;
+}
+
+/* 생년월일 */
+.birth_box{
+    width: 450px;
+    margin: 35px auto;
+}
+
+.birth_box > select, option{
+    width: 135px; height: 45px;
+    text-align: center;
+    margin: 0 5px 0 5px;
+    font-size: 18px;
+}
+
+
+/* 성별 */
+.gender_box{
+    width: 450px;
+    margin: 35px auto;
+}
+
+.gender_box > p{
+    font-size: 18px;
+    padding-bottom: 5px;
+}
+
+.gender_box > label{
+    display: inline-block;
+    padding-bottom: 5px;
+    margin: 0 40px 0 40px;
+}
+
+
+/* 회원가입 버튼 */
+.join_btn_wrap{
+    width: 450px;
+    margin: 35px auto;
+}
+
+.join_btn_wrap > input, button{
+    width: 220px; height: 50px;
+    background: linear-gradient(#ff6e56,#ff3268);
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    font-weight: 900;
+    color: white;
+}
+
+/* 대표님의 요청 사항 */
+.space input[type=text]{
+    padding-left: 15px;
+}
+
+/* 정규식 메세지 */
+.error_msg {
+    font-size:13px;
+    color:red;
+}
+.pass_msg {
+    font-size:13px;
+    color:grey;
+}
