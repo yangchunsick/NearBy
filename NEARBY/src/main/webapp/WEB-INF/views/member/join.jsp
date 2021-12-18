@@ -11,8 +11,6 @@
 </head>
 <body>
 
- <!-- 레이아웃 header 삽입하기 -->
- 
     <div class="container">
     
         <div class="head">
