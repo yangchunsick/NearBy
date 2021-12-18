@@ -81,7 +81,6 @@
 	   margin-bottom: 10px;
 	   margin-left: 100px;
 	   width : 300px;
-	    
    }
    
    
@@ -90,7 +89,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/layout/layout.jsp" flush="true" />
-	<h1>MAIN</h1>
+	<h1>MAINMAIN</h1>
 	
 	<a href="/nearby/board/insertPage">새 갤러리 작성</a> <!-- header로빠질예정 -->
 	<a href="/nearby/member/logout">로그아웃</a>
