@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
 		member.setGender(request.getParameter("gender"));
 		
 		int result = repository.joinMember(member);
-		message(result, response, "회원가입 성공", "회원가입 실패", "/nearby");
+		message(result, response, "회원가입 성공", "회원가입 실패", "/board/board");
 		
 	}
 
