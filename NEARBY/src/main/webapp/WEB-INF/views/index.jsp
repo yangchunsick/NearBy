@@ -5,28 +5,161 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NearBy - 내 주변의 빠른 소식통</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
-   *{
-      margin : 0;
-      padding : 0;
-   }
-
+   * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+   }  
    .container {
       width: 100%;
-      margin: 0 auto;
-      text-align: center;   
+      height: 100%;
+      margin:   0 auto;
+   }  
+   .header_wrap {
+      z-index: 5;
+        position: fixed;
+        top: 0;
+        width:100%;
+        height: 100px;
+      background-color: rgba( 20, 20, 20, 0.9);
+        display: flex;
+   }
+   .blur {
+     opacity: 0.4;
+     
+   }
+   .main {
+         z-index: -1;
    }
    
-   .index_header {
-   	width:100%;
-      background-color: rgb( 30, 30, 30);
+   .main_box1 {
+      width: 100%;
+      height:400px;
+      text-align: center;
+      background-color: #fe565d;
+      padding-bottom: 30px;
    }
-    #login_form {
-       position:absolute;
-       top: 200px;
-       left: 860px;
+   
+   .main_box2 {
+      width: 100%;
+      height: 3000px;
+      background-color: rgba(255, 250, 250, 0.8);
+      margin: 0 auto;
+      padding: 0 auto;
+   }
+   
+   .main_box1 h1 {
+      color: white;
+      font-size: 56px;
+      padding-top: 200px;
+   }
+   .btn {
+    width: 140px;
+    height: 40px;
+   border-radius: 30px;
+    border: none;
+    font-size: 20px;
+    cursor:pointer;   
+   }
+   .img_wrap {
+      width: 100%;
+      height: 1380px;
+      display: flex;
+   }
+   .left_box {
+    width: 50%;
+    height: 100%;
+      display: flex;
+      text-align: center;
+   }
+   
+   #img1 {
+   margin: 260px auto;
+   width: 660px;
+   height: 924px;
+   }
+   
+   #img2 {
+   margin: 360px auto;
+   width: 700px;
+   height: 770px;
+   }
+   
+   .right_box {
+      width: 50%;
+      height: 100%;
+      display: inline-block;
+      text-align: center;
+   }
+   #app_icon {
+      width: 200px;
+      margin-top: 500px;
+   }
+   
+   .right_box h1 {
+    margin-top: 80px;
+    font-size: 40px;
+    font-weight: 900;
+   }
+   .right_box p {
+      margin-top: 10px;
+      font-size: 30px;
+      font-weight: 500;
+   }
+
+   
+   #login_btn1 {
+      margin: 30px auto;
+      margin-right:2%;
+      border-radius: 30px;
+   }
+   #login_btn1:hover {
+      background-color: #fe565d;
+      color: white;
+   }
+    #login_btn2 {
+      background-color: rgb(43,26,27);
+      color: white;
+        margin-top: 40px;
+      border-radius: 30px;
+   }
+     #login_btn2:hover {
+      background-color: white;
+      color: black;
+   }
+   #join_btn1 {
+        margin-top: 44px;
+        color: black;
+   }
+   
+   #join_btn2 {
+       margin-top: 40px;
+       background-color: rgb(43,26,27);
+       color: white;
+       width: 200px;
+   }
+   #join_btn2:hover{
+    background-color: white;
+     color: black;
+   }
+   
+   .main_box3 h1 {
+      padding-top: 120px;
+   }
+   
+    #login_form {    
+       box-shadow: 10px 10px 20px rgba(30, 30, 30, 0.5);
+       
+       position:fixed;
+       top: 140px;
+       left: 200px;
+       right: 200px;
+       width: 600px;
+       height: 670px;
        border-radius: 30px;
        border : 1px solid rgba(50,50,50,0.3);
        margin: 0 auto;
@@ -34,14 +167,17 @@
        padding: 10px;
        text-align: center;
        background-color: white;
+       
    }
-   .see {
-      display: block;
-      width: 500px;
-      height: 600px;
-   }
-   .no {
-      display: none;
+   #close_login_btn {
+    font-size: 20px;
+      margin-left: 520px;
+      margin-top: 16px;
+      color: rgb(43,26,27);
+   }   
+   #close_login_btn:hover {
+      color: #fe585c;
+      cursor: pointer;
    }
    .input_wrap{
       margin: 0 auto;
@@ -55,30 +191,22 @@
       border: none;
       background-color: #fe585c;
       font-size: 22px;
-      color: white;
-      
+      color: white;   
    }
-   #login_btn {
-      margin-right: 100px;
-       margin-top: 40px;
-      margin-left: 1100px;
+   #login_submit:hover {
+      cursor: pointer;
+   }  
+   .see {
       display: block;
-      width: 140px;
-      height: 40px;
-      border-radius: 30px;
-      border: none;
-      font-size: 20px;
-      cursor:pointer;
-      
+      width: 500px;
+      height: 600px;
    }
-   .logo_wrap {
-      margin-top: 20px;
-      margin-left: 30px;
-      display: flex;
+   .no {
+      display: none;
    }
    .input_box {
       border-radius: 5px;
-      margin: 5px auto;
+      margin: 8px auto;
       margin-bottom: 30px;
       border: none;
       width: 400px;
@@ -92,33 +220,50 @@
       width: 340px;
       height: 30px;
       line-height: 30px;
-      margin-top: 5px;
+      margin-top: 8px;
       background-color: #e8f0fe;
       
    }
    
    .input_wrap > p{
       text-align: left;
-      margin-left : 54px;
+      margin-left : 90px;
       font-size: 18px;
    }
    #logo2 {
       width: 280px;
       margin-top :40px;
       margin-bottom: 20px;
-   }
-   .main {
-      background-color: RGB(240,242,245);
-      width: 100%;
-      height: 3000px;
-      background-image: url('resources/image/abc.png');
-      background-repeat: no-repeat;
-   }
-   #move_area {
-     margin-top : 10px;
-   }
-   .blur {
       
+   }
+
+   #move_area {
+     text-align: center;
+     margin-top: 30px;
+     
+   }
+   #move_area i {
+     display: inline-block;
+     margin-right: 10px;
+     color: rgb(50, 50, 50, 0.7);
+   }
+   #move_area p {
+     color: rgb(50, 50, 50, 0.7);
+   }
+   #find_btn1:hover:nth-of-type(1)  {
+     color: rgb(30, 30, 30);   
+     font-weight: bold;
+   }
+   #join_btn1:hover:nth-of-type(1)  {
+     color: rgb(30, 30, 30);   
+     font-weight: bold;
+   }
+   
+   .footer_wrap {
+   margin-top: 70px;
+   padding-bottom: 80px;
+   text-align: center;
+   font-weight: bold;
    }
    
 </style>
@@ -127,14 +272,26 @@
   $(document).ready(function(){
    fnLoginBtn();      // login 버튼 눌렀을 때 로그인 창 나타나기
    fnLogin();         // login 서브밋
+   fnCloseLoginBtn();
   });
      
   
-     // login 버튼 눌렀을 때 로그인 창 나타나기
+     // login 버튼 눌렀을 때 로그인 창 나타나기 / 배경 흐림효과
     function fnLoginBtn() {
-     $('#login_btn').click( function() {
+     $('.login_btn').click( function() {
         $('#login_form').addClass('see').removeClass('no');
+        $('.main').addClass('blur');
+        
    
+      });
+     
+
+   }
+    // close_login_btn 눌렀을 때 로그인 창 사라지기 / 배경 흐림효과 삭제
+    function fnCloseLoginBtn() {
+     $('#close_login_btn').click( function() {
+        $('#login_form').addClass('no').removeClass('see');
+        $('.main').removeClass('blur');
       });
      
 
@@ -163,18 +320,61 @@
 </head>
 <body>
    <div class="container">
-   
-      <header class="index_header">
-        <div class="logo_wrap"> 
-           <div><img id="logo" src="resources/image/logo_white.png" width="200px"></div> 
-           <div><input type="button" value="로그인" id="login_btn"></div>
-        </div>
+     
+     
+     <!------------------------------------- header ------------------------------------->      
+      
+      <header class="header_wrap">
+           <img id="logo" src="resources/image/logo_white.png" width="200px">
+           <input type="button" value="로그인" id="login_btn1" class="btn login_btn">
       </header>
       
+      
+      
+      <!------------------------------------- main --------------------------------------->
+      
       <main class="main" >
-   
-         <hr>
+         <div class="main_box1">
+            <h1>당신 근처에 일어나는 다양한 일들 알고싶어?</h1>
+            <input type="button" value="시작하기" id="login_btn2" class="btn login_btn">
+         </div>
+      <div class="main_box2">
+            <div class="img_wrap">
+               <div class="left_box">
+                  <img id="img1" src="resources/image/board1.png">
+               </div>
+               <div class="right_box">
+                  <img id="app_icon" src="resources/image/app_icon.png">
+                  <h1>나도 모르는 사이 내 주변에 이런 일이? </h1>
+                  <p>인싸들만 아는 정보들? 걱정 NO NO!</p>
+                  <p>NEARBY 친구들이 알아서 알려줄거야</p>
+               </div>
+            </div>
+            <div class="img_wrap">
+               <div class="right_box">
+                  <img id="app_icon" src="resources/image/app_icon.png">
+                  <h1>오늘 저녁 뭐 먹지? </h1>
+                  <p>주변에 인기있는 핫플레이스 맛집 검색까지!</p>
+                  <p>#홍대맛집 #분위기좋은바</p>
+               </div>
+               <div class="left_box">
+                  <img id="img2" src="resources/image/board2.png">
+               </div>
+
+            </div>
+
+                           
+         </div>
+         <div class="main_box1 main_box3">
+            <h1>지금 당장 NEARBY 시작하기</h1>
+            <a href="/nearby/member/memberJoin"><input type="button" value="간편회원가입" id="join_btn2" class="btn join_btn"></a>
+         </div>
+      </main>
+      <!---------------------------------------- 로그인 폼(숨김)---------------------------------------> 
              <form id="login_form" method="post" class="no" action="/nearby/member/login">
+               <div>
+                  <i id="close_login_btn" class="fas fa-times"></i>   
+               </div>
                <div>
                   <img id="logo2" src="resources/image/logo_color.png" width="200px">
                </div>
@@ -187,11 +387,16 @@
                <div class="input_wrap">
                   <p>비밀번호<p>
                   <div class="input_box">
-                     <input type="text" name="pw" id="pw">
+                     <input type="password" name="pw" id="pw">
                   </div>
                   
                </div>            
-                  <button id="login_submit">로그인</button>
+               <button id="login_submit">로그인</button>
+                        <div id="move_area">
+                        <a id="find_btn1" class="join_btn1" href="#"><i class="fas fa-key"></i>아이디/비밀번호 찾기</a><br><br>
+                        <a id="join_btn1" class="join_btn1" href="/nearby/member/joinPage"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
+                    </div>
+
                          <div id="move_area">
         		 			 <a href="/nearby/board/boardList">Board로 가기</a>
         					 <a href="/nearby/member/joinAgreePage">회원가입하러가기</a>
@@ -199,21 +404,17 @@
         					 <!-- <a href="/nearby/member/memberJoin">회원가입하러가기</a> -->
         				</div>
              </form>   
-            
-   
-        <br><br><br>
- 
-      
-      <br><br><br>
       
       
-      </main>
-      
-      
-        <hr>
-   
-      <footer>
-          안녕 나는 footer 
+        
+     <!------------------------------------- footer ---------------------------------------->
+      <footer class="footer_wrap">
+           <h2>About NearBy©</h2><br>
+           <p>로고     히스토리     개인정보처리방침     도움말      제휴      광고      문의/피드백      채용</p>
+           <p>© 2021-2022 NEARBY.COM NEARBY isn’t endorsed by Facebook and doesn’t reflect the views or opinions of Facebook or anyone officially </p>
+           <p>involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot</p>
+           <p>Games, Inc. NEARBY Company © NearBy, Inc.</p>   
+            <br><br>
       </footer>
    </div>   
 </body>
