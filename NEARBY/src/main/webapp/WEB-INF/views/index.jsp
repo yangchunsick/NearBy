@@ -409,6 +409,8 @@
            <p>Games, Inc. NEARBY Company © NearBy, Inc.</p>   
             <br><br>
       </footer>
-   </div>   
+   </div>
+   
+    
 </body>
 </html>

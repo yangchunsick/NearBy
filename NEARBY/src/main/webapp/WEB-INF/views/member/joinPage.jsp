@@ -128,8 +128,6 @@
         <div style="text-align: center;">
         	<span>NearBy <a href="/nearby/member/joinAgreePage">이용약관</a>어쩌구 저쩌구</span>
         </div>
-
-   
     </div>
 </body>
 </html>
