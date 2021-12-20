@@ -195,6 +195,7 @@
                          <div id="move_area">
         		 			 <a href="/nearby/board/boardList">Board로 가기</a>
         					 <a href="/nearby/member/joinAgreePage">회원가입하러가기</a>
+        					 <!-- 이용약관 페이지로 이동 -->
         					 <!-- <a href="/nearby/member/memberJoin">회원가입하러가기</a> -->
         				</div>
              </form>   
