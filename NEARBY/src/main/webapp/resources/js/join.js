@@ -49,7 +49,6 @@ function fnIdCheck() {
                               .removeClass('erro_msg');
             return id_result = true;
         }
-        /* 아이디 중복 체크 */
         /*
         $.ajax({
             url: ,
