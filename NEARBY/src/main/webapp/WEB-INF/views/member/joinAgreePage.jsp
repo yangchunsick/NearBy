@@ -9,13 +9,11 @@
 </head>
 <body>
 
+	
 	<h1>NearBy이용약관</h1>
 	
 	<span>어쩌구 저쩌구</span>
 
-	<h1>회원 가입 동의</h1>
-
-	<a href="/nearby/member/joinPage">회원가입하러가기</a>
 
 </body>
 </html>

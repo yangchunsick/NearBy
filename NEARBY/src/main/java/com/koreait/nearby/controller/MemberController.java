@@ -16,13 +16,7 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService service;
-	
-	
-	/* 회원가입 */
-	@PostMapping(value = "insertMember")
-	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
-		service.insertMember(request, response);
-	}
+
   
 	public MemberController(MemberService service) {
 		super();
@@ -32,7 +26,7 @@ public class MemberController {
 	// 회원가입
 	@PostMapping("insertMember")
 	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
-		service.joinMember(request, response);
+		service.insertMember(request, response);
 	}
 	
 	
