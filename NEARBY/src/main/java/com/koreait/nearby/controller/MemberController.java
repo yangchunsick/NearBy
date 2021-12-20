@@ -28,22 +28,13 @@ public class MemberController {
 		this.service = service;
 	}
 	
-	
-    // 회원가입하러 가기
-	@GetMapping("memberJoin")
-	public String memberJoin() {
-		return "member/join";
-	}
-	
-	
-	// 회원가입하기 
+	// 회원가입
 	@PostMapping("insertMember")
 	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
-	      service.joinMember(request, response);
+		service.joinMember(request, response);
 	}
 	
-	
-    // 아이디 중복확인하기 
+	// 아이디 중복확인하기 
 	@ResponseBody
 	@PostMapping(value="idCheck", produces ="application/json; charset=UTF-8" )
 	public Map<String,Object> idCheck(@RequestParam String id) {
@@ -64,7 +55,6 @@ public class MemberController {
 		return service.sendAuthCode(email);
 	}
 
-	
 	// 로그인
 	@PostMapping(value="login")
 	public void login(HttpServletRequest request, HttpServletResponse response) {

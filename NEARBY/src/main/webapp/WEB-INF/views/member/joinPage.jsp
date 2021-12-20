@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>* NearBy 회원가입 페이지 *</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<script src="join.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/join.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/join.css">
 </head>
 <body>
@@ -20,13 +20,13 @@
         <div class="join_form">
     
             <form action="/nearby/member/insertMember" method="post" id="join_form">
-                <!-- 아이디 -->
+                <!-- 아이디 --> 
                 <div class="input_box">
                     <label for="id">아이디</label>
                     <span class="space">
                         <input type="text" id="id" name="id">
                     </span>
-                    <span id="id_check"></span>
+                    <span id="id_check_msg"></span>
                 </div>
 
                 <!-- 비밀번호 -->
@@ -35,16 +35,16 @@
                     <span class="space">
                         <input type="text" id="pw" name="pw">
                     </span>
-                    <span id="pw_check"></span>
+                    <span id="pw_check_msg"></span>
                 </div>
 
                 <!-- 비밀번호 확인 -->
                 <div class="input_box">
-                    <label for="pw">비밀번호 재확인</label>
+                    <label for="pw2">비밀번호 재확인</label>
                     <span class="space">
-                        <input type="text" id="pwCheck" >
+                        <input type="text" id="pw2" >
                     </span>
-                    <span id="pw_doubleCheck"></span>
+                    <span id="pw2_check_msg"></span>
                 </div>
                 
                 <!-- 이름 -->
@@ -53,7 +53,7 @@
                     <span class="space">
                         <input type="text" id="name" name="name">
                     </span>
-                    <span id="name_check"></span>
+                    <span id="name_check_msg"></span>
                 </div>
 
                 <!-- 이메일 -->
@@ -64,16 +64,18 @@
                     <span class="space">
                         <input type="text" id="email" name="email">
                     </span>
-
+                    
                     <!-- 인증코드 발송 -->
                     <input type="button" value="인증번호받기" id="authCode_btn">
-                    <span id="email_check"></span>
-
+                    <span id="email_check_msg"></span>
+                    
                     <!-- 인증코드 입력 칸 -->
-                    <span class="space">
-                    	<input type="text" name="authCode" id="authCode">
-                    </span>
-                    <input type="button" value="인증하기" id="verify_btn">
+                    <div id="authCode_box">
+                        <span class="space">
+                            <input type="text" name="authCode" id="authCode">
+                        </span>
+                        <input type="button" value="인증하기" id="verify_btn">
+                    </div>
                 </div>
 
                 <!-- 번호 -->
@@ -82,7 +84,7 @@
                     <span class="space">
                         <input type="text" id="phone" name="phone" placeholder="- 표시 없이 입력해주세요">
                     </span>
-                    <span id="phone_check"></span>
+                    <span id="phone_check_msg"></span>
                 </div>
 
                 <!-- 생년월일 -->
@@ -93,30 +95,27 @@
                     <select id="birthday" name="year"></select>
 
                     <!-- 월 -->
-                    <select id="month" name="month">
-                        <option value="월">월</option>
-                    </select>
+                    <select id="month" name="month"></select>
 
                     <!-- 일 -->
-                    <select id="day" name="day">
-                        <option value="일"></option>
-                    </select>
+                    <select id="day" name="day"></select>
                 </div>
 
                 <!-- 성별 -->
                 <div class="gender_box">
                     <p id="gender_box">성별</p>
-                    <!-- 여성 -->
-                    <input type="radio" name="gender" value="f" id="female" checked>
-                    <label id="f" for="female">여성</label>
-
+                    <!-- 선택 안 함 -->
+                    <input type="radio" name="gender" value="n" id="n" checked>
+                    <label id="n"  for="n">선택안함</label>
+                    
                     <!-- 남성 -->
                     <input type="radio" name="gender" value="m" id="male">
                     <label id="m"  for="male">남성</label>
 
-                    <!-- 선택 안 함 -->
-                    <input type="radio" name="gender" value="n" id="n">
-                    <label id="n"  for="n">선택안함</label>
+                    <!-- 여성 -->
+                    <input type="radio" name="gender" value="f" id="female">
+                    <label id="f" for="female">여성</label>
+
                 </div>
 
                 <div class="join_btn_wrap" id="join_btn_wrap">
