@@ -17,7 +17,12 @@ public interface MemberService {
 
 	/* 회원가입 */
 	public void insertMember(HttpServletRequest request, HttpServletResponse response);
-
+	
+	// 회원가입시 이메일 중복 체크 + 아이디 찾기
+	public Map<String, Object> selectByEmail(String email);
+	
+	// 로그인
+	public void login(HttpServletRequest request, HttpServletResponse response);
 	
 	/* default method */
  	public default void message(int result, HttpServletResponse response,

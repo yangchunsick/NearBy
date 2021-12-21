@@ -8,10 +8,23 @@ import com.koreait.nearby.domain.Board;
 
 @Repository
 public interface BoardRepository {
+	
+  // 전체 리스트 ok
    public List<Board> selectListBoard();
-   public Board selectBoardByNo(Long no);
+   
+   // 상세보기
+   public Board selectBoardByNo(Long bNo);
+   
+   // 삽입하기 ok
    public int insertBoard(Board board);
+   
+   // 수정하기 ok
    public int updateBoard(Board board);
-   public int deleteBoard(Long no);
+   
+   // 게시글 삭제
+   public int deleteBoard(Long bNo);
+   
+   
+ 
    
 }

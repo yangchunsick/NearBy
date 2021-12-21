@@ -30,5 +30,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE ID = #{id}
 	</select>
 	
+     <!-- 이메일 중복 확인 + 아이디 찾기  -->
+	<select id="selectByEmail" parameterType="String" resultType="Member">
+		select id, pw, name
+		 from member
+		 where email=#{email} 
+	</select>
+
+   <!-- 로그인  -->	
+	<select id="login" parameterType="Member" resultType="Member">
+		SELECT M_NO, ID, PW, NAME, EMAIL, BIRTHDAY, PHONE, GENDER, STATE
+		  FROM MEMBER 
+	    WHERE ID = #{id} AND PW = #{pw} AND STATE = 0
+	 </select>
 	
+	
+	<!-- 비밀번호 수정  -->
+	<update id="updatePw" parameterType="Member">
+		UPDATE MEMBER
+		   SET PW = #{pw}
+		 WHERE EMAIL = #{email}
+	</update>
+	
+	
+	<!-- 내정보 수정  name, birthday ,gender, phone  -->
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER
+		   SET NAME = #{name}
+		      ,birthday = #{birthday}
+		      , gender=#{gender}
+		      , phone=#{phone}
+		 WHERE m_NO = #{mNo}
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	<update id="leaveMember" parameterType="Long">
+		UPDATE MEMBER
+		   SET STATE = -1
+		 WHERE M_NO = #{mNo}
+	</update>
+
 </mapper>
