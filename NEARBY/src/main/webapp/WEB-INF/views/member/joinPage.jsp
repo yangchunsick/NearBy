@@ -40,7 +40,7 @@
 
                 <!-- 비밀번호 확인 -->
                 <div class="input_box">
-                    <label for="pw2">비밀번호 재확인</label>
+                    <label for="pw2">비밀번호 재확인44</label>
                     <span class="space">
                         <input type="text" id="pw2" >
                     </span>
@@ -124,6 +124,11 @@
                 </div>                
             </form>
         </div>
+
+        <div style="text-align: center;">
+        	<span>NearBy <a href="/nearby/member/joinAgreePage">이용약관</a>어쩌구 저쩌구</span>
+        </div>
+
    
     </div>
 </body>

@@ -32,40 +32,48 @@ let phone_result = false;
 /* 아이디 */
 function fnIdCheck() {
     // 1차 정규식 체크
-    $('#id').on('keyup blur', function(){
-        if($('#id').val() == ''){
-            $('#id_check_msg').text('필수 정보 입니다.')
-                              .removeClass('pass_msg')
-                              .addClass('error_msg');
-            id_result = false;
-        }else if(regId.test($(this).val()) == false ){
+    $('#id').on('keyup, blur', function(){
+        if(regId.test($(this).val()) == false ){
             $('#id_check_msg').text('아이디는 4~ 32자의 영문 대소문자/숫자 사용 가능합니다.')
                           .addClass('error_msg')
                           .removeClass('pass_msg');
             id_result = false;
-        }else{
-            $('#id_check_msg').text('사용 가능한 아이디 입니다.')
-                              .addClass('pass_msg')
-                              .removeClass('erro_msg');
-            return id_result = true;
+            return;
         }
-        /*
+        // 중복 체크
         $.ajax({
-            url: ,
-            type: ,
-            data: ,
-            dataType: ,
-            success: function(){
-
+            url: '/nearby/member/idCheck',
+            type: 'post',
+            data: 'id=' + $(this).val(),
+            dataType: 'json',
+            success: function(map){
+                if(map.result == null){
+                    $('#id_check_msg').text('사용 가능한 아이디 입니다.')
+                                      .removeClass('error_msg')
+                                      .addClass('pass_msg');
+                    id_result = true;
+                }else if($('#id').val() == ''){
+                    $('#id_check_msg').text('필수 정보 입니다.')
+                                      .removeClass('pass_msg')
+                                      .addClass('error_msg');
+                    id_result = false;
+                    return;
+                }else{
+                    $('#id_check_msg').text('사용 중인 아이디 입니다.')
+                                      .removeClass('pass_msg')
+                                      .addClass('error_msg');
+                    id_result = false;
+                    return;
+                }
             },
             error: function(){
-                $('#id_check_msg').text('사용 가능한 아이디 입니다.')
-                                .addClass('pass_msg')
-                                .removeClass('erro_msg');
-                return id_result = true;
+                $('#id_check_msg').text('사용할 수 없는 아이디 입니다.')
+                                  .removeClass('pass_msg')
+                                  .addClass('error_msg');
+                id_result = false;
             }
         }); // AJAX
-        */
+        
     });
 
 } // end fnIdCheck
