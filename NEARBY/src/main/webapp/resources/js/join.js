@@ -296,6 +296,7 @@ $(document).ready(function(){
 	        $('#name_check_msg').text('');
 	        $('#authCode').text('');
 	        $('#phone_check_msg').text('');
+			$('#email').css('width', '450px');
 	        $('#email_check_msg').text('');
 	        $('#authCode_box').css('display', 'none');
 			$('#verify_msg').text('');

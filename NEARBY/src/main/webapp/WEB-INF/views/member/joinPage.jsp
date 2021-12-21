@@ -122,7 +122,7 @@
 
                 <div class="join_btn_wrap" id="join_btn_wrap">
                     <button class="btn btn-primary">회원가입</button>                 
-                    <input type="reset" value="다시작성" id="reset" class="reset">                
+                    <input type="reset" value="다시작성" id="reset_btn" class="reset">                
                 </div>                
             </form>
         </div>
