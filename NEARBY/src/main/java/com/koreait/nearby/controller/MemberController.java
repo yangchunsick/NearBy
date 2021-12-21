@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,12 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 
+	/* 회원가입 화면 이동 */
+	@GetMapping("joinPage")
+	public String joinPage() {
+		return "member/joinPage";
+	}	
+	
 	/* 아이디 중복 체크 */
 	@PostMapping(value = "idCheck",
 			produces="application/json; charset=UTF-8")
