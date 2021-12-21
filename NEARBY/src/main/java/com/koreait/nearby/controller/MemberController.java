@@ -21,11 +21,6 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 
-	public MemberController(MemberService service) {
-		super();
-		this.service = service;
-	}
-
 	/* 아이디 중복 체크 */
 	@PostMapping(value = "idCheck",
 			produces="application/json; charset=UTF-8")
@@ -34,11 +29,17 @@ public class MemberController {
 		return service.idCheck(id);
 	}
 	
-	// 회원가입
+	/* 이메일 인증코드 발송 */
+	@PostMapping(value = "snedAuthCode", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> snedAuthCode(@RequestParam("email") String email){
+		return service.snedAuthCode(email);
+	}
+
+	/* 회원가입 */
 	@PostMapping("insertMember")
 	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
 		service.insertMember(request, response);
 	}
-	
-	
+
 }

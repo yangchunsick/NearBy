@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* 기본 레이아웃 */
 *{
     margin: 0; padding: 0;
@@ -44,6 +45,7 @@ input:focus{
     margin: 50px auto;
     background-color: white;
     border-radius: 30px;
+    box-shadow: 10px 10px 20px rgba(30, 30, 30, 0.5);
 }
 
 .head{
@@ -93,7 +95,7 @@ input:focus{
 }
 
 .email_box input[type=text]{
-    width: 75%; height: 45px;
+    width: 450px; height: 45px;
     border-radius: 10px;
     margin-bottom: 5px;
 }
@@ -132,6 +134,7 @@ input:focus{
 }
 
 #authCode_box{
+    width: 450px;
     display: none;
 }
 
@@ -156,6 +159,8 @@ input:focus{
 .birth_box > select, option{
     width: 135px; height: 45px;
     background-color: rgb(232, 240, 254);
+    border: none;
+    border-radius: 10px;
     text-align: center;
     margin: 0 5px 0 5px;
     font-size: 18px;
@@ -173,11 +178,33 @@ input:focus{
     padding-bottom: 5px;
 }
 
-.gender_box > label{
-    display: inline-block;
-    padding-bottom: 5px;
-    margin: 0 40px 0 40px;
+.gender_box > input[type=radio]{
+    width: 0; height: 0;
+    position: absolute;
+    left: -9999px;
 }
+
+.gender_box > input[type=radio] + label{
+    display: inline-block;
+    position: relative;
+    justify-content: center;
+    width: 92px; height: 55px;
+    margin: 0 27px 0 27px;
+    line-height: 55px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(232, 240, 254);
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .gender_box > input[type=radio]:checked + label{
+      background-color: #4B9DEA;
+      color: #FFF;
+      border: none;
+      box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
+      z-index: 1;
+  }
 
 
 /* 회원가입 버튼 */
@@ -204,10 +231,11 @@ input:focus{
 /* 정규식 메세지 */
 .error_msg {
     display: block;
-    font-size:13px;
+    font-size:12px;
     color:red;
 }
 .pass_msg {
-    font-size:13px;
+	display: block;
+    font-size:12px;
     color:grey;
 }

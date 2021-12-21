@@ -12,8 +12,12 @@ public interface MemberService {
 	/* 아이디 중복 체크 */
 	public Map<String, Object> idCheck(String id);
 	
+	/* 이메일 인증코드 발송*/
+	public Map<String, Object> snedAuthCode(String email);
+
 	/* 회원가입 */
 	public void insertMember(HttpServletRequest request, HttpServletResponse response);
+
 	
 	/* default method */
  	public default void message(int result, HttpServletResponse response,

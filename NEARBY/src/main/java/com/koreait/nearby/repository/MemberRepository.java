@@ -14,4 +14,5 @@ public interface MemberRepository {
 	/* 중복체크 */
 	public Member duplicateIdCheck(String id);
 	
+		
 }

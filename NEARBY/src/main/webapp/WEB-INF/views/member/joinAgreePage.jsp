@@ -12,7 +12,7 @@
 	
 	<h1>NearBy이용약관</h1>
 	
-	<span>어쩌구 저쩌구</span>
+	<span>잘못되면 NearBy는 책임 안짐</span>
 
 
 </body>
