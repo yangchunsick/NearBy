@@ -107,6 +107,10 @@ $(document).ready(function(){
 	                               .removeClass('pass_msg')
 	                               .addClass('error_msg');
 	            pw2_result = false;
+	        }else if($('#pw2').val() == ''){
+	            $('#pw2_check_msg').text('필수 정보 입니다.')
+	                               .removeClass('pass_msg')
+	                               .addClass('error_msg');
 	        }else{
 	            $('#pw2_check_msg').text('일치 합니다.')
 	                               .removeClass('error_msg')
