@@ -1,7 +1,5 @@
 package com.koreait.nearby.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.koreait.nearby.service.MemberService;
 
@@ -27,6 +23,13 @@ public class MemberController {
 		this.service = service;
 	}
 
+
+
+
+
+
+
+
 	/* 아이디 중복 체크 */
 	@PostMapping(value = "idCheck",
 			produces="application/json; charset=UTF-8")
@@ -35,8 +38,18 @@ public class MemberController {
 		return service.idCheck(id);
 	}
 	
-	/* 회원 등록 */
-	@PostMapping(value = "insertMember")
+
+
+
+
+
+
+
+
+	
+	
+	// 회원가입
+	@PostMapping("insertMember")
 	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
 		service.insertMember(request, response);
 	}

@@ -1,14 +1,13 @@
 package com.koreait.nearby.service;
 
 import java.io.PrintWriter;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
 public interface MemberService {
-		
+
 	/* 아이디 중복 체크 */
 	public Map<String, Object> idCheck(String id);
 	
@@ -38,5 +37,5 @@ public interface MemberService {
  			e.printStackTrace();
  		}
  	}
-	
+
 }

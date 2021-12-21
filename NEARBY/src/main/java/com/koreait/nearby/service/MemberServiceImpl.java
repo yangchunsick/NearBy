@@ -1,8 +1,5 @@
 package com.koreait.nearby.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,7 +26,30 @@ public class MemberServiceImpl implements MemberService {
 		map.put("result", repository.duplicateIdCheck(id));
 		return map;
 	}
+
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/* 회원가입 */
 	@Override
 	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
