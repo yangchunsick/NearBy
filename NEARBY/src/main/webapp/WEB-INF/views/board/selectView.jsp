@@ -46,20 +46,15 @@
 		display: flex;	
 		width: 500px;
 	}
-   #p_img{
-	   	width: 100px;
-		height: 100px;
+   .profileImg{
+	   	width : 110px;
+		height : 80px;
+		border : 1px solid silver;
 	    display: inline-block;
 	    border-radius: 100%;
 		margin-right: 10px;
 		position: relative;
    }
-     #p_img #user_img {
-		width: 100px;
-		height: 100px;
-		border-radius: 100%;
-	}
-   
    .id {
    		width: 430px;
    		height: 80px;
@@ -155,88 +150,9 @@
     	font-weight: bold; 
     	cursor: pointer;
    	 }
-   	.pointer {
-   		cursor: pointer;
-   	} 
-/* ------------------- reply 구역 ----------------- */
-/* 	테이블 구역 확인용
-	table {
-		border-collapse: collapse;
-	}
-	table tr {
-		border: 1px solid;
-	}
-	table td {
-		border: 1px solid;
-	} */
-	.reply_user_img {
-		width:20px;
-		height: 20px;
-		margin: 5px;
-		border-radius: 100%;
-	}
-	#input_reply_table td:nth-of-type(1){
-		width:20px;
-	}
-	#input_reply_table #reply_user_name_area input[type=text]{
-		width: auto;
-	}
-	#input_reply_table input[type=text]{
-		margin: 5px;
-		width: 378px;
-		height: 22px;
-		font-size: 12px;
-		outline-style: none;
-	}
-	
-	/* 댓글 보여주는 구역 CSS */
-	.output_reply_area {
-		border:1px solid black; 
-		height: 100px; 
-		width: 500px; 
-		margin:10px auto 5px;
-	}
-	.reply_user_image_area{
-		width: 25px;
-	}
-	.reply_user_image_area .reply_user_img{
-		width:25px;
-		height: 25px;
-		margin: 5px;
-	}
-	.output_reply_area .reply_user_name_area{
-		color: black;
-		width: auto;
-	}
-	.like_icon_area {
-		font-size: 16px;
-		padding: 5px;
-	}
-	.output_reply_table input[type=text]{
-		margin: 5px;
-		width: 370px;
-		height: 22px;
-		font-size: 12px;
-		outline-style: none;
-	}
-	.btn_area {
-		width: auto;
-	}
-	.reply_btns{
-		margin-right:5px;
-		width:36px; 
-		font-size: 12px;
-		border: none;
-		padding: 5px 0 5px 0;
-		background-color: pink;
-		border-radius: 5px;
-	}
-   
 </style>
 <script>
 	$(document).ready(function(){
-		fnReplyList();
-		
 	    var txtArea = $(".content_height");
 	    if (txtArea) {
 	        txtArea.each(function(){
@@ -260,55 +176,6 @@
 			location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo};
 	}
 </script>
-
-<script>
-/* ----------------------------------------- fnReplyList() --------------------------------  */
-	function fnReplyList(){
-		$.ajax({
-			url: '/nearby/reply/replyList',
-			type: 'get',
-			data: 'bNo=${board.bNo}',
-			dataType: 'json',
-			success: function(map) {
-				fnPrintReplyList(map);
-			},
-			error: function(xhr) {
-				console.log(xhr.responseText);
-			}
-		}) // End ajax
-	} // End fnReplyList
-	
-/* ----------------------------------------- fnPrintReplyList() --------------------------------  */
-  
- 
-	function fnPrintReplyList(map){
-		$('#output_reply_table').empty();
-		$.each(map.replyList, function(i, reply){ 
- 		 	if ( reply.profile.pSaved != null ) {
-			console.log('reply.rNo :' + reply.rNo);
-			console.log('reply.profile.pSaved :' + reply.profile.pSaved);
-			console.log('reply.profile.pPath :' + reply.profile.pPath);
-			let pSaved = reply.profile.pSaved;
-			let pPath = reply.profile.pPath;
-  					$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/nearby/'+pPath+'/'+pSaved+'" class="pointer"></td>') ) )
- 				} else if(reply.profile.pPath == null) {
- 					$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img id="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg"></td>') ) )
- 				} 
-			$('<tr class="reply_show">')
-			.append( $('<td class="reply_user_name_area">').html( $('<a href="#">'+reply.id+'</a>') ) )
-			.append( $('<td class="like_icon_area">').html( $('<i class="fas fa-thumbs-up pointer" style="color:#fe4662; width: 16px"></i>') ) )
-			.append( $('<td class="btn_area">').html( $('<input type="button" class="update_reply_btn pointer reply_btns" value="수정"></td>') ) )
-			.append( $('<td class="btn_area">').html( $('<input type="button" class="delete_reply_btn pointer reply_btns" value="삭제"></td>') ) )
-			.appendTo( '#output_reply_table' );
-			$('#output_reply_table').append( $('<tr>').html( $('<td colspan="4"><input type="text" name="rContent" class="outputContent" value="'+reply.rContent+'"></td>') ) )
-			
-		}) // End each
-	} // End fnPringReplyList
-	
-	
-</script>
-
-
 </head>
 <body>
 	<header class="header">
@@ -317,14 +184,7 @@
 	
 	<div class="mainBoardWrap" >
 	    <div class="boardIntro"> 
-	    	<div class="profileImg" id="p_img">
-	    	  <c:if test="${empty board.profile.pSaved}">
-				<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
-			</c:if>
-		    <c:if test="${board.profile.id == board.id and not empty board.profile.pSaved}" >
-		    		<img id="user_img" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
-		    </c:if>
-	    	</div>
+	    	<div class="profileImg">(프로필)</div>
 	    	<input type="hidden" id="bNo" value="${board.bNo}">
 	    	<div class="id">
 	    	   <a href="/nearby/board/selectBoard" id="board_writer">${board.id}</a>
@@ -404,36 +264,10 @@
 		  		</div>
 		  		
 		  		<!--  댓글 보이기  -->
-	  			<div class="input_reply_area">
-	  				<!-- 댓글 작성 -->
-		  			<table id="input_reply_table">
-		  				<tr>
-		  					<td>
-		  						<c:if test="${empty board.profile.pSaved}">
-									<img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
-		  						</c:if>
-		  						<c:if test="${board.profile.id == board.id and not empty board.profile.pSaved}">
-						    		<img class="reply_user_img" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
-		  						</c:if>
-		  					</td>
-		  					<td id="reply_user_name_area">
-		  						${loginUser.id}
-		  					</td>
-		  					<td>
-		  						<input type="text" name="rContent" id="rContent">
-		  					</td>
-		  					<td>
-		  						<input type="button" id="insert_reply_btn" class="pointer reply_btns" value="등록">
-		  					</td>
-		  				</tr>
-		  			</table>
-	  			</div>
-		  		<div class="reply_wrap">
-		  			<!-- 댓글 뿌리기 -->
-		  			<div class="output_reply_area">
-			  			<table id="output_reply_table"></table>
-		  			</div>
+		  		<div class="reply_wrap" style="margin: 20px; border:1px solid black; height: 100px; width: 500px; margin:12px auto 5px;">
+		  			소정언니댓글구현
 		  		</div>
+	
 		</div>
 	
 	

@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 프로필 컨텐트만 수정 -->
 	<update id="updateContent" parameterType="Profile">
 		UPDATE PROFILE
-		   SET P_CONTENT = #{pContent}
+		   SET p_Content = #{pContent}
 		 WHERE ID = #{id}
 	</update>
 	

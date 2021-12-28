@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
 
 	// birthday 파라미터 세개 더해야 돼서 request로 받음.. 
 	@Override
-	public void joinMember(HttpServletRequest request, HttpServletResponse response) {
+	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
 		String id = request.getParameter("id"); 
 		Member member = new Member();
 		 member.setId(id);
@@ -65,15 +65,13 @@ public class MemberServiceImpl implements MemberService {
 		message(result, response, "회원가입성공", "회원가입실패", "/nearby");
 		
 	}
-	
-
 
     // 아이디 중복 확인 
 	@Override
 	public Map<String, Object> idCheck(String id){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
-		map.put("result", memberRepository.idCheck(id));
+		map.put("result", memberRepository.duplicateIdCheck(id));
 		return map;
 	}
 	
@@ -82,7 +80,48 @@ public class MemberServiceImpl implements MemberService {
 	public Map<String, Object> selectByEmail(String email) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
+		
 		map.put("result", memberRepository.selectByEmail(email));
+		System.out.println(memberRepository.selectByEmail(email));
+		return map;
+	}
+	
+	/* 비밀번호 찾기 */
+	@Override
+	public Map<String, Object> findPw(String email) {
+		
+		// 임시 비밀번호 생성
+		String pw = "";
+		for (int i = 0; i < 12; i++) {
+			pw += (char)((Math.random() * 26) + 97);
+		}
+		
+		// 이메일로 임시 비밀번호 보내기
+		try {
+			MimeMessage findPwMessage = javaMailSender.createMimeMessage();
+			findPwMessage.setHeader("Content-Type", "text/plain; charset=UTF-8");
+			findPwMessage.setFrom(new InternetAddress("nearby.corp@gmail.com", "NearBy"));
+			findPwMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+			findPwMessage.setSubject("NearBy 임시 비밀번호 발급");
+			findPwMessage.setText("임시 비밀번호는 " + pw + "입니다.");
+			javaMailSender.send(findPwMessage);
+			System.out.println("MemberServiceImple 이메일로 보낸 임시 비밀번호 : " + pw + "입니다.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 임시 비밀번호를 담을 Member 호출 
+		Member member = new Member();
+		// 임시 비밀번호를 담음
+		member.setEmail(email);
+		member.setPw(SecurityUtils.sha256((pw)));
+		System.out.println("SecurityUtils 암호화가된 임시 비밀번호 : " + pw + "입니다.");
+		
+		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
+		int result = memberRepository.findPw(member);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
 		return map;
 	}
 	
@@ -103,6 +142,7 @@ public class MemberServiceImpl implements MemberService {
 			message.setSubject("NEARBY 인증 요청 메일입니다.");
 			message.setText("인증번호는 " + authCode + " 입니다.");
 			javaMailSender.send(message);
+			System.out.println(message.toString());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -194,7 +234,7 @@ public class MemberServiceImpl implements MemberService {
 			String name = m.getName();
 			String phone = m.getPhone();
 			String gender = m.getGender();
-			String content = m.getProfile().getpContent();
+			String pContent = m.getProfile().getpContent();
 			if (birthday.length() != 8) throw new NullPointerException("생일 정보가 없습니다");
 			if (name.isEmpty()) throw new NullPointerException("입력된 이름이 없습니다");
 			if (phone.isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다");
@@ -202,7 +242,7 @@ public class MemberServiceImpl implements MemberService {
 			
 			// Profile DB로 보낼 Bean 
 			Profile profile = new Profile();
-			profile.setpContent(content);
+			profile.setpContent(pContent);
 			profile.setId(loginUser.getId());
 			ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);
 			profileRepository.updateContent(profile);
@@ -252,36 +292,23 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Map<String, Object> checkPassword(HttpServletRequest request) {
 		// 가입당시 비밀번호는 ajax 처리하여 pass true - false 매김 -- DB 에서 비밀번호 일치하는지 확인 필요.
-		// 비밀번호가 일치하면 1 아니면 0
-		//javax.mail.internet.AddressException: Illegal address in string ``''
 		Map<String, Object> map = new HashMap<String, Object>();	
-		try {
-			String password = SecurityUtils.sha256(request.getParameter("pw"));
-			MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
-			int selectResult = memberRepository.selectPassword(password);
-			map.put("selectResult", selectResult);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
+		int selectResult = memberRepository.selectPwById(loginUser.getId());
+		map.put("selectResult", selectResult);
 		return map;
 	}
 	
 	
 	// 회원비밀번호 변경
 	@Override
-	public void changePassword(HttpServletRequest request) {
+	public void changePassword(HttpServletRequest request, Member member) {
 		// 비밀번호 찾기 process 
 		// 변경할 비밀번호와 비밀번호 재확인을 통해 비밀번호를 확인하고 -- pass true / false
 		// 이후 통과되면 가입당시 입력한 이메일을 작성 -> 인증번호받고 인증하기 -- pass true / false
 		// 다 끝난 뒤에 수정완료 버튼을 누르면 page이동 : 페이지는 내 정보 변경 mypage
 		// 보낼 파라미터 새로운 pw / email
-		Member member = new Member();
-		member.setPw(SecurityUtils.sha256(request.getParameter("newPw")));
-		System.out.println(request.getParameter("newPw"));
-		member.setEmail(request.getParameter("email"));
-		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
-		memberRepository.updatePw(member);
-		System.out.println("결과 : " + memberRepository.updatePw(member));
 		return;
 	}
 	

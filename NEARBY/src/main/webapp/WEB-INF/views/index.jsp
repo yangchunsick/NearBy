@@ -360,7 +360,7 @@
          </div>
          <div class="main_box1 main_box3">
             <h1>지금 당장 NEARBY 시작하기</h1>
-            <a href="/nearby/member/memberJoin"><input type="button" value="간편회원가입" id="join_btn2" class="btn join_btn"></a>
+            <a href="/nearby/member/join"><input type="button" value="간편회원가입" id="join_btn2" class="btn join_btn"></a>
          </div>
       </main>
       <!---------------------------------------- 로그인 폼(숨김)---------------------------------------> 
@@ -387,7 +387,7 @@
                   <button id="login_submit">로그인</button>
                         <div id="move_area">
                         <a id="find_btn1" class="join_btn1" href="/nearby/member/findIdPw"><i class="fas fa-key"></i>아이디/비밀번호 찾기</a><br><br>
-                        <a id="join_btn1" class="join_btn1" href="/nearby/member/memberJoin"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
+                        <a id="join_btn1" class="join_btn1" href="/nearby/member/join"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
                     </div>
              </form>   
       

@@ -25,9 +25,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		<result column="CREATED" property="created" />
  		<result column="MODIFIED" property="modified" />
  		<result column="STATE" property="state" />
- 		<result column="DEPTH" property="depth" />
- 		<result column="GROUPNO" property="groupNo" />
- 		<result column="GROUPORD" property="groupOrd" />
  		<collection property="profile" resultMap="ProfileMap" />
  	</resultMap>
  
@@ -35,22 +32,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <select id="selectListBoard" resultMap="BoardMap">
    	SELECT B.B_NO, B.ID, B.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE, P.ID, P.P_ORIGIN, P.P_SAVED, P.P_PATH
    	  FROM BOARD B, PROFILE P
-   	 WHERE B.ID = P.ID(+) 
+   	 WHERE B.ID(+) = P.ID 
    	 ORDER BY B_NO desc
    </select>
 	
   <!-- 게시판 하나 상세보기 -->
 	<select id="selectBoardByNo" parameterType="Long" resultMap="BoardMap">
-		SELECT  B.B_NO, B.ID, B.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE, P.ID, P.P_ORIGIN, P.P_SAVED, P.P_PATH
-		  FROM BOARD B, PROFILE P
-		 WHERE B.ID = P.ID(+)
+		SELECT  B.B_NO, B.ID, B.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE,P.ID,  P.P_ORIGIN, P.P_SAVED, P.P_PATH
+		  FROM BOARD
+		 WHERE B.ID(+) = P.ID
 	   	   AND B_NO =#{bNo}
 	</select>
 	
   <!-- 글 업로드 -->	
 	<insert id="insertBoard" parameterType="Board">
 		INSERT INTO BOARD
-		VALUES ( BOARD_SEQ.NEXTVAL, #{id}, #{content}, #{ip}, #{location}, #{origin}, #{saved}, #{path}, 0, SYSDATE, SYSDATE, 0, 0, 0, 0)
+		VALUES ( BOARD_SEQ.NEXTVAL, #{id}, #{content}, #{ip}, #{location}, #{origin}, #{saved}, #{path}, 0, SYSDATE, SYSDATE, 0)
 	</insert>
 	
   <!-- 글 수정- login id=글 id와 번호 같을 때 수정가능 -->
@@ -64,33 +61,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		       MODIFIED = SYSDATE 
  	     WHERE B_NO = #{bNo}
  	</update>
-	
-	
+
 	<!--  글삭제 -->
 	<delete id="deleteBoard" parameterType="Long">
 	DELETE FROM BOARD
 	 WHERE B_NO = #{bNo}
 	</delete>
 	
-	<!--  조하요 -->
-	<update id="boardLike" parameterType="Board">
-		UPDATE BOARD 
-		  SET LIKES = LIKES + 1
-		WHERE B_NO=#{bNo}
-	</update>
-	
-	<!--  좋아요 취소 -->
-	<update id="boardLikeCancel" parameterType="Board">
-		UPDATE BOARD 
-		  SET LIKES = LIKES - 1
-		WHERE B_NO=#{bNo}
-	</update>
-	
-	<!--  좋아요 카운트  -->
-	<select id="boardLikesCount" parameterType="Board" resultType="Board">
-		SELECT LIKES 
+	<!-- 유저의 게시물 갯수 -->
+	<select id="selectUserBoardsCount" resultType="int" parameterType="String">
+		SELECT COUNT(*)
 		  FROM BOARD
-		 WHERE B_NO= #{bNo}
+		 WHERE ID = #{id}
 	</select>
 	
 	

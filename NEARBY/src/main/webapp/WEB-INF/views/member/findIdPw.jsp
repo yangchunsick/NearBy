@@ -7,8 +7,10 @@
 <title>* 아이디/비밀번호 찾기 *</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/findIdPw.css">
-<%-- <script src="${pageContext.request.contextPath}/resources/js/findIdPw.js"></script>
- --%><script>
+<script src="${pageContext.request.contextPath}/resources/js/findIdPw.js"></script>
+
+<!--
+<script>
 $(document).ready(function(){
     fnFindId();
     fnFindPw();
@@ -122,7 +124,7 @@ function fnSendAuthCode(id){
 function fnVerifyAuthCode(authCode, id){
 	$('#verify_btn').click(function(){
 		if($('#authCode').val() == authCode){
-			$('#verify_msg').html('회원님의 아이디는 <strong>'+id +'</strong> 입니다.').addClass('pass_msg');
+			$('#verify_msg').html('회원님의 아이디는 <strong>'+ id +'</strong> 입니다.').addClass('pass_msg');
 			authCodePass = true;
 		}else{
 			alert('인증 실패');
@@ -131,168 +133,9 @@ function fnVerifyAuthCode(authCode, id){
 	});
 }// fnVerifyAuthCode
 
-
-
 </script>
+-->
 
-
-<style>
-@charset "UTF-8";
-/* 기본 레이아웃 */
-*{
-    margin: 0; padding: 0;
-    box-sizing: border-box;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-html{
-    background-color: rgb(240, 242, 245);
-}
-
-a{
-    text-decoration: 0;
-    color: black;
-}
-
-ul, ol{
-    list-style-type: none;
-}
-
-.container{
-    width: 600px; height: 400px;
-    margin: 50px auto;
-    position: relative;
-}
-
-/* 인풋 공통 레이아웃 작업 */
-
-/* 
-text input 
-크기, 배경색, 테두리, 커서
-*/
-input[type="text"]{
-    width: 280px; height: 40px;
-    padding-left: 15px;
-    background-color: rgb(232, 240, 254);
-    border: 2px solid rgb(0, 0, 0, 0);
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-input[type="text"]:focus{
-    background-color: #91c7fa;
-    box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
-    outline: none;
-}
-
-.wrap{
-    width: 600px; height: 400px;
-    position: relative;
-}
-
-.container label{
-    display: block;
-    padding-bottom: 20px;
-}
-
-
-.input_wrap{
-    width: 70%;
-    margin: 0 auto;
-    padding-top: 30px;
-}
-
-/* ID 박스 */
-#id_box{
-    position: absolute;
-    z-index: 2;
-}
-
-#findId_btn[type="button"]{
-    width: 280px; height: 80px;
-    margin-right: 35.1px;
-    background-color: white;
-    border: none;
-    border-radius: 30px 30px 0 0;
-    cursor: pointer;
-}
-
-#id_box > .form_box{
-    width: 100%; height: 100%;
-    background-color: white;
-    border-radius: 0 0 30px 30px;
-}
-
-/* PW 박스 */
-
-#findPw_btn[type="button"]{
-    width: 280px; height: 80px;
-    background-color: lightgray;
-    border: none;
-    border-radius: 30px 30px 0 0;
-    cursor: pointer;
-}
-
-#pw_box > .form_box{
-    width: 100%; height: 100%;
-    background-color: lightgray;
-    border-radius: 30px 30px 30px 30px;
-}
-
-#pw_box{
-    position: absolute;
-    z-index: 1;
-}
-
-/* 이메일 인증 박스 defualt */
-.input_wrap{
-    width: 450px;
-}
-
-.input_wrap input[type=text]{
-    width: 450px; height: 45px;
-    border-radius: 10px;
-    margin-bottom: 5px;
-}
-
-.input_wrap > input[type=button]{
-    display: inline-block;
-    width: 23%; height: 45px;
-    background: linear-gradient(#ff6e56,#ff3268);
-    border-radius: 10px;
-    font-size: 12px;
-    color: white;
-    border: none;
-    outline: none;
-}
-
-#authCode_box > input[type=text]{
-    width: 75%; height: 45px;
-    border-radius: 10px;
-    margin-bottom: 5px;
-}
-
-#authCode_box > input[type=button]{
-    width: 23%; height: 45px;
-    background: linear-gradient(#ff6e56,#ff3268);
-    border-radius: 10px;
-    font-size: 12px;
-    color: white;
-    outline: none;
-    border: none;
-}
-
-.email_box > #email_check_box{
-    display: block;
-}
-
-#authCode_box{
-    width: 450px;
-    display: none;
-}
-
-</style>
 
 </head>
 <body>
@@ -343,23 +186,40 @@ input[type="text"]:focus{
                 <!-- 이메일 -->
                 <div class="input_wrap">
 
-                    <!-- 이메일 -->
-                    <label for="email">비밀번호 찾기 회원정보에 등록한 이메일 인증</label>
+                    <!-- 아이디 -->
+                    <label for="email">찾을 비밀번호의 아이디</label>
                     <span class="space">
-                        <input type="text" id="email" name="email">
+                        <input type="text" id="pwId" name="pwId">
                     </span>
-                    
-                    <!-- 인증코드 발송 버튼-->
-                    <input type="button" value="인증번호받기" id="authCode_btn">
-                    <span id="email_check_msg"></span>
-                    
-                    <!-- 인증코드 입력 칸 -->
-                    <div id="authCode_box">
+
+                    <!-- 아이디 확인 버튼-->
+                    <input type="button" value="확인" id="idCheck_btn">
+                    <span id="idCheck_msg"></span>
+
+                    <div class="emailCheck_box">
+                        <!-- 이메일 -->
+                        <label for="email">회원정보에 등록한 이메일 인증</label>
                         <span class="space">
-                            <input type="text" name="authCode" id="authCode">
+                            <input type="text" id="pwEmail" name="pwEmail">
                         </span>
-                        <input type="button" value="인증하기" id="verify_btn">
-						<span id="verify_msg"></span>
+                        
+                        <!-- 이메일 확인 -->
+                        <input type="button" value="이메일 확인" id="emailCheck_btn">
+                        <!-- 인증코드 발송 버튼-->
+                        <input type="button" value="인증번호받기" id="pwAuthCode_btn">
+                        <span id="pwEmail_check_msg"></span>
+                    </div>
+
+                    <!-- 인증코드 입력 칸 -->
+                    <div id="pwAuthCode_box">
+                        <span class="space">
+                            <input type="text" name="authCode" id="pwAuthCode">
+                        </span>
+                        <input type="button" value="인증하기" id="pwVerify_btn">
+						<span id="pwVerify_msg"></span>
+
+                        <input type="button" id="updatePw" value="임시 비밀번호 발급 받기">
+
                     </div>
                 </div> 
                 </form>
