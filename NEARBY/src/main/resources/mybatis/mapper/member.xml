@@ -3,8 +3,9 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.koreait.nearby.repository.MemberRepository">
-	
+<mapper
+	namespace="com.koreait.nearby.repository.MemberRepository">
+
 	<resultMap type="Profile" id="ProfileMap">
 		<result column="ID" property="id" />
 		<result column="P_CONTENT" property="pContent" />
@@ -12,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="P_SAVED" property="pSaved" />
 		<result column="P_PATH" property="pPath" />
 	</resultMap>
-	
+
 	<resultMap type="Member" id="MemberMap">
 		<result column="M_NO" property="mNo" />
 		<result column="ID" property="id" />
@@ -23,24 +24,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="PHONE" property="phone" />
 		<result column="GENDER" property="gender" />
 		<result column="STATE" property="state" />
+		<result column="M_CREATED" property="mCreated" />
 		<collection property="profile" resultMap="ProfileMap" />
 	</resultMap>
-	
-    <!-- 회원가입 -->
+
+
+	<!-- 회원가입 -->
 	<insert id="joinMember" parameterType="Member">
-		<selectKey resultType="Long" order="BEFORE" keyProperty="mNo">
+		<selectKey keyProperty="mNo" order="BEFORE" resultType="Long">
 			SELECT MEMBER_SEQ.NEXTVAL
 			  FROM DUAL
 		</selectKey>
 		INSERT INTO MEMBER
-		VALUES ( #{mNo}, #{id}, #{pw}, #{name}, #{email}, #{birthday}, #{phone}, #{gender}, 0) 
+		VALUES ( #{mNo}, #{id}, #{pw}, #{name}, #{email}, #{birthday}, #{phone}, #{gender}, 0, SYSDATE)
 	</insert>
 
-   <!-- 아이디 중복 확인  -->
+	<!-- 아이디 중복 확인 -->
 	<select id="duplicateIdCheck" parameterType="String" resultType="Member">
 		SELECT ID, PW, EMAIL
 		  FROM member
-		 WHERE id = #{id} 
+		 WHERE id = #{id}
 	</select>
 
     <!-- 이메일 중복 확인 + 아이디 찾기  -->
@@ -50,64 +53,56 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE EMAIL = #{email}
 	</select>
 	
-	<!-- 비밀번호 찾기/ 임시 비밀번호로 수정 됌 -->
+	<!-- 비밀번호 찾기 / 임시 비밀번호로 수정 됌 -->
 	<update id="findPw" parameterType="Member">
-		UPDATE MEMBER 
+		UPDATE MEMBER
 		   SET PW = #{pw}
 		 WHERE EMAIL = #{email}
 	</update>
 
-   <!-- 로그인  -->	
+	<!-- 로그인 -->
 	<select id="login" parameterType="Member" resultMap="MemberMap">
 		SELECT M.M_NO, M.ID, M.PW, M.NAME, M.EMAIL, M.BIRTHDAY, M.PHONE, M.GENDER, M.STATE, P.P_CONTENT, P.P_ORIGIN, P.P_SAVED, P.P_PATH
 		  FROM MEMBER M, PROFILE P
-	     WHERE M.ID(+) = P.ID
-	       AND M.ID = #{id} AND M.PW = #{pw} AND M.STATE = 0
-	 </select>
-	 
+		 WHERE M.ID(+) = P.ID
+		   AND M.ID = #{id} AND M.PW = #{pw} AND M.STATE = 0
+	</select>
+
 	<!-- 회원정보 조회용 -->
 	<select id="selectMemberById" parameterType="Member" resultMap="MemberMap">
 		SELECT M.M_NO, M.ID, M.NAME, M.EMAIL, M.BIRTHDAY, M.PHONE, M.GENDER, M.STATE, P.P_CONTENT, P.P_ORIGIN, P.P_SAVED, P.P_PATH
 		  FROM MEMBER M, PROFILE P
-	     WHERE M.ID(+) = P.ID
-	       AND M.ID = #{id} AND M.STATE = 0
-	 </select>
-	
-	<!-- 비밀번호 확인용 -->
-	<select id="selectPwById" parameterType="String" resultType="int">
-		SELECT count(*)
-		  FROM MEMBER
-		 WHERE PW = #{pw} AND STATE = 0
+		 WHERE M.ID(+) = P.ID
+		   AND M.ID = #{id} AND M.STATE = 0
 	</select>
-	
-	<!-- 비밀번호 수정  -->
+
+	<!-- 비밀번호 확인용 -->
+	<select id="selectPassword" parameterType="String"
+		resultType="int">
+		SELECT count(*)
+		FROM MEMBER
+		WHERE PW = #{pw} AND STATE = 0
+	</select>
+
+	<!-- 비밀번호 수정 -->
 	<update id="updatePw" parameterType="Member">
 		UPDATE MEMBER
-		   SET PW = #{pw}
-		 WHERE EMAIL = #{email}
+		SET PW = #{pw}
+		WHERE EMAIL = #{email}
 	</update>
-	
-	<!-- 내정보 수정  name, birthday ,gender, phone  -->
+
+	<!-- 내정보 수정 name, birthday ,gender, phone -->
 	<update id="updateMember" parameterType="Member">
 		UPDATE MEMBER
-		   SET NAME = #{name}
-		      , birthday = #{birthday}
-		      , gender = #{gender}
-		      , phone = #{phone}
+		   SET NAME = #{name}, birthday = #{birthday}, gender = #{gender}, phone = #{phone}
 		 WHERE M_NO = #{mNo} AND Id = #{id}
 	</update>
 
-	
 	<!-- 회원탈퇴 -->
 	<update id="leaveMember" parameterType="Long">
 		UPDATE MEMBER
 		   SET STATE = -1
 		 WHERE M_NO = #{mNo}
 	</update>
-	
 
-	
-	
-	
-	
 </mapper>

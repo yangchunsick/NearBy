@@ -1,7 +1,10 @@
 package com.koreait.nearby.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.koreait.nearby.domain.Board;
@@ -31,6 +35,7 @@ public class BoardController {
 	@GetMapping("boardList")
 	public String boardList(Model model) {
 		model.addAttribute("list", service.selectBoardList());
+		System.out.println(model);
 		return "board/board";
 	}
 
@@ -50,7 +55,6 @@ public class BoardController {
 	@GetMapping("selectBoard")
 	public String selectBoard(@RequestParam Long bNo, Model model) {
 		Board board = service.selectBoardByNo(bNo);
-
 		model.addAttribute("board", board);
 		return "board/selectView";
 	}
@@ -60,6 +64,7 @@ public class BoardController {
 	public String updateBoardPage(@RequestParam Long bNo, Model model) {
 		Board board = service.selectBoardByNo(bNo);
 		model.addAttribute("board", board);
+		System.out.println("보드 수정하기 : " + board.toString());
 		return "board/boardUpdate";
 	}
 
@@ -82,6 +87,22 @@ public class BoardController {
 		request.getSession().setAttribute("userBoardCount", service.selectUserBoardsCount(request));
 		request.getSession().setAttribute("list", service.selectBoardList());
 		return "board/myHome";
+	}
+	 
+	// 좋아요
+	@ResponseBody
+	@PostMapping(value = "likes", produces = "application/json; charset=UTF-8")
+	public Map<String, Object> likes(@RequestParam Long bNo, HttpSession session) {
+		System.out.println("controller bNo" + bNo);
+		return service.likes(bNo, session);
+	}
+
+	// 좋아요 취소하기
+	@ResponseBody
+	@PostMapping(value = "likesCancel", produces = "application/json; charset=UTF-8")
+	public Map<String, Object> likesCancel(@RequestParam Long bNo, HttpSession session) {
+		System.out.println("controller bNo" + bNo);
+		return service.likesCancel(bNo, session);
 	}
 
 }

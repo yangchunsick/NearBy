@@ -49,7 +49,3 @@
  	
  	
  	<!--   <div id="search_submit"><i class="fas fa-search"></i></div>  -->
- 	
- 
-
-	
