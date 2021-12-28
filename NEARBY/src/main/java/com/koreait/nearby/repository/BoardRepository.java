@@ -14,4 +14,7 @@ public interface BoardRepository {
    public int updateBoard(Board board);
    public int deleteBoard(Long no);
    
+   /* 유저의 게시물 갯수 구하기 */
+   public int selectUserBoardsCount(String id);
+
 }

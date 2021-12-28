@@ -3,6 +3,7 @@ package com.koreait.nearby.service;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
@@ -15,8 +16,12 @@ public interface BoardService {
 	public List<Board> selectBoardList();
 	public Board selectBoardByNo(Long no);
     public void insertBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response);
-    public int updateBoard(Board board);
-    public int deleteBoard(Long no);
+    public void updateBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response);
+    public void deleteBoard(Long bNo, HttpServletResponse response);
+   
+    /* 유저의 게시물 갯수 구하기 */    
+    public int selectUserBoardsCount(HttpServletRequest request);
+    
     
  // default method
  	public default void message(int result, HttpServletResponse response, 
