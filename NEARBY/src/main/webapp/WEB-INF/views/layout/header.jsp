@@ -12,9 +12,6 @@
 		$('#profile_menu').toggleClass('profile_see profile_no');
 	}
 	
-	
-	
-
 </script>
 	
    <div class="container">
