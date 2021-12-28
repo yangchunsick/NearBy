@@ -16,5 +16,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.koreait.nearby.domain.Member" alias="Member" />
 		<typeAlias type="com.koreait.nearby.domain.Profile" alias="Profile" />
 		<typeAlias type="com.koreait.nearby.domain.Reply" alias="Reply" />
+		<typeAlias type="com.koreait.nearby.domain.Likes" alias="Likes" />
+		<typeAlias type="com.koreait.nearby.domain.ReplyLikes" alias="ReplyLikes"/>
 	</typeAliases>
 </configuration>

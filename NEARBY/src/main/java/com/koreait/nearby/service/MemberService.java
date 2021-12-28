@@ -9,18 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.koreait.nearby.domain.Member;
 
 public interface MemberService {
-
-	/* 회원가입 */
-	public void insertMember(HttpServletRequest request, HttpServletResponse response);
+   
+	// 회원가입
+	public void joinMember(HttpServletRequest request, HttpServletResponse response);
 	
-    /* 회원가입시 아이디 중복 체크 */
+    // 회원가입시 아이디 중복 체크 
 	public Map<String, Object> idCheck(String id);
 	
 	// 회원가입시 이메일 중복 체크 + 아이디 찾기
 	public Map<String, Object> selectByEmail(String email);
-	
-	/* 비밀번호 찾기 */
-	public Map<String, Object> findPw(String email);
 	
 	// 회원가입 이메일 인증
 	public Map<String, Object> sendAuthCode(String email);
@@ -41,7 +38,10 @@ public interface MemberService {
 	public Map<String, Object> checkPassword(HttpServletRequest request);
 	
 	// 비밀번호 변경
-	public void changePassword(HttpServletRequest request, Member member);
+	public void changePassword(HttpServletRequest request);
+	
+	
+	
 	
 	// default method
 	 	public default void message(int result, HttpServletResponse response, 

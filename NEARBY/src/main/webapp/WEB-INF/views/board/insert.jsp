@@ -9,6 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boardInsert.css" />
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4lnq99nnpg&submodules=geocoder"></script>
 <script>
   $(document).ready(function(){
@@ -19,7 +20,6 @@
 			$("#map").css('display', 'none');
 		})
 		
-		
 		// textarea 크기 보이게 함 
 		var txtArea = $(".content_height");
 	    if (txtArea) {
@@ -27,11 +27,8 @@
 	            $(this).height(this.scrollHeight);
 	        });
 	    }
-	    
-	   
 	});
-  
-  
+    
   // submit 막기
   function fnSubmitCheck(){
       $('#insertBtn').click(function(event){
@@ -184,13 +181,29 @@
 		    var address = response.v2.address,
 		        htmlAddresses = [];
 		    
-			
+			// null 값은 빈문자 처리함 
 		    document.insertBoard_Form.location.value = address.jibunAddress;
 		    var sub = address.jibunAddress.split(' ');
 		    var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
-		    document.insertBoard_Form.location.value = nearbyAddress;
+		    for(var i=0; i<3; i++){
+		    	console.log(sub[i]);
+		    	var addressSum = "";
+		    	
+		    	if( typeof sub[i] == "undefined" || sub[i] == null || sub[i] == ""  ){
+		    		console.log("여기는 널이다 : " + i);
+		    		sub[i] = " ";
+		    		addressSum += sub[i];
+		            document.insertBoard_Form.location.value = addressSum;
+		    	}  else {
+		    		addressSum += sub[i];
+		    		document.insertBoard_Form.location.value =  nearbyAddress;
+		    	}
+		    }
 		    document.insertBoard_Form.addr_remove.value ='';
 
+		    
+		    
+		    
 		    if (address.jibunAddress !== '') {
 		        htmlAddresses.push(address.jibunAddress);
 		    }
@@ -230,12 +243,33 @@
 		      point = new naver.maps.Point(item.x, item.y);
 		    console.log(item);	  // item 객체에 지번, 도로명, 위도, 경도 필드존재함
 		    document.insertBoard_Form.location.value = item.jibunAddress;
-		    console.log(item.jibunAddress);
-		    var sub = item.jibunAddress.split(' ');
+		 //   console.log(item.jibunAddress);
+		   // var sub = item.jibunAddress.split(' ');
 		   
-		    var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
+		    /* var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
 		    document.insertBoard_Form.location.value = nearbyAddress;
-		    console.log(nearbyAddress )
+		    console.log(nearbyAddress ) */
+	
+		    var sub = item.jibunAddress.split(' ');
+		    var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
+		    for(var i=0; i<3; i++){
+		    	console.log(sub[i]);
+		    	var addressSum = "";
+		    	
+		    	if( typeof sub[i] == "undefined" || sub[i] == null || sub[i] == ""  ){
+		    		console.log("여기는 널이다 : " + i);
+		    		sub[i] = " ";
+		    		addressSum += sub[i];
+		            document.insertBoard_Form.location.value = addressSum;
+		    	}  else {
+		    		document.insertBoard_Form.location.value =  nearbyAddress;
+		    	}
+		    }
+		    document.insertBoard_Form.addr_remove.value ='';
+		    
+		    
+		    
+		    
 		    
 		    
          // 주소 검색 할 때 item.x   item.y
@@ -289,202 +323,6 @@
 	}
 </script>
 <style>
-   /* ----------------  초기화 ----------------  */
-	*{
-		padding: 0;
-		margin: 0;
-		box-sizing: border-box;	
-		width: 100%;
-	}
-	.insert_wrap a {
-		text-decoration: none;
-		color: black;
-		font-weight: bold;
-	}
-    body{
-  	    width:100%;
- 	    margin: 0 auto;
-  	 }
-  	 
-  	 /* header css */
-	.header {
-		width: 100%;
-		height: 106px;
-		background-color: white;
-	}
-	 #insert_btn {    border-bottom: 8px solid  #fe4662;   }
-     #insert_icon {  color:  #fe4662;  }
-	/* End header Css */	
-  	 
-  	 
-  	 /* ----------------  insert box ----------------  */
-  	.insert_wrap {
-  	    position: relative;
-        width:600px;
-        height : 900px;
-        margin: 30px auto 10px;
-        padding: 30px 30px;
-        background-color: rgba(255, 250, 250, 0.8);
-        border : 1px solid #fe4662; 
-        border-radius: 8px;
-     }
-     
-    /* ----------------  기본 정보 ----------------  */
-   .id_wrap{  height: 50px;  }
-    #board_writer {
-   	   font-weight: bold;
-   	   font-size: 18px;
-	   display: inline-block;
-	   margin-left: 10px;
-	   width: 100px;
-   }
-    .setting { 
-  	    position:absolute;
- 		color: #fe4662; 
- 		font-size:20px;
- 		width:30px;
- 		right: 40px;
-    }
-    .fas { cursor: pointer; }
-   input::placeholder {  font-size: 6px;	}
-   
-  /* ----------------  MAP ----------------  */
-   #map { 
-   	 display:none;
-   	 margin: 0 auto;
-   	 }
-   .search { 
-   		position:absolute;
-   		z-index:1000;
-   		top:15px;
-   		left:15px; 
-   	}
-   .search #address { 
- 		width:280px;
- 		height:20px;
- 		line-height:20px;
- 		border:solid 1px #555;
- 		padding:5px;
- 		font-size:12px;
- 		box-sizing:content-box;
-   		 }
-   .search #submit { 
-   		height:30px;
-   		width: 55px;
-   		line-height:30px;
-   		padding:0 10px;
-   		font-size:12px;
-   		border:solid 1px #555;
-   		border-radius:3px;
-   		cursor:pointer;
-   		box-sizing:content-box; 
-   	}
-   .location {   
-   		width:280px;
-   		height:20px;
-   		line-height:20px;
-   		border:none; 
-   		padding:5px; 
-   		padding-left:10px; 
-   		font-size:10px;  
-   		border: none;
-   		font-size: 15px;
-   		outline: none;
-   		background-color: rgba(255, 250, 250, 0.8);
-   	}
-   .myMap{
-   		margin: 20px 0;
-   		width:400px;
-   }
-   .myMap i {  	width: 20px;  }
-   #map {  	margin-bottom: 20px;  }
-   #map ul li {
-   	display: none;
-   	border: none;
-   }
-   #map ul { 	display: none;  }
-   
-   
- /* ----------  IMAGE ----------  */
-   #img_wrap{
-  		 border:1px solid black;
-  		 width:480px; 
-  		 height: 320px;
-  	 	 padding:30px; 
-  	 	 margin:0 auto;
-  		 font-size:30px;
-  		 background-color: #f0f2f5;
-  		 border: none;
-  		 border-radius: 5px;
-  		   overflow: hidden;
-   }
-   .preview{
-      width:480px; 
-      height: 320px;
-      overflow: hidden;
-   }
-   #modify_file {
-   		display: inline-block;
-   		margin: 10px 0;
-   		font-size: 13px;
-   }
-   #file_label, #upload {
-   		display: inline-block;
-   		margin: 30px auto;
-   		text-align: center;
-   		color: gray;	
-   }
-   /* ----------  프로필이미지 ----------  */
-   .profileImg{
-	   	width : 90px;
-		height : 80px;
-		border : 1px solid silver;
-	    display: inline-block;
-	    border-radius: 100%;
-		margin-right: 10px;
-   }
-   #previewImg {  
-	  width:100%;
-      overflow: hidden;
-	  display:none;
-	  z-index: 100;
-   }
-   
-   /* ----------  사진 및 비디오 미리보기 -> script에서 처리함 ----------  */
-   #previewVideo {
-	   	width:480px;
-	   	height: 320px;
-	   	display:none;
-	   	border: none;
-	   	z-index: 100;
-   }
-   /* ----------  내용 ----------  */
-   .content_wrap {	 
-    	margin: 30px auto 15px;	  }
-   .content_wrap #content {
-   		height: 40px;
-   		padding-left: 10px;
-   		background-color:#f0f2f5;
-   		border: none;
-  		border-radius: 5px;
-  		outline: none;
-   }
-  
-  /* ----------  '게시' 버튼  ----------  */
-   #insertBtn { 
-   		width: 100%;
-   		height: 30px;
-   		margin-top: 5px; 
-   		color: white;
-   		background-color:  #fe4662; 
-   		border: none;
-   		border-radius: 5px;
-   		outline: none;
-   		cursor: pointer;
-    }
-    /* ---------- 아래 공간 확보 위한 푸터처리 ----------  */
-	#footer_wrap {  height: 80px; }
-   
 </style>
 </head>
 <body>
@@ -495,18 +333,24 @@
 	
 	<div class="insert_wrap">
 	<form id="insertBoard_Form" action="/nearby/board/insertBoard" method="post" enctype="multipart/form-data" name="insertBoard_Form">
-		<div class="profileImg">(프로필)</div>
+		<div class="profileImg"  id="p_img">
+			<c:if test="${empty loginUser.profile.pSaved}">
+				<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"  class="pointer defaultImg">
+			</c:if>
+			<c:if test="${not empty loginUser.profile.pSaved}">
+	    		<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}"  class="pointer">
+	    	</c:if>
+	    </div>
 		<span class="id_wrap">
 		    	   <a href="/nearby/board/selectBoard" id="board_writer">${loginUser.id}</a>
 		    	   	<input type="hidden" name="id" class="id" value="${loginUser.id}" >
 		 </span>
 		<i class="fas fa-cog setting"></i>
 			
-	
-	    <div class="myMap">
-	     <span>내 위치 > <i class="fas fa-map-marker-alt" style="color:pink; font-size:15px;" onclick="map()"></i>
-	     	<input type="text" name="location" class="location" value=""  readonly="readonly"  >
-	     </span>
+	     <div class="myMap">
+		     <span>내 위치 > <i class="fas fa-map-marker-alt" style="color:pink; font-size:15px;" onclick="map()"></i>
+		     	<input type="text" name="location" class="location" value=""  readonly="readonly"  >
+		     </span>
 	     </div>
 	     
 	     <div id="map_wrap"></div>
@@ -534,7 +378,6 @@
 		<button id="insertBtn">게시</button>
 	</form>
 </div>
-	
 	<footer id="footer_wrap"></footer>
 	
 	

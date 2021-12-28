@@ -23,39 +23,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="PHONE" property="phone" />
 		<result column="GENDER" property="gender" />
 		<result column="STATE" property="state" />
+		<result column="M_CREATED" property="mCreated" />
 		<collection property="profile" resultMap="ProfileMap" />
 	</resultMap>
 	
-    <!-- 회원가입 -->
-	<insert id="joinMember" parameterType="Member">
-		<selectKey resultType="Long" order="BEFORE" keyProperty="mNo">
-			SELECT MEMBER_SEQ.NEXTVAL
-			  FROM DUAL
-		</selectKey>
-		INSERT INTO MEMBER
-		VALUES ( #{mNo}, #{id}, #{pw}, #{name}, #{email}, #{birthday}, #{phone}, #{gender}, 0) 
-	</insert>
+
+   <!-- 회원가입 -->
+     <insert id="joinMember" parameterType="Member">
+     	<selectKey keyProperty="mNo" order="BEFORE" resultType="Long">
+     		SELECT MEMBER_SEQ.NEXTVAL
+     		  FROM DUAL
+     	</selectKey>
+     	INSERT INTO MEMBER 
+     	VALUES ( #{mNo}, #{id}, #{pw}, #{name}, #{email}, #{birthday}, #{phone}, #{gender}, 0, SYSDATE)
+     </insert>
+
 
    <!-- 아이디 중복 확인  -->
-	<select id="duplicateIdCheck" parameterType="String" resultType="Member">
-		SELECT ID, PW, EMAIL
-		  FROM member
-		 WHERE id = #{id} 
+	<select id="idCheck" parameterType="String" resultType="Member">
+		select id, pw, name
+		 from member
+		 where id=#{id} 
 	</select>
 
     <!-- 이메일 중복 확인 + 아이디 찾기  -->
 	<select id="selectByEmail" parameterType="String" resultType="Member">
-		SELECT ID, EMAIL, NAME
-		  FROM MEMBER
-		 WHERE EMAIL = #{email}
+		select id, pw, name
+		 from member
+		 where email=#{email} 
 	</select>
-	
-	<!-- 비밀번호 찾기/ 임시 비밀번호로 수정 됌 -->
-	<update id="findPw" parameterType="Member">
-		UPDATE MEMBER 
-		   SET PW = #{pw}
-		 WHERE EMAIL = #{email}
-	</update>
 
    <!-- 로그인  -->	
 	<select id="login" parameterType="Member" resultMap="MemberMap">
@@ -74,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 </select>
 	
 	<!-- 비밀번호 확인용 -->
-	<select id="selectPwById" parameterType="String" resultType="int">
+	<select id="selectPassword" parameterType="String" resultType="int">
 		SELECT count(*)
 		  FROM MEMBER
 		 WHERE PW = #{pw} AND STATE = 0

@@ -28,9 +28,12 @@ ul, ol{
 
 /* 인풋 공통 레이아웃 작업 */
 
-/* ALL Input Text Type */
-.input_wrap input[type="text"]{
-    width: 337.5px; height: 40px;
+/* 
+text input 
+크기, 배경색, 테두리, 커서
+*/
+input[type="text"]{
+    width: 280px; height: 40px;
     padding-left: 15px;
     background-color: rgb(232, 240, 254);
     border: 2px solid rgb(0, 0, 0, 0);
@@ -44,17 +47,6 @@ input[type="text"]:focus{
     outline: none;
 }
 
-/* 이메일 확인, 인증 코드 발송, 인증 코드 확인 버튼 */
-.input_wrap input[type="button"]{
-    width: 100px; height: 45px;
-    background: linear-gradient(#ff6e56,#ff3268);
-    border-radius: 10px;
-    font-size: 12px;
-    color: white;
-    outline: none;
-}
-
-/* ID, PW 박스 공통 레이아웃 */
 .wrap{
     width: 600px; height: 400px;
     position: relative;
@@ -62,18 +54,17 @@ input[type="text"]:focus{
 
 .container label{
     display: block;
-    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-/* input을 감싸고 있는 박스 */
+
 .input_wrap{
-    width: 450px;
+    width: 70%;
     margin: 0 auto;
     padding-top: 30px;
 }
 
-
-/* --- ID 박스 --- */
+/* ID 박스 */
 #id_box{
     position: absolute;
     z-index: 2;
@@ -94,17 +85,7 @@ input[type="text"]:focus{
     border-radius: 0 0 30px 30px;
 }
 
-/* 아이디 인증 코드 박스 */
-#authCode_box{
-    width: 450px;
-    display: none;
-}
-
-/* --- PW 박스 --- */
-#pw_box{
-    position: absolute;
-    z-index: 1;
-}
+/* PW 박스 */
 
 #findPw_btn[type="button"]{
     width: 280px; height: 80px;
@@ -120,22 +101,52 @@ input[type="text"]:focus{
     border-radius: 30px 30px 30px 30px;
 }
 
-/* 이메일 입력 박스 */
-.emailCheck_box{
+#pw_box{
+    position: absolute;
+    z-index: 1;
+}
+
+/* 이메일 인증 박스 defualt */
+.input_wrap{
     width: 450px;
-    display: none;
 }
 
-#pwAuthCode_btn{
-    display: none;
+.input_wrap input[type=text]{
+    width: 450px; height: 45px;
+    border-radius: 10px;
+    margin-bottom: 5px;
 }
 
-#updatePw{
+.input_wrap > input[type=button]{
     display: none;
+    width: 23%; height: 45px;
+    background: linear-gradient(#ff6e56,#ff3268);
+    border-radius: 10px;
+    font-size: 12px;
+    color: white;
+    outline: none;
 }
 
-/* 비밀번호 인증 코드 박스 */
-#pwAuthCode_box{
+#authCode_box > input[type=text]{
+    width: 75%; height: 45px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+#authCode_box > input[type=button]{
+    width: 23%; height: 45px;
+    background: linear-gradient(#ff6e56,#ff3268);
+    border-radius: 10px;
+    font-size: 12px;
+    color: white;
+    outline: none;
+}
+
+.email_box > #email_check_box{
+    display: block;
+}
+
+#authCode_box{
     width: 450px;
     display: none;
 }

@@ -1,17 +1,20 @@
 package com.koreait.nearby.domain;
 
+import java.sql.Date;
+
 public class Member {
 	private Long mNo;
 	private String id, pw, email, birthday, gender, name, phone;
 	private int state;
 	private Profile profile;
+	private Date mCreated;
 
 	// constructor
 	public Member() {
 	}
 
 	public Member(Long mNo, String id, String pw, String email, String birthday, String gender, String name,
-			String phone, int state, Profile profile) {
+			String phone, int state, Profile profile, Date mCreated) {
 		super();
 		this.mNo = mNo;
 		this.id = id;
@@ -23,9 +26,9 @@ public class Member {
 		this.phone = phone;
 		this.state = state;
 		this.profile = profile;
+		this.mCreated = mCreated;
 	}
 
-	// getter / setter
 	public Long getmNo() {
 		return mNo;
 	}
@@ -106,10 +109,21 @@ public class Member {
 		this.profile = profile;
 	}
 
+	public Date getmCreated() {
+		return mCreated;
+	}
+
+	public void setmCreated(Date mCreated) {
+		this.mCreated = mCreated;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [mNo=" + mNo + ", id=" + id + ", pw=" + pw + ", email=" + email + ", birthday=" + birthday
 				+ ", gender=" + gender + ", name=" + name + ", phone=" + phone + ", state=" + state + ", profile="
-				+ profile + "]";
+				+ profile + ", mCreated=" + mCreated + "]";
 	}
+	
+	
+
 }

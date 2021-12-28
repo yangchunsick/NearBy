@@ -7,17 +7,16 @@ public class Board {
 	private Long bNo, likes;
 	private String id, content, origin, saved, path, ip, location;
 	private Date created, modified;
-	private int state;
+	private int state, depth, groupNo, groupOrd;
 	private Profile profile;
 	
 	public Board() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
 	public Board(Long bNo, Long likes, String id, String content, String origin, String saved, String path, String ip,
-			String location, Date created, Date modified, int state, Profile profile) {
+			String location, Date created, Date modified, int state, int depth, int groupNo, int groupOrd,
+			Profile profile) {
 		super();
 		this.bNo = bNo;
 		this.likes = likes;
@@ -31,10 +30,11 @@ public class Board {
 		this.created = created;
 		this.modified = modified;
 		this.state = state;
+		this.depth = depth;
+		this.groupNo = groupNo;
+		this.groupOrd = groupOrd;
 		this.profile = profile;
 	}
-
-
 
 	public Long getbNo() {
 		return bNo;
@@ -132,6 +132,30 @@ public class Board {
 		this.state = state;
 	}
 
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
+	public int getGroupNo() {
+		return groupNo;
+	}
+
+	public void setGroupNo(int groupNo) {
+		this.groupNo = groupNo;
+	}
+
+	public int getGroupOrd() {
+		return groupOrd;
+	}
+
+	public void setGroupOrd(int groupOrd) {
+		this.groupOrd = groupOrd;
+	}
+
 	public Profile getProfile() {
 		return profile;
 	}
@@ -144,7 +168,8 @@ public class Board {
 	public String toString() {
 		return "Board [bNo=" + bNo + ", likes=" + likes + ", id=" + id + ", content=" + content + ", origin=" + origin
 				+ ", saved=" + saved + ", path=" + path + ", ip=" + ip + ", location=" + location + ", created="
-				+ created + ", modified=" + modified + ", state=" + state + ", profile=" + profile + "]";
+				+ created + ", modified=" + modified + ", state=" + state + ", depth=" + depth + ", groupNo=" + groupNo
+				+ ", groupOrd=" + groupOrd + ", profile=" + profile + "]";
 	}
 	
 	

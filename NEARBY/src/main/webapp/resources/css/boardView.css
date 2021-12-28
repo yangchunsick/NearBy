@@ -1,0 +1,154 @@
+@charset "UTF-8";
+/* 기본 레이아웃 */
+	*{
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;	
+		width: 100%;
+	}
+	a {
+		text-decoration: none;
+		color: black;
+		font-weight: bold;
+	}
+	
+/* header css */
+	.header {
+		width: 100%;
+		height: 106px;
+		background-color: white;
+	}
+	#home_btn { border-bottom: 8px solid #fe4662; }
+	#home_icon { color: #fe4662; }
+/* End header Css */	
+	.board_container {	width: 100%;	}
+/* board main wrap */  
+	#mainBoardWrap {
+		width: 560px; 
+		border:1px solid pink;
+		padding: 15px;
+		border-radius: 10px;
+		margin: 30px auto;
+		background-color: rgba(255, 250, 250, 0.8);
+		box-shadow: 10px 10px 20px rgba(30, 30, 30, 0.5);
+	}
+	.mainBoardWrap_img {	height: 750px;}
+	.mainBoardWrap_content {	height: 350px; }
+	.boardIntro{
+		display: flex;	
+		width: 500px;
+	}
+   .profileImg{
+	   	width : 110px;
+		height : 80px;
+	    display: inline-block;
+	    border-radius: 100%;
+		margin-right: 10px;
+   }
+   #p_img {
+       width: 100px;
+	   height: 100px;
+   }
+   	#p_img #user_img {
+		width: 100px;
+		height: 100px;
+		border-radius: 100%;
+   }
+   #board_writer {
+   	   font-weight: bold;
+   	   font-size: 18px;
+	   display: inline-block;
+	   margin-left: 10px;
+	   width: 250px;
+   }
+    .setting_wrap{
+   		position: relative; 
+   		width: 50px;
+   }
+   .setting { 
+	 	color: #fe4662; 
+	 	font-size:20px;
+	 	width:30px
+   }
+   .addrAndMap {
+	    text-align: right;
+	    padding-right: 10px;
+	    margin-top: 10px;
+	    margin-bottom: 10px;
+   }
+   .addressAndImage {
+   	    width:500px;
+        margin: 5px auto 10px;
+    	position: relative;
+    	cursor: pointer;
+   }
+   .AddrAndContent { cursor: pointer; }
+   #select_link {
+	    display:inline-block;
+	   	width: 500px;
+	   	height: 400px;
+   }
+   .content {
+	   margin: 10px auto;
+	   width : 510px;
+   }
+   .onlyContent {	margin:20px 8px;  }
+    .content textarea {
+   		border: none;
+   		background-color : rgba(255, 250, 250, 0.8);
+   		outline: none;
+   		overflow:visible;
+   		cursor: pointer;
+    }
+   .like_btn{
+     border: none; 
+     width:60px;
+     cursor: pointer; 
+     background-color: none;
+   }
+   .countIcon .fa-thumbs-up, .countIcon .fa-comments { 
+      display: inline-block;  
+  
+      width: 50px; 
+      }
+   .likesAndReplyCount  {
+	   	border-top : 1px solid gray;
+	   	border-bottom : 1px solid gray;
+	   	height: 35px;
+	   	line-height: 35px;
+	   	display: flex;
+    }
+   .likesCount .replyCount {
+       border :1px solid #fe4662;  }
+
+   .imgSize {
+ 		width: 480px;
+ 		height: 320px;
+ 		overflow: hidden;
+   }
+   #image, #video {
+   	  width: 480px;
+  	  overflow: hidden;
+   }
+   .delete_update_form {
+       position:absolute;
+       top: 5px;
+       left: 5px;
+       border-radius: 10px;
+       border : 1px solid rgba(50,50,50,0.3);
+       margin: 0 auto;
+       margin-top: 20px;
+       padding: 3px;
+       text-align: center;
+       background-color: white;
+   }
+   .delete_update_form li:first-child {
+    	padding-bottom: 3px;
+   		border-bottom: 1px solid rgba(50,50,50,0.3);
+   }
+   .delete_update_form li a {
+    	font-size: 10px;
+        font-weight: 400;
+   }
+  .delete_update_form li a:hover {	font-weight: bold;  }
+    

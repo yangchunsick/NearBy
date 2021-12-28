@@ -66,9 +66,6 @@
                         <input type="text" id="email" name="email">
                     </span>
                     
-                    <!-- 이메일 중복 검사  -->
-                    <input type="button" value="이메을 확인" id="emailCheck_btn">
-                    
                     <!-- 인증코드 발송 버튼-->
                     <input type="button" value="인증번호받기" id="authCode_btn">
                     <span id="email_check_msg"></span>

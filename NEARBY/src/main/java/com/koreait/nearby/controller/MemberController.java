@@ -31,54 +31,43 @@ public class MemberController {
 		this.service = service;
 	}
 	
-	/* 회원가입 화면 이동 */
-	@GetMapping("join")
-	public String join() {
-		return "member/join";
-	}	
 	
-	/* 회원가입 */
+    // 회원가입하러 가기
+	@GetMapping("memberJoin")
+	public String memberJoin() {
+		return "member/join";
+	}
+	
+	// 회원가입하기 
 	@PostMapping("insertMember")
 	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
-		service.insertMember(request, response);
+	      service.joinMember(request, response);
 	}
 	
-	/* 아이디 중복 체크 */
-	@PostMapping(value = "idCheck",
-			produces="application/json; charset=UTF-8")
-	@ResponseBody
-	public Map<String, Object> idCheck(@RequestParam("id") String id){
-		return service.idCheck(id);
-	}
-
 	// 아이디 비번 찾으러 가기 
 	@GetMapping("findIdPw")
 	public String findIdPw() {
 		return "member/findIdPw";
 	}
 	
+    // 아이디 중복확인하기 
+	@ResponseBody
+	@PostMapping(value="idCheck", produces ="application/json; charset=UTF-8" )
+	public Map<String,Object> idCheck(@RequestParam String id) {
+		return service.idCheck(id);
+	}
 	
 	// 이메일 중복확인 + 아이디 찾기 
 	@ResponseBody
 	@PostMapping(value="selectByEmail", produces ="application/json; charset=UTF-8" )
-	public Map<String,Object> selectByEmail(@RequestParam("email") String email) {
-		System.out.println(email);
+	public Map<String,Object> selectByEmail(@RequestParam String email) {
 		return service.selectByEmail(email);
 	}
 	
-	/* 비밀번호 찾기 */
-	@PostMapping(value = "findPw", produces = "application/json; charset=UTF-8")
+	// 이메일 인증 
+	@PostMapping(value="sendAuthCode", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> findPw(@RequestParam("email") String email){
-		System.out.println(email.toString());
-		Map<String, Object> map = service.findPw(email);
-		return map;
-	}
-	
-	/* 이메일 인증코드 발송 */
-	@PostMapping(value = "sendAuthCode", produces = "application/json; charset=UTF-8")
-	@ResponseBody
-	public Map<String, Object> sendAuthCode(@RequestParam("email") String email){
+	public Map<String, Object> sendAuthCode(@RequestParam("email") String email) {
 		return service.sendAuthCode(email);
 	}
 	
@@ -96,7 +85,7 @@ public class MemberController {
 		}
 		return "redirect:/";
 	}
-
+		
 	// 마이페이지 수정으로 가기
 	@GetMapping("mypage")
 	public String mypage() {
@@ -133,14 +122,16 @@ public class MemberController {
 	
 	// 비밀번호 확인
 	@PostMapping(value="checkPassword", produces="application/json; charset=UTF-8")
+	@ResponseBody
 	public Map<String, Object> checkPassword(HttpServletRequest request){
 		return service.checkPassword(request);
 	}
 	
 	// 찐 비밀번호 변경
 	@PostMapping(value="changePassword")
-	public String changePassword(HttpServletRequest request, Member member) {
-		return "member/mypage";
+	public String changePassword(HttpServletRequest request) {
+		service.changePassword(request);
+		return "redirect:/";
 	}
 	
 }

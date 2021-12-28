@@ -27,7 +27,7 @@ ul, ol{
 .no_board > h1{font-size: 24px;}
 
 /* section */
-.board{
+section{
     display: block;
     width: 560px;
     margin: 0 auto;
@@ -48,12 +48,11 @@ ul, ol{
 }
 
 /* 유저 이미지 size만 지정 */
-.user_img_box > #user_img{
+.user_img_box > a{
     display: flex;
     border: 1px solid gray;
     margin: 10px;
-    width: 100px; height: 100px;
-    border: 1px solid black;
+    width: 80px; height: 80px;
     border-radius: 50%;
     font-size: 0;
 }
@@ -62,8 +61,7 @@ ul, ol{
 .user_item_box{
     display: flex;
     flex-direction: column;
-    padding-left: 10px;
-    width: 340px; height: 150px;
+    width: 360px; height: 150px;
 }
 
 .user_item_box > span{
@@ -88,14 +86,17 @@ ul, ol{
 
 .content_box{
     display: flex;
-    width: 330px;
+    width: 100%;
 }
 
-.content_box > span{
-    width: 330px;
+.content_box > textarea{
+    width: 100%;
     background-color: rgb(240, 242, 245);
-    padding: 10px 0 0 10px;
+    padding-top: 15px;
     font-size: 13px;
+    border: none;
+    resize: none;
+    outline: none;
 }
 
 /* 프로필 설정 */
@@ -115,7 +116,6 @@ ul, ol{
 /* 사용자의 게시물 */
 .board_container{
     display: block; margin: 0 auto;
-    margin-top: 50px;
     border-radius: 10px;
     border: 1px solid pink;
     background-color: #ffffff;
@@ -135,16 +135,17 @@ ul, ol{
 /* 유저 사진 */
 .board_intro{
     display: inline-block;
-    width: 100px; height: 100px;
+    width: 80px; height: 100px;
+    padding: 10px;
 }
 
-.board_intro > #user_img {
+.board_intro > a{
     display: block;
-    margin: 10px 0 10px 40px;
-    width: 80px; height: 80px;
-    border: 1px solid black;
+    width: 60px; height: 60px;
     border-radius: 50%;
-    background-size: 80px 80px;
+    background-color: black;
+    background-image: url(/dog.jpg);
+    background-size: 60px 60px;
     font-size: 0;
 }
 
@@ -152,11 +153,10 @@ ul, ol{
 .user_id{
     display: inline-block;
     width: 420px; height: 80px;
-    padding: 10px 0 0 20px;
+    padding: 10px;
 }
 
 #board_writer{
-    padding-left: 15px;
     font-size: 18px;
     font-weight: 900;
 }
@@ -195,8 +195,7 @@ ul, ol{
 .addrAndMap{
     display: block;
     text-align: right;
-    margin-right: 40px;
-    margin-bottom: 5px;
+    margin-right: 10px;
 }
 
 .content{
@@ -205,11 +204,14 @@ ul, ol{
     width: 100%; height: 100%;
 }
 
-.content > span{
+.content > textarea{
     display: block;
-    width: 556px;
+    width: 556px; height: 100px;
     background-color: #ffffff;
-    padding: 10px 0 15px 40px;
+    padding: 5px 0 5px 15px;
+    border: none;
+    resize: none;
+    outline: none;
 }
 
 /* 이미지/ 비디오 사이즈 */
@@ -257,18 +259,7 @@ ul, ol{
     cursor: pointer;
 }
 
-.box > .fas{
-    font-size: 25px;
-    color: #fe4662;
-}
-
 #like_btn, #reply_btn{
     position: absolute;
     left: -99999px;
-}
-
-footer{
-	display: block;
-	width: 100%;
-	height: 150px;	
 }
