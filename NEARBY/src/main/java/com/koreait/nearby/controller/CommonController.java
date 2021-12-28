@@ -3,6 +3,8 @@ package com.koreait.nearby.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.koreait.nearby.domain.Member;
+
 @Controller
 public class CommonController {
 
@@ -10,13 +12,12 @@ public class CommonController {
 	public String index() {
 		return "index";
 	}
-
-	// 회원가입 동의여부 페이지 이동
-	@GetMapping("member/joinAgreePage")
-	public String joinAgreePage() {
-		return "member/joinAgreePage";
+	
+	// 프로필사진 변경 후 마이페이지 이동
+	@GetMapping("board/updateProfilePicture")
+	public String updateProfilePicture(Member member) {
+		return "redirect:boardList";
 	}
 	
-
-
+	
 }
