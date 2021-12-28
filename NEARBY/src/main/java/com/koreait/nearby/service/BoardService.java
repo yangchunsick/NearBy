@@ -12,23 +12,11 @@ import com.koreait.nearby.domain.Board;
 
 @Service
 public interface BoardService {
-	
-	// 전체 게시글
 	public List<Board> selectBoardList();
-	
-	// 상세보기 게시글
-	public Board selectBoardByNo(Long bNo);
-	
-	// 게시글 등록 
+	public Board selectBoardByNo(Long no);
     public void insertBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response);
-    
-    // 게시글 수정
-    public void updateBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response);
-    
-    // 게시글 삭제
-    public void deleteBoard(Long bNo, HttpServletResponse response);
-
-    
+    public int updateBoard(Board board);
+    public int deleteBoard(Long no);
     
  // default method
  	public default void message(int result, HttpServletResponse response, 

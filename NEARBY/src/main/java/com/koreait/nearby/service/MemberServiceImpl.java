@@ -1,6 +1,5 @@
 package com.koreait.nearby.service;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 
@@ -22,8 +19,6 @@ import com.koreait.nearby.util.SecurityUtils;
 
 public class MemberServiceImpl implements MemberService {
 
-	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
-	
 	private SqlSessionTemplate sqlSession;
 	private JavaMailSender javaMailSender;
 	
@@ -94,48 +89,5 @@ public class MemberServiceImpl implements MemberService {
 		int result = repository.joinMember(member);
 		message(result, response, "회원가입 성공", "회원가입 실패", "/nearby");
 	}
-	
-	// 이메일 중복확인 + 아이디 찾기
-	@Override
-	public Map<String, Object> selectByEmail(String email) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
-		map.put("result", memberRepository.selectByEmail(email));
-		return map;
-	}
-
-	// 로그인
-	@Override
-	public void login(HttpServletRequest request, HttpServletResponse response) {
-		Member member = new Member();
-		member.setId(request.getParameter("id"));
-		member.setPw(SecurityUtils.sha256(request.getParameter("pw")));
-		MemberRepository repository = sqlSession.getMapper(MemberRepository.class);
-		Member loginUser = repository.login(member);
-		if (loginUser != null) {
-			request.getSession().setAttribute("loginUser", loginUser);
-			logger.info(loginUser.toString());
-		}
-
-		try {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			if (loginUser != null) {
-				out.println("<script>");
-				out.println("alert('로그인 성공')");
-				out.println("location.href='/nearby/board/boardList'");
-				out.println("</script>");
-				out.close();
-			} else {
-				out.println("<script>");
-				out.println("alert('응아니야!')");
-				out.println("history.back()");
-				out.println("</script>");
-				out.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}	
 	
 }

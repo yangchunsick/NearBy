@@ -29,8 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
   <!-- 게시판 하나 상세보기 -->
 	<select id="selectBoardByNo" parameterType="Long" resultMap="BoardMap">
-		SELECT B_NO, ID, CONTENT, IP, LOCATION, ORIGIN, SAVED, LIKES, CREATED, PATH, MODIFIED, state
-   	      FROM BOARD
+		SELECT B_NO, ID, CONTENT, IP, LOCATION, ORIGIN, SAVED, LIKES, CREATED, MODIFIED, state
+		  FROM BOARD
 	   	 WHERE B_NO =#{bNo}
 	</select>
 	
@@ -43,23 +43,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 글 수정- login id=글 id와 번호 같을 때 수정가능 -->
  	<update id="updateBoard" parameterType="Board">
  		UPDATE BOARD 
- 		   SET CONTENT = #{content},
- 		       LOCATION = #{location},
- 		       PATH = #{path},
- 		       ORIGIN = #{origin},
- 		       SAVED = #{saved},
+ 		   SET CONTENT = #{CONTENT},
+ 		       LOCATION = #{LOCATION}
+ 		       ORIGIN = #{ORIGIN},
+ 		       SAVED = #{SAVED},
  		       MODIFIED = SYSDATE 
- 	     WHERE B_no = #{bNo}
+ 	     WHERE B_no = #{bNo} and ID={id}
  	</update>
 	
 	
 	<!--  글삭제 -->
 	<delete id="deleteBoard" parameterType="Long">
 	DELETE FROM BOARD
-	 WHERE B_no=#{bNo}
+	 WHERE B_no=#{bNo}  and ID={id}
 	</delete>
 	
-
-
+	
 	
 </mapper>
