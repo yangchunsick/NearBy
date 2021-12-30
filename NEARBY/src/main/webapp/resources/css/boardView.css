@@ -13,8 +13,9 @@
 	
 	#home_btn { border-bottom: 8px solid #fe4662; }
 	#home_icon { color: #fe4662; }
-/* End header Css */	
-	.board_container {	width: 100%;	}
+	
+	.board_container {width: 100%; margin-top: 100px;}
+	
 /* body */
     body {
     	background-color: #fafafa;

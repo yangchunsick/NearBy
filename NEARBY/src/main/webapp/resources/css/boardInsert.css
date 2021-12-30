@@ -17,15 +17,14 @@
   	 
 	 #insert_btn {    border-bottom: 8px solid  #fe4662;   }
      #insert_icon {  color:  #fe4662;  }
-	/* End header Css */	
-  	 
+ 
   	 
   	 /* ----------------  insert box ----------------  */
   	.insert_wrap {
   	    position: relative;
         width:600px;
         height : 920px;
-        margin: 30px auto 10px;
+        margin: 130px auto 10px auto;
         padding: 30px 30px;
         background-color: rgba(255, 250, 250, 0.8);
         border : 1px solid #fe4662; 
