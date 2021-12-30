@@ -4,7 +4,6 @@
 		padding: 0;
 		margin: 0;
 		box-sizing: border-box;	
-		width: 100%;
 	}
 	.insert_wrap a {
 		text-decoration: none;
@@ -16,12 +15,6 @@
  	    margin: 0 auto;
   	 }
   	 
-  	 /* header css */
-	.header {
-		width: 100%;
-		height: 106px;
-		background-color: white;
-	}
 	 #insert_btn {    border-bottom: 8px solid  #fe4662;   }
      #insert_icon {  color:  #fe4662;  }
 	/* End header Css */	

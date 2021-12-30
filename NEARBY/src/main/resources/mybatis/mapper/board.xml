@@ -106,6 +106,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM BOARD
 		WHERE B_NO= #{bNo}
 	</select>
+	
+	<!--  통합 검색 리스트 -->
+	<select id="searchListBoard" parameterType="Map" resultMap="BoardMap">
+   	    SELECT B.B_NO, B.ID, B.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE, P.ID, P.P_ORIGIN, P.P_SAVED, P.P_PATH
+   	      FROM BOARD B LEFT JOIN PROFILE P
+   	        ON B.ID = P.ID 
+   	     WHERE UPPER(B.ID) LIKE '%' || UPPER(TRIM(#{query})) || '%'
+   	        OR UPPER(B.CONTENT) LIKE '%' ||  UPPER(TRIM(#{query})) || '%'
+   	        OR B.LOCATION LIKE '%' || TRIM(#{query}) || '%'
+   	     ORDER BY B.B_NO DESC
+    </select>
 
 
 </mapper>

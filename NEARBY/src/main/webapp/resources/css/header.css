@@ -11,26 +11,29 @@
 	ul li {
 		list-style-type: none;
 	}
+	
 	.container {
+		display: flex;
+        flex-direction: row;
+        position: fixed;
+        top: 0;
 		z-index: 4000;
-		position: fixed;
 		width: 100%;
 		height: 106px;
-		display: flex;
 		background-color: white;
 		border-bottom: 0.5px solid rgba(160, 160, 160, 0.5);
 		box-shadow: 5px 5px 8px rgba(160, 160, 160, 0.3);
 	}
 	
 	.left_box {
-		width: 25%;
+		width: 450px;
 		height: 100%;
 	}
 	
 	.mid_box {
-		width: 50%;
-		height: 100%;
-		display: flex;
+        display: inline-flex;
+        flex-direction: row;
+        margin: 0 auto;
 	}
 	
 	.right_box {
@@ -40,28 +43,51 @@
 		display: flex;
 	}
 	
+    .left_box > a{
+        display: block;
+        margin: 10px 0 10px 70px;
+        width: 230px; height: 85px;
+        background-size: 219px 85px;
+        background-repeat: no-repeat;
+        background-image: url(../image/logo_color.png);
+        font-size: 0;
+    }
+    
 	#logo_img {
 		width:  200px;
 		margin-top: 12px;
 		margin-left: 50px;
 	}
 	
-	.btn_box li {
-	    float: left;
-		width: 25%;
-		height: 100%;
+    .btn_box{
+        display: flex;
+        text-align: center;
+        margin: 0 auto;
+        width: 750px;
+    }
+    
+    #home_btn:hover, #myhome_btn:hover, #chat_btn:hover, #insert_btn:hover{
+    	border-bottom: 8px solid #fe4662;
+    }
+
+	.btn_box .boxes {
+        display: inline-block;
+        margin: 0 auto;
+        width: 230px; height: 100%;
+
 	}
 	
-	.boxes {
-	    margin: 4px auto;
-		width: 208px;
-		height: 89px;
+	 .boxes > a{
+	 	width: 100%;
+	 	height: 100%;
+	 	margin: 0 auto;
+	 	flex-direction: row;
 	}
 	
 	li  a  i {
 		color: #6f7070;
 		text-align: center;
-		margin-top: 20px;
+		margin: 30px auto;
 		font-size: 40px;
 		
 		
@@ -74,13 +100,14 @@
     }
     
     .boxes:hover {
+    	border-bottom: 8px solid #fe4662;
     	background-color: rgba(240,242,245,0.7);
     	border-radius: 4px;
     }
 	.search_box {
 	    display: flex;
 	    border-radius: 10px;
-        margin-lfet: 40px;
+        margin-left: 40px;
         margin-bottom: 30px;
         margin-top: 26px;
         margin-left: 40px;
@@ -111,13 +138,13 @@
     
     #search_icon > i {
     	color: #6f7070;
-    	width: 36px;
-    	height: 36px;
+    	width: 38px;
+    	height: 38px;
     	margin-top: 10px;
     }
  	#profile_box {
          position: absolute;
-         left : 360px;
+         left : 390px;
          top: 20px;
          width: 60px;
          height: 60px;
@@ -129,33 +156,26 @@
          border-radius: 100%;
    }
 
-   
-   #profile_box {
+   #profile_menu {
+ 		z-index: 6000;
    		position: absolute;
-   		left : 360px;
-   		top: 20px;
-   		width: 60px;
-   		height: 60px;
-   
-
-   }
-   
-   .profile_menu {
-        display: none;
-        z-index: 6000;
-   		display: inline-block;
-   		position: absolute;
-   		top: 300px;
-   		left: 100px;
-   	    width: 80px;
+   		top: 102px;
+   		left: 360px;
+   	    width: 110px;
    	    height: 100px;
-   	    border: 1px solid black;
+   	    border: 1px solid rgb(240,242,245);
+   	    border-radius: 3px;
+   	    background-color: white;
+   	    box-shadow: 5px 5px 8px rgba(160, 160, 160, 0.3);
    	    
    }
    
-   .profile_menu li {
-        display: block;
-		border: 1px solid black;   
+   #profile_menu li {
+        margin-top: 4px;
+        margin-left: 4px;
+   	    font-size: 14px;
+   	    font-weight: lighter;
+	    border-bottom: 1px solid rgb(240,242,245); 
    }
    
    .profile_no {
@@ -164,5 +184,9 @@
    .profile_see {
    		display: block;
    }
- 
+   #profile_menu_list1, #profile_menu_list2, #profile_menu_list3 {
+   		font-weight: normal;
+   }
+   
+   
    

@@ -1,0 +1,31 @@
+@charset "UTF-8";
+/* 기본 레이아웃 */
+	*{
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;	
+	}
+	a {
+		text-decoration: none;
+		color: black;
+		font-weight: bold;
+	}
+	
+	#chat_btn { border-bottom: 8px solid #fe4662; }
+	#chat_icon { color: #fe4662; }
+/* End header Css */	
+/* body */
+    body {
+    	background-color: #fafafa;
+    }
+    
+    #profile_box2 {
+         width: 80px;
+         height: 80px;
+         border-radius: 100%;
+	}
+	#profile_img2 {
+         width: 80px;
+         height: 80px;
+         border-radius: 100%;
+   }	

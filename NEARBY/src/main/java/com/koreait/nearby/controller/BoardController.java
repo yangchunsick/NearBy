@@ -104,5 +104,14 @@ public class BoardController {
 		System.out.println("controller bNo" + bNo);
 		return service.likesCancel(bNo, session);
 	}
-
+	
+	// 통합 검색
+    @GetMapping("searchBoardList")
+    public String searchBoardList(Model model, HttpServletRequest request) {
+       model.addAttribute("list", service.searchBoardList(request));
+       model.addAttribute("query", request.getParameter("query"));
+       System.out.println(model);
+       return "board/search";
+    }	
+	
 }

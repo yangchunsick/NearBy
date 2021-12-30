@@ -14,6 +14,8 @@ let email_result = false;
 let pwEmail_result = false;
 
 
+/* ------ 아이디 ------ */
+
 function fnFindId(){
     $('#findId_btn').on('click', function(){
         $('#findPw_btn').css('backgroundColor', 'lightgray');
@@ -44,26 +46,61 @@ function fnEmailCheck(){
     });	        
 
 
-        email_result = true;
-       // 인증코드 전송 버튼
-        $('#authCode_btn').click(function(){
-             $('#authCode_box').css('display', 'inline-block');
-            $.ajax({
-                url: '/nearby/member/snedAuthCode',
-                type: 'post',
-                data: 'email=' + $('#email').val(),
-                dataType: 'json',
-                success: function(map){
-                    $('#email_check_msg').text('인증코드가 발송 되었습니다.')
-                                         .addClass('pass_msg');
-                    fnVerifyAuthCode(map.authCode);
-                },
-                error: function(){
-                    alert('인증코드 전송 실패');
-                }
-            }); // AJAX          
-        });
+    email_result = true;
+    // 인증코드 전송 버튼
+     $('#authCode_btn').click(function(){
+          // 이메일 있는지 확인하기
+          $.ajax({
+              url: "/nearby/member/selectByEmail",
+              type: 'post',
+              data : 'email=' + $("#email").val(),
+              dataType: 'json',
+              success: function(map){
+                  if(map.result != null ){
+                     /*  $('#email_check_msg').html("회원님의 아이디는 <strong>"+map.result.id +"</strong> 입니다."); */
+                      fnSendAuthCode(map.result.id);
+                  } else {
+                       $('#email_check_msg').text("입력하신 이메일 조회 결과 없는 회원입니다.");
+                  }
+              }, 
+              error : function(xhr) {
+                  $('#email_check_msg').text(xhr.responseText);
+                  return;
+              }
+          }); // 이메일 유무 확인   
+     });
+
 }// end fnEmailCheck
+
+function fnSendAuthCode(id){
+	$("#authCode_box").css("display", 'inline-block');
+	  $.ajax({
+        url: '/nearby/member/sendAuthCode',
+        type: 'post',
+        data: 'email=' + $('#email').val(),
+        dataType: 'json',
+        success: function(map){
+            $('#email_check_msg').text('인증코드가 발송 되었습니다.')
+                                 .addClass('pass_msg');
+            fnVerifyAuthCode(map.authCode, id);
+        },
+        error: function(){
+            alert('인증코드 전송 실패');
+        }
+    }); // AJAX     
+}
+
+function fnVerifyAuthCode(authCode, id){
+	$('#verify_btn').click(function(){
+		if($('#authCode').val() == authCode){
+			$('#verify_msg').html('회원님의 아이디는 <strong>'+ id +'</strong> 입니다.').addClass('pass_msg');
+			authCodePass = true;
+		}else{
+			alert('인증 실패');
+			authCodePass = false;
+		}
+	});
+}// fnVerifyAuthCode
 
 
 
@@ -96,8 +133,19 @@ function fnFindPw(){
                 data: 'id=' + $('#pwId').val(),
                 dataType: 'json',
                 success: function(map){
-                    $('.emailCheck_box').css('display', 'block');
-                    fnPwFind_EmailCheck(map.result.email);
+                    console.log(map.result.id);
+                    console.log(map.result.email);
+                    if(map.result.id == $('#pwId').val()){
+                        $('.emailCheck_box').css('display', 'block');
+                        fnPwFind_EmailCheck(map.result.email);
+                    }else if(map.result == null){
+                        Swal.fire({
+                            icon: 'error',
+                            title: '실패',
+                            text: '해당하는 아이디를 찾을 수 없습니다.',
+                        });
+                        /*alert('해당하는 아이디를 찾을 수 없습니다.');*/
+                    }
                 },
                 error: function(){
                     alert('아이디 체크 오류');
@@ -113,8 +161,8 @@ function fnFindPw(){
             if(regEmail.test($(this).val()) == false){
                 $('#pwAuthCode_btn').css('display', 'none');
                 $('#pwEmail_check_msg').text('이메일을 다시 확인 해주세요.')
-                                    .removeClass('pass_msg')
-                                    .addClass('error_msg');
+                                       .removeClass('pass_msg')
+                                       .addClass('error_msg');
                 pwEmail_result = false;
             }else{
                 $('#pwEmail_check_msg').text('');
@@ -128,7 +176,12 @@ function fnFindPw(){
                     $('#pwEmail_check_msg').text('')
                     pwEmail_result = true;
                 }else{
-                    $('#pwEmail_check_msg').text('회원정보 어쩌구 아이디 어쩌구 이메일이 틀림 어쩌구');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '실패',
+                        text: '회원정보 어쩌구 아이디 어쩌구 이메일이 틀림 어쩌구',
+                    });
+                    /*$('#pwEmail_check_msg').text('회원정보 어쩌구 아이디 어쩌구 이메일이 틀림 어쩌구');*/
                     pwEmail_result = false;
                 }
             });
@@ -144,8 +197,13 @@ function fnFindPw(){
                 dataType: 'json',
                 success: function(map){
                     console.log(map.authCode);
-                    $('#pwEmail_check_msg').text('인증코드가 발송 되었습니다.')
-                                           .addClass('pass_msg');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '성공',
+                        text: '인증코드가 발송 되었습니다.',
+                    });
+                    /*$('#pwEmail_check_msg').text('인증코드가 발송 되었습니다.')
+                                           .addClass('pass_msg');*/
                     fnPwVerify(map.authCode);
                 },
                 error: function(){
@@ -159,11 +217,21 @@ function fnFindPw(){
     function fnPwVerify(authCode){
         $('#pwVerify_btn').click(function(){
             if($('#pwAuthCode').val() == authCode){
-                alert('인증번호 일치');
+                Swal.fire({
+                    icon: 'success',
+                    title: '성공',
+                    text: '인증번호 일치',
+                })
+                /*alert('인증번호 일치');*/
                 $('#updatePw').css('display', 'inline-block');
                 return true;
             }else{
-                alert('인증 번호가 일치하지 않습니다.');
+                Swal.fire({
+                    icon: 'error',
+                    title: '실패',
+                    text: '인증 번호가 일치하지 않습니다.',
+                });
+                /*alert('인증 번호가 일치하지 않습니다.');*/
                 return false;
             }
         });
@@ -178,14 +246,24 @@ function fnFindPw(){
                 dataType: 'json',
                 success: function(map){
                     if (map.result > 0) {
-                        alert('이메일로 임시 비밀번호를 전송 했습니다.');
+						Swal.fire({
+							icon: 'success',
+							title: '성공',
+							text: '이메일로 임시 비밀번호를 전송 했습니다.',
+						})
+                        /*alert('이메일로 임시 비밀번호를 전송 했습니다.');*/
                         location.href='/nearby/';
                     } else {
-                        alert('임시 비밀번호 전송이 실패되었습니다. 다시시도해주세요.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: '실패',
+                            text: '임시 비밀번호 전송이 실패되었습니다. 다시시도해주세요.',
+                        });
+                        /*alert('임시 비밀번호 전송이 실패되었습니다. 다시시도해주세요.');*/
                     }
                 },
                 error: function(){
-                    alert('실패');
+                    alert('임시 비밀번호를 전송 실패');
                 }
             }); //fnUpdatePw
         });

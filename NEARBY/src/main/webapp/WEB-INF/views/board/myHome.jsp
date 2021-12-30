@@ -11,16 +11,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header999.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myHome.css">
 <script src="${pageContext.request.contextPath}/resources/js/myHome.js" ></script>
 </head>
 
 <body>
 
-    <jsp:include page="/WEB-INF/views/layout/header999.jsp" flush="true" />
+    <jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
 
-    <section class="board">
+     <section class="board">
 
         <!-- 프로필 사진, 이름, 게시물, 팔로워, 팔로잉, 프로필 설정-->
         <div class="user_box">
@@ -93,7 +93,7 @@
 	                    </div>
 	
 	                    <!-- 버튼(수정) 박스 -->
-	                    <div class="btn_box">
+	                    <div class=" update_box">
 	                        <a id="update_btn" href=""><i class="fas fa-cog"></i></a>
 	                    </div>
 	                </div>

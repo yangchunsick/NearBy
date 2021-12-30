@@ -25,6 +25,10 @@ public interface BoardService {
 	public void updateBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response);
 
 	public void deleteBoard(Long bNo, HttpServletResponse response);
+	
+	public List<Board> searchBoardList(HttpServletRequest request);
+	
+	
 
 	/* 유저의 게시물 갯수 구하기 */
 	public int selectUserBoardsCount(HttpServletRequest request);

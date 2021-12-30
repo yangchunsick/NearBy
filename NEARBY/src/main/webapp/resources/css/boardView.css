@@ -4,7 +4,6 @@
 		padding: 0;
 		margin: 0;
 		box-sizing: border-box;	
-		width: 100%;
 	}
 	a {
 		text-decoration: none;
@@ -12,16 +11,15 @@
 		font-weight: bold;
 	}
 	
-/* header css */
-	.header {
-		width: 100%;
-		height: 106px;
-		background-color: white;
-	}
 	#home_btn { border-bottom: 8px solid #fe4662; }
 	#home_icon { color: #fe4662; }
 /* End header Css */	
 	.board_container {	width: 100%;	}
+/* body */
+    body {
+    	background-color: #fafafa;
+    }	
+	
 /* board main wrap */  
 	#mainBoardWrap {
 		width: 560px; 
@@ -152,3 +150,17 @@
    }
   .delete_update_form li a:hover {	font-weight: bold;  }
     
+    
+  .search_result_text {
+  		width: 100%;
+  		height: 30px;
+  		margin : 30px auto;
+  		padding: auto auto;
+  }
+  .search_result_wrap {
+  		text-align: center;
+  } 
+  
+  .search_result_text h3 {
+  		display: inline;
+  }  

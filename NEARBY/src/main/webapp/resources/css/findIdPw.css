@@ -44,14 +44,16 @@ input[type="text"]:focus{
     outline: none;
 }
 
-/* 이메일 확인, 인증 코드 발송, 인증 코드 확인 버튼 */
+/* 모든 버튼 */
 .input_wrap input[type="button"]{
     width: 100px; height: 45px;
     background: linear-gradient(#ff6e56,#ff3268);
     border-radius: 10px;
+    border: none;
     font-size: 12px;
     color: white;
     outline: none;
+    cursor: pointer;
 }
 
 /* ID, PW 박스 공통 레이아웃 */
@@ -132,6 +134,9 @@ input[type="text"]:focus{
 
 #updatePw{
     display: none;
+    width: 190px;
+    height: 65px;
+    margin: 30px 130px;
 }
 
 /* 비밀번호 인증 코드 박스 */

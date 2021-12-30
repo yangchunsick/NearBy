@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -140,5 +141,19 @@ public class MemberController {
 		service.changePassword(request);
 		return "redirect:/";
 	}
-
+	
+	// follow페이지로  이동
+	@GetMapping(value="followList")
+	public String followList(Model model, HttpSession session) {
+		model.addAttribute("list", service);
+		return "member/follow";
+	}
+	
+	
+	// myHome페이지로 이동
+	@GetMapping(value="myHome")
+	public String myHome(Model model, HttpSession session) {
+		model.addAttribute("list", service);
+		return "member/myHome";
+	}
 }

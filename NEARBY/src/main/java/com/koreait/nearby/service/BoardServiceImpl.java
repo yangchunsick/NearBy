@@ -251,7 +251,11 @@ public class BoardServiceImpl implements BoardService {
 		int result = boardRepository.deleteBoard(bNo);
 		message(result, response, "삭제성공.", "삭제실패", "/nearby/board/boardList");
 	}
+	
+	
 
+	
+	
 	/* 유저의 게시물 갯수 구하기 */
 	@Override
 	public int selectUserBoardsCount(HttpServletRequest request) {
@@ -362,6 +366,19 @@ public class BoardServiceImpl implements BoardService {
 			map.put("msg", e.getMessage());
 		}
 		return map;
+	}
+	
+	// 검색하기
+	@Override
+	public List<Board> searchBoardList(HttpServletRequest request) {
+		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
+		String query = request.getParameter("query");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("query", query);
+		
+		List<Board> searchResult = boardRepository.searchListBoard(map);
+
+		return searchResult;
 	}
 
 }
