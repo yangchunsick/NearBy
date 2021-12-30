@@ -1,1 +1,1 @@
-# NearBy Project 😍
+# NearBy TEAM Project
