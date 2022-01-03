@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>* NearBy 회원가입 페이지 *</title>
+<title>NearBy 회원가입 페이지</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/join.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/resources/js/join.js"></script>
@@ -15,7 +15,7 @@
     <div class="container">
     
         <div class="head">
-            <h1 class="title"><a href="#">NearBy</a></h1>
+            <h1 class="title"><a href="/nearby/">NearBy</a></h1>
         </div>
  
         <div class="join_form">
@@ -66,9 +66,6 @@
                         <input type="text" id="email" name="email">
                     </span>
                     
-                    <!-- 이메일 중복 검사  -->
-                    <input type="button" value="이메을 확인" id="emailCheck_btn">
-                    
                     <!-- 인증코드 발송 버튼-->
                     <input type="button" value="인증번호받기" id="authCode_btn">
                     <span id="email_check_msg"></span>
@@ -79,7 +76,7 @@
                             <input type="text" name="authCode" id="authCode">
                         </span>
                         <input type="button" value="인증하기" id="verify_btn">
-						<span id="verify_msg"></span>
+                  <span id="verify_msg"></span>
                     </div>
                 </div>
 
@@ -97,13 +94,13 @@
                     
                     <!-- 년도 -->
                     <label for="birthday">생년월일</label>
-						<select id="year" name="year"></select>
+                  <select id="year" name="year"></select>
 
-						<!-- 월 -->
-						<select id="month" name="month"></select>
+                  <!-- 월 -->
+                  <select id="month" name="month"></select>
 
-						<!-- 일 -->
-						<select id="day" name="day"></select>
+                  <!-- 일 -->
+                  <select id="day" name="day"></select>
                 </div>
 
                 <!-- 성별 -->
@@ -116,7 +113,7 @@
                     <!-- 남성 -->
                     <input type="radio" name="gender" value="m" id="male">
                     <label id="m"  for="male">남성</label>
-	
+   
                     <!-- 여성 -->
                     <input type="radio" name="gender" value="f" id="female">
                     <label id="f" for="female">여성</label>
@@ -125,13 +122,12 @@
 
                 <div class="join_btn_wrap" id="join_btn_wrap">
                     <button class="btn btn-primary">회원가입</button>                 
-                    <input type="reset" value="다시작성" id="reset_btn" class="reset">                
                 </div>                
             </form>
         </div>
 
         <div style="text-align: center;">
-        	<span>NearBy <a href="/nearby/member/joinAgreePage">이용약관</a>어쩌구 저쩌구</span>
+           <a href="/nearby/member/serviceTerms" id="pol">NearBy 서비스 이용 약관</a>
         </div>
     </div>
 </body>

@@ -24,7 +24,7 @@ label{
     display: block;
     text-align: left;
     padding-bottom: 5px;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 input{
@@ -53,6 +53,7 @@ input:focus{
 .container{
     width: 600px;
     margin: 50px auto;
+    padding-bottom: 20px;
     background-color: white;
     border-radius: 30px;
     box-shadow: 10px 10px 20px rgba(30, 30, 30, 0.5);
@@ -180,8 +181,12 @@ input:focus{
 }
 
 .gender_box > p{
-    font-size: 18px;
+    font-size: 14px;
     padding-bottom: 5px;
+}
+
+.gender_box > label{
+	font-size: 18px;
 }
 
 .gender_box > input[type=radio]{
@@ -194,9 +199,8 @@ input:focus{
     display: inline-block;
     position: relative;
     justify-content: center;
-    width: 92px; height: 55px;
-    margin: 0 27px 0 27px;
-    line-height: 55px;
+    width: 145px; height: 45px;
+    line-height: 45px;
     border: none;
     border-radius: 10px;
     background-color: rgb(232, 240, 254);
@@ -216,17 +220,32 @@ input:focus{
 /* 회원가입 버튼 */
 .join_btn_wrap{
     width: 450px;
-    margin: 35px auto;
+    margin: 60px auto 50px auto;
 }
 
-.join_btn_wrap > input, button{
-    width: 220px; height: 50px;
-    background: linear-gradient(#ff6e56,#ff3268);
+.join_btn_wrap > button{
+	display: block;
+    width: 450px; height: 50px;
+    margin: 0 auto;
+    background: #fe4662;;
     border: none;
     border-radius: 10px;
-    margin-bottom: 40px;
+    font-size: 18px;
     font-weight: 900;
     color: white;
+}
+
+.join_btn_wrap > button:hover{
+	box-shadow: 0 0 30px rgb(255, 110, 132, 0.5);
+}
+
+#pol{
+	color: #c6bcbc;
+	font-weight: 100;
+}
+
+#pol:hover{
+	font-weight: 900;
 }
 
 /* 대표님의 요청 사항 */

@@ -19,5 +19,5 @@ public class CommonController {
 		return "redirect:boardList";
 	}
 	
-	
+
 }

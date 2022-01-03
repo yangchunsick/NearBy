@@ -5,14 +5,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>개인정보수정</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <style>
+
+
+
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+	
+	.notosanskr * { 
+	 font-family: 'Noto Sans KR', sans-serif;
+	}
+	
+	*{
+	    margin: 0; padding: 0;
+	    box-sizing: border-box;
+	 	font-family: 'Noto Sans KR', sans-serif;
+	    font-size: 14px;
+	}
 	/* 초기화 */
-	*{ margin: 0; padding: 0; box-sizing: border-box; font-size: 14px; font-weight: 600; }
 	html{ background-color: rgb(240, 242, 245); }
 	a{ text-decoration: 0; color: black; }
 	ul, ol{ list-style-type: none; }
@@ -21,7 +36,7 @@
 	    display: block;
 	    text-align: left;
 	    padding-bottom: 5px;
-	    font-size: 18px;
+	    font-size: 14px;
 	}
 	
 	input{
@@ -38,6 +53,7 @@
 	    margin: 100px auto;
 	    background-color: white;
 	    border-radius: 30px;
+	    padding-bottom: 20px;
 	}
 	
 	.head{
@@ -120,7 +136,7 @@
 	#leave_btn {
 		color:white;
 	    width: 220px; height: 50px;
-	    background: linear-gradient(#ff6e56,#ff3268);
+	    background-color: #ff3268;
 	    border-radius: 10px;
 		border: none;
 		margin: 30px 140px 20px 140px;
@@ -167,11 +183,12 @@
 		margin-left: 20px;
 	}
 	#content {
-		border-radius: 10px;
-		border: 1px solid rgba(50,50,50,0.3);
-		padding: 10px;
-		resize: none;
-		outline: none;
+	    border-radius: 10px;
+	    padding: 10px;
+	    resize: none;
+	    outline: none;
+	    background: aliceblue;
+	    border-style: none;
 	}
 		/* file box */
 	.file_box{
@@ -277,6 +294,7 @@
 	.input_box input{
 	    width: 100%; height: 45px;
 	    border-radius: 10px;
+   	    padding-left: 14px;
 	}
 	
 	/* 번호 */
@@ -289,6 +307,7 @@
 	.tel_box > span > input{
 	    width: 450px; height: 45px;
 	    border-radius: 10px;
+	    padding-left: 14px;
 	}
 	
 	/* 생년월일 */
@@ -298,11 +317,16 @@
 	}
 	
 	.birth_box > select, option{
-	    width: 120px; height: 40px;
+	    width: 135px; height: 45px;
+	    margin: 0 5px 0 5px;
 	    text-align: center;
-	    margin: 0 10px 0 0;
-	    font-size: 16px;
+	    background-color: rgb(232, 240, 254);
+	    border: none;
+	    border-radius: 10px;
+	    font-size: 18px;
+	    cursor: pointer;
 	}
+
 	
 	/* 성별 */
 	.gender_box{
@@ -311,37 +335,64 @@
 	}
 	
 	.gender_box > p{
-	    font-size: 18px;
+	    font-size: 14px;
 	    padding-bottom: 5px;
 	}
 	
 	.gender_box > label{
-	    display: inline-block;
-	    padding-bottom: 5px;
-	    margin: 0 40px 0 40px;
+		font-size: 18px;
 	}
 	
-	/* input tag 공백 */
-	.space input[type=text] {
-		padding-left:15px;
+	.gender_box > input[type=radio]{
+	    width: 0; height: 0;
+	    position: absolute;
+	    left: -9999px;
 	}
+	
+	.gender_box > input[type=radio] + label{
+	    display: inline-block;
+	    position: relative;
+	    justify-content: center;
+	    width: 145px; height: 45px;
+	    line-height: 45px;
+	    border: none;
+	    border-radius: 10px;
+	    background-color: rgb(232, 240, 254);
+	    text-align: center;
+	    cursor: pointer;
+	  }
+	
+	.gender_box > input[type=radio]:checked + label{
+	    background-color: #91c7fa;
+	    color: #FFF;
+	    border: none;
+	    box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
+	    z-index: 1;
+	  }
+
 	
 	/* 회원가입 버튼 */
 	.btn_wrap{
 	    width: 450px;
 	    margin: 35px auto;
 	}
+	.btn_wrap input[type=button]:hover {
+		box-shadow: 0 0 30px rgb(255, 110, 132, 0.5);
+	}
 	#change_pw_btn {
 		background-color: pink;
 	}
 	#change_pw_btn:hover {
-		background-color: #ff6e56;
+		background-color: #ff3268;
+		box-shadow: 0 0 30px rgb(255, 110, 132, 0.5);
+		color: white;
 	}
+
 	
 	.btn_wrap input{
 		color:white;
 	    width: 220px; height: 50px;
-	    background: linear-gradient(#ff6e56,#ff3268);
+	    background-color: #ff3268;
 	    border-radius: 10px;
 	    margin-bottom: 40px;
 		border: none; 
@@ -444,11 +495,11 @@
 			/* 확장자 점검 */
 			let origin = $(this).val(); // 첨부된 파일명
 			let extName = origin.substring(origin.lastIndexOf(".") + 1).toUpperCase(); // 확장자를 대문자로 저장 aaa.aaa.aaa.ccc 일 때, 마지막 마침표 다음 자리부터 끝까지 substring으로 가지고오고 
-			if ( $.inArray(extName, ['JPG', 'JPEG', 'GIF', 'PNG']) == -1 ) {	// 첨부된 파일이 ['JPG', 'JPEG', 'GIF', 'PNG'] 중 하나가 아니면 (-1) :: 확장자 제한 두기
+			if ( $.inArray(extName, ['JPG', 'JPEG', 'GIF', 'PNG', 'JFIF']) == -1 ) {	// 첨부된 파일이 ['JPG', 'JPEG', 'GIF', 'PNG'] 중 하나가 아니면 (-1) :: 확장자 제한 두기
 				Swal.fire({
 					icon: 'warning',
 					title: '확장자를 확인해주세요',
-					text: '첨부 가능한 이미지의 확장자는 jpg, jpeg, gif, png 입니다.'
+					text: '첨부 가능한 이미지의 확장자는 jpg, jpeg, gif, png, jfif 입니다.'
 				});
 				$(this).val(''); // 첨부 초기화
 				return;
@@ -731,13 +782,11 @@
 	// 홈으로 가기
 	function fnHomeBtn() {
 		$('#home_btn').on('click', function(){
-			if(confirm('홈으로 이동하시겠습니까?')) {
-				location.href='/nearby/board/updateProfilePicture';
-			}
+			location.href='/nearby/board/updateProfilePicture';
 		}) // End home_btn click event
 	} // End fnHomeBtn
 	
-/* ---------------------------------------	fnHomeBtn()	------------------------------------------- */
+/* ---------------------------------------	fnChangeBtn()	------------------------------------------- */
 	// 비번 바꾸기
 	function fnChangeBtn() {
 		$('#change_pw_btn').on('click', function(){
@@ -823,7 +872,7 @@
 					</div>
 				</div>
 				<div class="content_box">
-					<textarea rows="5" cols="25" placeholder="자신을 맘껏 표현해보세요" id="content" name="content"></textarea>
+					<textarea rows="5" cols="35" placeholder="자신을 맘껏 표현해보세요" id="content" name="content"></textarea>
 				</div>
 				<!-- 첨부박스 -->
 				<div class="file_box">
@@ -881,17 +930,18 @@
 	               <!-- 성별 -->
 	               <div class="gender_box">
 	                   <p id="gender_box">성별</p>
-	                   <!-- 여성 -->
-	                   <input type="radio" name="gender" value="f" id="female" checked>
-	                   <label id="f" for="female" class="pointer">여성</label>
+	                   <!-- 선택 안 함 -->
+	                   <input type="radio" name="gender" value="n" id="n" class="btns" checked>
+	                   <label id="n"  for="n" class="pointer">선택안함</label>
 	
 	                   <!-- 남성 -->
 	                   <input type="radio" name="gender" value="m" id="male" class="btns">
 	                   <label id="m"  for="male" class="pointer">남성</label>
+	                   
+	                   <!-- 여성 -->
+	                   <input type="radio" name="gender" value="f" id="female">
+	                   <label id="f" for="female" class="pointer">여성</label>
 	
-	                   <!-- 선택 안 함 -->
-	                   <input type="radio" name="gender" value="n" id="n" class="btns">
-	                   <label id="n"  for="n" class="pointer">선택안함</label>
 	               </div>
 	
 	               <!-- 비밀번호 -->

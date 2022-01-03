@@ -80,6 +80,9 @@
    .like {
    		color: pink; cursor: pointer;
    }
+  .header {
+  	margin-top: 130px;
+  }
  
 </style>
 </head>

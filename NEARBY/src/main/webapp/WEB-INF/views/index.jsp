@@ -14,6 +14,34 @@
       padding: 0;
       box-sizing: border-box;
    }  
+   a { text-decoration: none; }
+   @font-face {
+     font-family: 'S-CoreDream-5Medium';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+  }
+  /* h1에 에스코어드림 M 적용하기*/
+  .s_core_dream_m {
+    font-family: 'S-CoreDream-5Medium';
+  }
+  @font-face {
+    font-family: 'SBAggroL';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  /* p 태그 어그로체*/
+  .aggroL {
+ 	font-family:  'SBAggroL';
+  }
+ 
+   @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+  /* 로그인 관련 p태그에 나눔스퀘어적용*/
+  .nanum_square {
+    font-family: 'NanumSquare';
+   }
+
    .container {
       width: 100%;
       height: 100%;
@@ -21,12 +49,12 @@
    }  
    .header_wrap {
       z-index: 5;
-        position: fixed;
-        top: 0;
-        width:100%;
-        height: 100px;
+      position: fixed;
+      top: 0;
+      width:100%;
+      height: 100px;
       background-color: rgba( 20, 20, 20, 0.9);
-        display: flex;
+      display: flex;
    }
    .blur {
      opacity: 0.4;
@@ -58,12 +86,12 @@
       padding-top: 200px;
    }
    .btn {
-    width: 140px;
-    height: 40px;
-   border-radius: 30px;
-    border: none;
-    font-size: 20px;
-    cursor:pointer;   
+      width: 140px;
+      height: 40px;
+      border-radius: 30px;
+      border: none;
+      font-size: 20px;
+      cursor:pointer;   
    }
    .img_wrap {
       width: 100%;
@@ -71,22 +99,22 @@
       display: flex;
    }
    .left_box {
-    width: 50%;
-    height: 100%;
+      width: 50%;
+      height: 100%;
       display: flex;
       text-align: center;
    }
    
    #img1 {
-   margin: 260px auto;
-   width: 660px;
-   height: 924px;
+      margin: 260px auto;
+	  width: 660px;
+	  height: 924px;
    }
    
    #img2 {
-   margin: 360px auto;
-   width: 700px;
-   height: 770px;
+     margin: 360px auto;
+     width: 700px;
+     height: 770px;
    }
    
    .right_box {
@@ -126,7 +154,7 @@
         margin-top: 40px;
       border-radius: 30px;
    }
-     #login_btn2:hover {
+   #login_btn2:hover {
       background-color: white;
       color: black;
    }
@@ -134,7 +162,6 @@
         margin-top: 44px;
         color: black;
    }
-   
    #join_btn2 {
        margin-top: 40px;
        background-color: rgb(43,26,27);
@@ -231,14 +258,11 @@
    #logo2 {
       width: 280px;
       margin-top :40px;
-      margin-bottom: 20px;
-      
+      margin-bottom: 20px;      
    }
-
    #move_area {
      text-align: center;
-     margin-top: 30px;
-     
+     margin-top: 30px; 
    }
    #move_area i {
      display: inline-block;
@@ -252,7 +276,8 @@
      color: rgb(30, 30, 30);   
      font-weight: bold;
    }
-   #join_btn1:hover:nth-of-type(1)  {
+
+   #join_btn1:hover  {
      color: rgb(30, 30, 30);   
      font-weight: bold;
    }
@@ -328,7 +353,7 @@
       
       <main class="main" >
          <div class="main_box1">
-            <h1>당신 근처에 일어나는 다양한 일들 알고싶어?</h1>
+            <h1 class="s_core_dream_m">당신 근처에 일어나는 다양한 일들 알고싶어?</h1>
             <input type="button" value="시작하기" id="login_btn2" class="btn login_btn">
          </div>
       <div class="main_box2">
@@ -338,17 +363,17 @@
                </div>
                <div class="right_box">
                   <img id="app_icon" src="resources/image/app_icon.png">
-                  <h1>나도 모르는 사이 내 주변에 이런 일이? </h1>
-                  <p>인싸들만 아는 정보들? 걱정 NO NO!</p>
-                  <p>NEARBY 친구들이 알아서 알려줄거야</p>
+                  <h1 class="s_core_dream_m">나도 모르는 사이 내 주변에 이런 일이? </h1>
+                  <p class="aggroL">인싸들만 아는 정보들? 걱정 NO NO!</p>
+                  <p class="aggroL">NEARBY 친구들이 알아서 알려줄거야</p>
                </div>
             </div>
             <div class="img_wrap">
                <div class="right_box">
                   <img id="app_icon" src="resources/image/app_icon.png">
-                  <h1>오늘 저녁 뭐 먹지? </h1>
-                  <p>주변에 인기있는 핫플레이스 맛집 검색까지!</p>
-                  <p>#홍대맛집 #분위기좋은바</p>
+                  <h1 class="s_core_dream_m">오늘 저녁 뭐 먹지? </h1>
+                  <p class="aggroL">주변에 인기있는 핫플레이스 맛집 검색까지!</p>
+                  <p class="aggroL">#홍대맛집 #분위기좋은바</p>
                </div>
                <div class="left_box">
                   <img id="img2" src="resources/image/board2.png">
@@ -359,8 +384,8 @@
                            
          </div>
          <div class="main_box1 main_box3">
-            <h1>지금 당장 NEARBY 시작하기</h1>
-            <a href="/nearby/member/join"><input type="button" value="간편회원가입" id="join_btn2" class="btn join_btn"></a>
+            <h1 class="s_core_dream_m">지금 당장 NEARBY 시작하기</h1>
+            <a href="/nearby/member/memberJoin"><input type="button" class="nanum_square btn" value="간편회원가입" id="join_btn2" class="btn join_btn"></a>
          </div>
       </main>
       <!---------------------------------------- 로그인 폼(숨김)---------------------------------------> 
@@ -372,22 +397,22 @@
                   <img id="logo2" src="resources/image/logo_color.png" width="200px">
                </div>
                <div class="input_wrap">
-                  <p>아이디</p>
+                  <p class="nanum_square">아이디</p>
                   <div class="input_box">
                      <input type="text" name="id" id="id">
                   </div>
                </div>   
                <div class="input_wrap">
-                  <p>비밀번호<p>
+                  <p class="nanum_square">비밀번호<p>
                   <div class="input_box">
                      <input type="text" name="pw" id="pw">
                   </div>
                   
                </div>            
-                  <button id="login_submit">로그인</button>
+                  <button class="nanum_square" id="login_submit">로그인</button>
                         <div id="move_area">
-                        <a id="find_btn1" class="join_btn1" href="/nearby/member/findIdPw"><i class="fas fa-key"></i>아이디/비밀번호 찾기</a><br><br>
-                        <a id="join_btn1" class="join_btn1" href="/nearby/member/join"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
+                        <a id="find_btn1" class="find_btn1" href="/nearby/member/findIdPw"><i class="fas fa-key"></i>아이디/비밀번호 찾기</a><br><br>
+                        <a id="join_btn1" class="join_btn1" href="/nearby/member/memberJoin"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
                     </div>
              </form>   
       

@@ -62,7 +62,7 @@
 			let extName = origin.substring(origin.lastIndexOf(".")+1 ).toUpperCase();     // 확장자 대문자로 저장 
 			
 			// 확장자 정보
-			if( $.inArray(extName, ["JPG", "PNG", "JPEG", "GIF","MP4", "MPEG", "AVI", "MOV", "M4V"])  == -1 )  {  // 첨부된 파일이 ["JPG", "PNG", "JPEC", "GIF"] 중 하나가 아니면
+			if( $.inArray(extName, ["JPG", "PNG", "JPEG", "GIF","MP4", "MPEG", "AVI", "MOV", "M4V", "JFIF"])  == -1 )  {  // 첨부된 파일이 ["JPG", "PNG", "JPEC", "GIF"] 중 하나가 아니면
 			 	alert('업로드 할 수 없는 확장자입니다.');
 				$(this).val('');
 				return;
@@ -82,7 +82,7 @@
 	// file 클릭하고 변경시 이미지 및 비디오 변경가능하게 하는 함수
 	function readURL(input) {
 		if (input.files && input.files[0]) {
-			let image = ["JPG", "PNG", "JPEG", "GIF",];
+			let image = ["JPG", "PNG", "JPEG", "GIF","JFIF"];
 			let video = ["MP4", "MPEG", "AVI", "MOV", "M4V"];
 			var reader = new FileReader();
 			reader.onload = function(e) {
@@ -110,7 +110,7 @@
 	}
 	
 	
-
+   // 맵 메인 함수
 	function map() {
 		$("#map").css('display', 'block');
 		
@@ -120,7 +120,7 @@
 			  mapTypeControl: true
 			});
 
-		 map.setOptions({ //모든 지도 컨트롤 숨기기
+		 map.setOptions({ //모든 지도 컨트롤 숨기기(확대 축소 일반지도 위성지도)
 	            scaleControl: false,
 	            logoControl: false,
 	            mapDataControl: false,
@@ -138,8 +138,7 @@
 			    anchorSize: new naver.maps.Size(0, 0),
 			    display:  "none"
 			});
-
-			
+	
 			var marker = new naver.maps.Marker({
 			    position: new naver.maps.LatLng(37.55415109162072, 126.93582461156707),
 			    map: map
@@ -150,10 +149,9 @@
 			});
 			
 			map.setCursor('marker');
+	
 
-			
-
-	 // 포인트(클릭)
+	 // 클릭 포인트 함수(위도경도)
 	function searchCoordinateToAddress(latlng) {
 
 		  infoWindow.close();
@@ -190,7 +188,7 @@
 		    	var addressSum = "";
 		    	
 		    	if( typeof sub[i] == "undefined" || sub[i] == null || sub[i] == ""  ){
-		    		console.log("여기는 널이다 : " + i);
+		    		//console.log("널 : " + i);
 		    		sub[i] = " ";
 		    		addressSum += sub[i];
 		            document.insertBoard_Form.location.value = addressSum;
@@ -200,9 +198,6 @@
 		    	}
 		    }
 		    document.insertBoard_Form.addr_remove.value ='';
-
-		    
-		    
 		    
 		    if (address.jibunAddress !== '') {
 		        htmlAddresses.push(address.jibunAddress);
@@ -221,7 +216,7 @@
 		  });
 		}
 	 
-	 //검색했을 때
+	 //검색했을 때(주소)
 	function searchAddressToCoordinate(address) {
 		  naver.maps.Service.geocode({
 		    query: address
@@ -241,23 +236,19 @@
 		    var htmlAddresses = [],
 		      item = response.v2.addresses[0],
 		      point = new naver.maps.Point(item.x, item.y);
-		    console.log(item);	  // item 객체에 지번, 도로명, 위도, 경도 필드존재함
+		    //console.log(item);	  // item 객체에 지번, 도로명, 위도, 경도 필드존재함
 		    document.insertBoard_Form.location.value = item.jibunAddress;
 		 //   console.log(item.jibunAddress);
 		   // var sub = item.jibunAddress.split(' ');
-		   
-		    /* var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
-		    document.insertBoard_Form.location.value = nearbyAddress;
-		    console.log(nearbyAddress ) */
 	
 		    var sub = item.jibunAddress.split(' ');
 		    var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
 		    for(var i=0; i<3; i++){
 		    	console.log(sub[i]);
 		    	var addressSum = "";
-		    	
+		    	// undefined가 나오는 부분은 ""로 처리함
 		    	if( typeof sub[i] == "undefined" || sub[i] == null || sub[i] == ""  ){
-		    		console.log("여기는 널이다 : " + i);
+		    	//	console.log("널 : " + i);
 		    		sub[i] = " ";
 		    		addressSum += sub[i];
 		            document.insertBoard_Form.location.value = addressSum;
@@ -266,11 +257,6 @@
 		    	}
 		    }
 		    document.insertBoard_Form.addr_remove.value ='';
-		    
-		    
-		    
-		    
-		    
 		    
          // 주소 검색 할 때 item.x   item.y
 		    if (item.jibunAddress) {
@@ -285,10 +271,9 @@
 			
 		    map.setCenter(point);
 		    infoWindow.open(map, point);
-		    
 		  });
 		}
-	
+	// 맵의 초기화 (초기화는 학원주소로 설정(노고산동))
 	function initGeocoder() {
 		  if (!map.isStyleMapReady) {
 		    return;
@@ -297,7 +282,6 @@
 		  map.addListener('click', function(e) {
 		    searchCoordinateToAddress(e.coord);
 		   // alert(e.coord.lat() + ', ' + e.coord.lng());  // 클릭하면 위도경도
-	
 		  });
 
 		  $('#address').on('keydown', function(e) {
@@ -345,10 +329,9 @@
 		    	   <a href="/nearby/board/selectBoard" id="board_writer">${loginUser.id}</a>
 		    	   	<input type="hidden" name="id" class="id" value="${loginUser.id}" >
 		 </span>
-		<i class="fas fa-cog setting"></i>
 			
 	     <div class="myMap">
-		     <span>내 위치 > <i class="fas fa-map-marker-alt" style="color:pink; font-size:15px;" onclick="map()"></i>
+		     <span onclick="map()" id="my_location">내 위치   <i class="fas fa-map-marker-alt" onclick="map()"></i>
 		     	<input type="text" name="location" class="location" value=""  readonly="readonly"  >
 		     </span>
 	     </div>
@@ -365,10 +348,10 @@
 	    <input type="file" name="file" id="modify_file" style="display:none;" onchange="readURL(this);">
 		<div id="img_wrap" >
 			  <label for="modify_file" id="file_label" class="file_label"> 
-			  <i class="fas fa-photo-video" id="upload" style="color:pink; font-size:70px;"></i>
+			  <i class="fas fa-photo-video" id="upload" ></i>
 			       사진 / 동영상을 올려주세요   </label>
 			      <div class="preview">
-			           <img id="previewImg" />
+			           <img id="previewImg" width="320px" />
  				       <video id="previewVideo" controls></video>
  				   </div>
 		</div>

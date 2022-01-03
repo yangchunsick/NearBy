@@ -27,19 +27,31 @@
 	</div>
 	<div class="mid_box">
 		<ul class="btn_box">
-			<li id="home_btn" class="boxes"><a href="/nearby/board/boardList"><i id="home_icon" class="fas fa-home"></i></a></li>
-			<li id="chat_btn" class="boxes"><a href="#"><i id="chat_icon" class="fas fa-comments"></i></a></li>
-			<li id="myhome_btn" class="boxes"><a href="/nearby/board/myHome"><i id="myhome_icon" class="fas fa-user-alt"></i></a></li>
-			<li id="insert_btn" class="boxes"><a href="/nearby/board/insertPage"><i id="insert_icon" class="far fa-plus-square"></i></a></li>
+			<li id="home_btn" ><a class="boxes" href="/nearby/board/boardList"><i id="home_icon" class="fas fa-home"></i></a></li>
+			<li id="chat_btn"><a class="boxes" href="/nearby/member/followList"><i id="chat_icon" class="fas fa-comments"></i></a></li>
+			<li id="myhome_btn"><a class="boxes" href="/nearby/board/myHome"><i id="myhome_icon" class="fas fa-user-alt"></i></a></li>
+			<li id="insert_btn" ><a class="boxes" href="/nearby/board/insertPage"><i id="insert_icon" class="far fa-plus-square"></i></a></li>
 		</ul>
+		<div class="text_icon_box">
+			<a href="/nearby/board/boardList">홈</a>
+		</div>
+		<div class="text_icon_box">
+			<a href="/nearby/board/boardList">친구</a>
+		</div>
+		<div class="text_icon_box">
+			<a href="/nearby/board/boardList">마이홈</a>
+		</div>
+		<div class="text_icon_box">
+			<a href="/nearby/board/boardList">사진/ 동영상 게시</a>
+		</div>
 	</div>
 	<div class="right_box">
-		<form class="main_search">
-			<div class="search_box">
-				<input type=text id="search" name="search">
-				<div id="search_icon">
+		<form class="main_search" action="/nearby/board/searchBoardList">
+			<div class="search_box pointer">
+				<input type=text id="query" name="query">
+				<button id="search_icon">
 					<i class="fas fa-search"></i>
-				</div>
+				</button>
 			</div>
 		</form>
 		<div id="profile_box">
@@ -52,15 +64,16 @@
           </div>
 		<div id="profile_menu" class="profile_no">
 			<ul>
-				<li><a id="profile_menu_list1" href="#">${loginUser.id}</a></li>
-   	   			<li><a id="profile_menu_list2" href="/nearby/member/mypage">프로필수정</a></li>
+				<li>
+					<a id="profile_menu_list1" href="#">${loginUser.id}</a>
+					<p>${loginUser.name}님<p>
+					<p>${loginUser.email}</p>	
+					
+				</li>
+   	   			<li><a id="profile_menu_list2" href="/nearby/member/mypage">계정 관리</a></li>
    	   			<li><a id="profile_menu_list3" href="/nearby/member/logout">로그아웃</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 
-
-
-
-<!--   <div id="search_submit"><i class="fas fa-search"></i></div>  -->

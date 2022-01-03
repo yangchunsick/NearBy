@@ -6,15 +6,16 @@ public class Member {
 	private Long mNo;
 	private String id, pw, email, birthday, gender, name, phone;
 	private int state;
-	private Profile profile;
 	private Date mCreated;
-
-	// constructor
-	public Member() {
+	private Profile profile;
+    private Likes likes;
+	 
+    public Member() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public Member(Long mNo, String id, String pw, String email, String birthday, String gender, String name,
-			String phone, int state, Profile profile, Date mCreated) {
+			String phone, int state, Date mCreated, Profile profile, Likes likes) {
 		super();
 		this.mNo = mNo;
 		this.id = id;
@@ -25,8 +26,9 @@ public class Member {
 		this.name = name;
 		this.phone = phone;
 		this.state = state;
-		this.profile = profile;
 		this.mCreated = mCreated;
+		this.profile = profile;
+		this.likes = likes;
 	}
 
 	public Long getmNo() {
@@ -101,14 +103,6 @@ public class Member {
 		this.state = state;
 	}
 
-	public Profile getProfile() {
-		return profile;
-	}
-
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
-
 	public Date getmCreated() {
 		return mCreated;
 	}
@@ -117,13 +111,28 @@ public class Member {
 		this.mCreated = mCreated;
 	}
 
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	public Likes getLikes() {
+		return likes;
+	}
+
+	public void setLikes(Likes likes) {
+		this.likes = likes;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [mNo=" + mNo + ", id=" + id + ", pw=" + pw + ", email=" + email + ", birthday=" + birthday
-				+ ", gender=" + gender + ", name=" + name + ", phone=" + phone + ", state=" + state + ", profile="
-				+ profile + ", mCreated=" + mCreated + "]";
+				+ ", gender=" + gender + ", name=" + name + ", phone=" + phone + ", state=" + state + ", mCreated="
+				+ mCreated + ", profile=" + profile + ", likes=" + likes + "]";
 	}
-	
-	
+    
 
 }

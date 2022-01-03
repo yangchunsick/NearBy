@@ -1,3 +1,7 @@
+/**
+ * 
+ */
+ 
  $(document).ready(function(){
 	   fnIdCheck();
 	   fnPwCheck();
@@ -145,7 +149,7 @@
 
 	/* 이메일 */
 	function fnEmailCheck(){
-	    $('#email').on('blur', function(){
+	    $('#email').on('keyup blur', function(){
 	        if(regEmail.test($(this).val()) == false){
 	            $('#authCode_btn').css('disply', 'none');
 	            $('#email_check_msg').text('이메일을 다시 확인 해주세요.')
@@ -154,50 +158,15 @@
 	            email_result = false;
 	        }else{
 				$('#email').css('width', '337.5px');
-				$('#emailCheck_btn').css('display', 'inline-block');
-	            $('#email_check_msg').text('')				
+				$('#authCode').css('width', '337.5px');
+	            $('#authCode_btn').css('display', 'inline-block');
+	            $('#email_check_msg').text('')
 	            email_result = true;
 	        }
-	    });
-		
-			// 이메일 중복 검사 버튼
-			/*
-				이메일 확인 버튼을 눌렀을 때
-				중복된 이메일이 있는지 확인하고
-				없을 경우 이메일 확인 버튼이 없어지고
-				인증 코드 발송 버튼이 생김
-			*/
-			$('#emailCheck_btn').click(function(){
-				$.ajax({
-					url: '/nearby/member/selectByEmail',
-					type: 'post',
-					data: 'email=' + $('#email').val(),
-					dataType: 'json',
-					success: function(map){
-						if(map.result == null){
-							$('#emailCheck_btn').css('display', 'none');
-							$('#authCode').css('width', '337.5px');
-							$('#authCode_btn').css('display', 'inline-block');
-							$('#email_check_msg').text('사용 가능한 이메일 입니다.')
-												.addClass('pass_msg')
-												.removeClass('error_msg');
-							email_result = true;
-						}else if(map.result != null){
-							$('#email_check_msg').text('중복된 이메일이 있습니다.')
-												 .removeClass('pass_msg')
-												 .addClass('error_msg');
-							email_result = false;
-						}						
-					},
-					error: function(){
-						alert('이메일 확인 오류');
-						email_result = false;
-					}
-				}); // AJAX
-			});
-
-			$('#authCode_btn').click(function(){
-				$('#authCode_box').css('display', 'inline-block');
+	    });	        
+	        // 인증코드 전송 버튼
+	        $('#authCode_btn').click(function(){
+			 	$('#authCode_box').css('display', 'inline-block');
 				$.ajax({
 					url: '/nearby/member/sendAuthCode',
 					type: 'post',
@@ -209,13 +178,10 @@
 						fnVerifyAuthCode(map.authCode);
 					},
 					error: function(){
-						alert('이메일 인증코드 발송 실패');
+						alert('인증코드 전송 실패');
 					}
-				}); // 인증 AJAX AJAX
-			});	
-			
-
-
+				}); // AJAX          
+			});
 	}// end fnEmailCheck
 
 	/* 인증코드 검증 */
@@ -233,6 +199,8 @@
 		});
 	}// fnVerifyAuthCode
 	
+
+
 	/* 휴대폰 번호 */
 	function fnPhoneCheck(){
 	    $('#phone').on('keyup blur', function(){
@@ -277,6 +245,16 @@
 		     day += '<option value="'+i+'">'+i+'</option>';
 		 }
 	      $('#day').html(day);
+		 /*
+		  if(){
+			  alert('생년월일을 입력 해주세요');
+			  birthday_result = false;
+			  return;
+		  }else{
+			  alert($('#year').val() + $('#month').val() + $('#day').val() );
+			  birthday_result = true;
+		  }
+		  */
 	} // end fnPhoneCheck
 
 	/*
@@ -309,19 +287,11 @@
 	            event.preventDefault();
 				alert('이메일 인증이 필요 합니다.');
 	            return false;
-	        }else if($('#year').val() == ''){
+	        }else if( $('#year').val() == '' && $('#month').val() == '' && $('#day').val() == '' ){
 				alert('생년월일을 입력 해주세요.');
 				event.preventDefault();
 				return false;
-			}else if($('#month').val() == ''){
-	            event.preventDefault();
-			   alert('생년월일을 입력 해주세요.');
-	            return false;
-	        }else if($('#day').val() == ''){
-	            event.preventDefault();
-			   alert('생년월일을 입력 해주세요.');
-	            return false;
-	        }else if( phone_result == false ){
+			}else if( phone_result == false ){
 	            event.preventDefault();
 			   alert('휴대폰 번호를 입력 해주세요.');
 	            return false;

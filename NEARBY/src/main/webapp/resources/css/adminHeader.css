@@ -1,25 +1,11 @@
 @charset "UTF-8";
-	@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
-	
-	
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-
-.notosanskr * { 
- font-family: 'Noto Sans KR', sans-serif;
-}
-
-	
 	
 	*{
 	    margin: 0;  padding: 0;
 	    box-sizing: border-box;
-		font-family: 'Noto Sans KR', sans-serif;
-		font-size:14px;
 	}
 	a {
-		text-decoration: none;
-		color: black;
-			
+		text-decoration: none;	
 	}
 	
 	ul li {
@@ -40,7 +26,7 @@
 	}
 	
 	.left_box {
-		width: 400px;
+		width: 360px;
 		height: 100%;
 	}
 	
@@ -48,11 +34,12 @@
         display: inline-flex;
         flex-direction: row;
         margin: 0 auto;
+        padding-right: 70px;
 	}
 	
 	.right_box {
 		position: relative;
-		width: 450px;
+		width: 40%;
 		height: 100%;
 		display: flex;
 	}
@@ -60,7 +47,7 @@
     .left_box > a{
         display: block;
         margin: 10px 0 10px 70px;
-        width: 230px; height: 85px;
+        width: 200px; height: 85px;
         background-size: 219px 85px;
         background-repeat: no-repeat;
         background-image: url(../image/logo_color.png);
@@ -72,24 +59,22 @@
 		margin-top: 12px;
 		margin-left: 50px;
 	}
-	.text_icon_box {
-		display: none;
-	}
-	
-
 	
     .btn_box{
         display: flex;
         text-align: center;
         margin: 0 auto;
-        width: 750px;
+        width: 650px;
     }
     
+    #home_btn:hover, #myhome_btn:hover, #chat_btn:hover, #insert_btn:hover, #admin_btn:hover{
+    	border-bottom: 8px solid #fe4662;
+    }
 
 	.btn_box .boxes {
         display: inline-block;
         margin: 0 auto;
-        width: 230px; height: 100%;
+        width: 200px; height: 100%;
 
 	}
 	
@@ -116,6 +101,7 @@
     }
     
     .boxes:hover {
+    	border-bottom: 8px solid #fe4662;
     	background-color: rgba(240,242,245,0.7);
     	border-radius: 4px;
     }
@@ -132,17 +118,43 @@
         line-height: 20px;
         background-color: #e8f0fe;
    }
+   .m_search_box {	width: 340px;   }
     .search_box > input {
 		border: none;
         outline: none;
-        width: 220px;
+        width: 200px;
         height: 30px;
         line-height: 30px;
         margin-top: 8px;
         margin-left: 18px;
         background-color: #e8f0fe;        
    }
-   
+    .search_box > select {
+
+		border: none;
+        outline: none;
+        width: 120px;
+        height: 30px;
+        line-height: 30px;
+        margin-top: 8px;
+        margin-left: 18px;
+        background-color: #e8f0fe;        
+   }
+    .search_box > select:focus {
+    	border: none;
+        outline: none;
+    }
+    .search_box option {
+		border: none;
+        outline: none;
+        width: 120px;
+        height: 30px;
+        line-height: 30px;
+        margin-top: 8px;
+        margin-left: 18px;
+        background-color: #e8f0fe;        
+        color: #6f7070
+   }
     #search_icon {
     	width: 40px;
     	height: 40px;
@@ -151,6 +163,7 @@
     	margin-right: 16px;
     	border: none;
     	background-color: #e8f0fe;
+    	
     }
     
     #search_icon > i {
@@ -161,7 +174,7 @@
     }
  	#profile_box {
          position: absolute;
-         left : 364px;
+         left : 390px;
          top: 20px;
          width: 60px;
          height: 60px;
@@ -177,9 +190,9 @@
  		z-index: 6000;
    		position: absolute;
    		top: 102px;
-   		left: 330px;
-   	    width: 140px;
-   	    height: 124px;
+   		left: 360px;
+   	    width: 110px;
+   	    height: 100px;
    	    border: 1px solid rgb(240,242,245);
    	    border-radius: 3px;
    	    background-color: white;
@@ -194,10 +207,6 @@
    	    font-weight: lighter;
 	    border-bottom: 1px solid rgb(240,242,245); 
    }
-    #profile_menu p {
-    	font-size: 14px;
-    	color: rgb(50,50,50);
-    }
    
    .profile_no {
    		display: none;
@@ -206,18 +215,8 @@
    		display: block;
    }
    #profile_menu_list1, #profile_menu_list2, #profile_menu_list3 {
-   		font-size: 16px;
    		font-weight: normal;
-   		color: black;
    }
    
-   #profile_menu_list1 {
-   		font-weight: bold;
-   		font-size: 18px;
-   }
-   
-   .pointer:hover {
-   		cursor: pointer;
-   }
    
    

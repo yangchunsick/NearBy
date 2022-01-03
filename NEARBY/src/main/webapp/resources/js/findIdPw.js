@@ -43,7 +43,7 @@ function fnEmailCheck(){
             $('#email_check_msg').text('')
             email_result = true;
         }
-    });	        
+    });           
 
 
     email_result = true;
@@ -73,8 +73,8 @@ function fnEmailCheck(){
 }// end fnEmailCheck
 
 function fnSendAuthCode(id){
-	$("#authCode_box").css("display", 'inline-block');
-	  $.ajax({
+   $("#authCode_box").css("display", 'inline-block');
+     $.ajax({
         url: '/nearby/member/sendAuthCode',
         type: 'post',
         data: 'email=' + $('#email').val(),
@@ -91,15 +91,15 @@ function fnSendAuthCode(id){
 }
 
 function fnVerifyAuthCode(authCode, id){
-	$('#verify_btn').click(function(){
-		if($('#authCode').val() == authCode){
-			$('#verify_msg').html('회원님의 아이디는 <strong>'+ id +'</strong> 입니다.').addClass('pass_msg');
-			authCodePass = true;
-		}else{
-			alert('인증 실패');
-			authCodePass = false;
-		}
-	});
+   $('#verify_btn').click(function(){
+      if($('#authCode').val() == authCode){
+         $('#verify_msg').html('회원님의 아이디는 <strong>'+ id +'</strong> 입니다.').addClass('pass_msg');
+         authCodePass = true;
+      }else{
+         alert('인증 실패');
+         authCodePass = false;
+      }
+   });
 }// fnVerifyAuthCode
 
 
@@ -246,11 +246,11 @@ function fnFindPw(){
                 dataType: 'json',
                 success: function(map){
                     if (map.result > 0) {
-						Swal.fire({
-							icon: 'success',
-							title: '성공',
-							text: '이메일로 임시 비밀번호를 전송 했습니다.',
-						})
+                  Swal.fire({
+                     icon: 'success',
+                     title: '성공',
+                     text: '이메일로 임시 비밀번호를 전송 했습니다.',
+                  })
                         /*alert('이메일로 임시 비밀번호를 전송 했습니다.');*/
                         location.href='/nearby/';
                     } else {

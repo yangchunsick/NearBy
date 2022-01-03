@@ -2,6 +2,7 @@ package com.koreait.nearby.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,121 +23,123 @@ import com.koreait.nearby.service.MemberService;
 @Controller
 @RequestMapping("member")
 public class MemberController {
-
+	
 	private MemberService service;
-
+	
 	@Autowired
 	public MemberController(MemberService service) {
 		super();
 		this.service = service;
 	}
-
-	/* 회원가입 화면 이동 */
-	@GetMapping("join")
-	public String join() {
+	
+	
+    // 회원가입하러 가기
+	@GetMapping("memberJoin")
+	public String memberJoin() {
 		return "member/join";
 	}
-
-	/* 회원가입 */
+	
+	// 회원가입하기 
 	@PostMapping("insertMember")
 	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
-		service.insertMember(request, response);
+	      service.joinMember(request, response);
 	}
-
-	/* 아이디 중복 체크 */
-	@PostMapping(value = "idCheck", produces = "application/json; charset=UTF-8")
-	@ResponseBody
-	public Map<String, Object> idCheck(@RequestParam("id") String id) {
-		return service.idCheck(id);
-	}
-
-	/* 아이디 비번 찾으러 가기 */
+	
+	// 아이디 비번 찾으러 가기 
 	@GetMapping("findIdPw")
 	public String findIdPw() {
 		return "member/findIdPw";
 	}
-
-	/* 비밀번호 찾기 */
+	
+	/* 비밀번호 찾기 / 임시 비밀번호 전송 */
 	@PostMapping(value = "findPw", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> findPw(@RequestParam("email") String email) {
 		System.out.println(email.toString());
 		Map<String, Object> map = service.findPw(email);
 		return map;
-	}
-
-	// 이메일 중복확인 + 아이디 찾기
+	}	
+	
+	
+    // 아이디 중복확인하기 
 	@ResponseBody
-	@PostMapping(value = "selectByEmail", produces = "application/json; charset=UTF-8")
-	public Map<String, Object> selectByEmail(@RequestParam String email) {
+	@PostMapping(value="idCheck", produces ="application/json; charset=UTF-8" )
+	public Map<String,Object> idCheck(@RequestParam String id) {
+		return service.idCheck(id);
+	}
+	
+	// 이메일 중복확인 + 아이디 찾기 
+	@ResponseBody
+	@PostMapping(value="selectByEmail", produces ="application/json; charset=UTF-8" )
+	public Map<String,Object> selectByEmail(@RequestParam String email) {
 		return service.selectByEmail(email);
 	}
-
-	/* 이메일 인증코드 발송 */
-	@PostMapping(value = "sendAuthCode", produces = "application/json; charset=UTF-8")
+	
+	// 이메일 인증 
+	@PostMapping(value="sendAuthCode", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> sendAuthCode(@RequestParam("email") String email) {
 		return service.sendAuthCode(email);
 	}
-
+	
 	// 로그인
-	@PostMapping(value = "login")
+	@PostMapping(value="login")
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		service.login(request, response);
 	}
-
+	
 	// 로그아웃
-	@GetMapping(value = "logout")
+	@GetMapping(value="logout")
 	public String logout(HttpSession session) {
 		if (session.getAttribute("loginUser") != null) {
 			session.invalidate();
 		}
 		return "redirect:/";
 	}
-
+		
 	// 마이페이지 수정으로 가기
 	@GetMapping("mypage")
 	public String mypage() {
 		return "member/mypage";
 	}
-
-	// 회원정보 업데이트하기 mapping : member/updateMember method memberInfo
+	
+	// 회원정보 업데이트하기 mapping : member/updateMember  method memberInfo
 	@ResponseBody
-	@PostMapping(value = "modifyMember", produces = "application/json; charset=UTF-8")
+	@PostMapping(value="modifyMember", produces ="application/json; charset=UTF-8")
 	public Map<String, Object> modifyMember(@RequestBody Member member, HttpServletRequest request) {
 		System.out.println(member);
 		return service.modifyMember(member, request);
 	}
-
-	// 회원정보 select /nearby/member/memberInfo'
-	@PostMapping(value = "memberInfo", produces = "application/json; charset=UTF-8") // method 구현해야 함.
+	
+	// 회원정보 select  /nearby/member/memberInfo'
+	@PostMapping(value="memberInfo", produces="application/json; charset=UTF-8")   // method 구현해야 함.
 	@ResponseBody
 	public Map<String, Object> memberInfo(HttpServletRequest request) {
 		return service.memberInfo(request);
 	}
-
+	
 	// 회원 탈퇴
-	@PostMapping(value = "leaveMember", produces = "application/json; charset=UTF-8")
+	@PostMapping(value="leaveMember", produces="application/json; charset=UTF-8")
 	public String leaveMember(@RequestParam("mNo") Long mNo) {
 		service.leaveMember(mNo);
 		return "redirect:/";
 	}
-
+	
 	// 비밀번호 변경 페이지로 이동
-	@GetMapping(value = "changePasswordPage")
+	@GetMapping(value="changePasswordPage")
 	public String findPasswordPage() {
 		return "member/changePw";
 	}
-
+	
 	// 비밀번호 확인
-	@PostMapping(value = "checkPassword", produces = "application/json; charset=UTF-8")
+	@PostMapping(value="checkPassword", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> checkPassword(HttpServletRequest request) {
+	public Map<String, Object> checkPassword(HttpServletRequest request){
 		return service.checkPassword(request);
 	}
-
+	
 	// 찐 비밀번호 변경
-	@PostMapping(value = "changePassword")
+	@PostMapping(value="changePassword")
 	public String changePassword(HttpServletRequest request) {
 		service.changePassword(request);
 		return "redirect:/";
@@ -149,11 +152,42 @@ public class MemberController {
 		return "member/follow";
 	}
 	
-	
-	// myHome페이지로 이동
-	@GetMapping(value="myHome")
-	public String myHome(Model model, HttpSession session) {
-		model.addAttribute("list", service);
-		return "member/myHome";
+	/* 박종진 */
+	// 이용약관
+	@GetMapping("serviceTerms")
+	public String terms(){
+		return "member/terms";
 	}
+	
+	// 로그인 성공시 게시판으로 이동 (세션 저장)
+//	@PostMapping(value = "login")
+//	public String login(HttpServletRequest request, HttpServletResponse response, String id) {
+//		
+//		// 쿠키 아이디 기억하기
+//		// 체크 안하면 널
+//		String checkId = request.getParameter("checkId");
+//		
+//		// 체크 하면 아이디 를 저장한다.
+//		if (checkId != null) {
+//			Cookie cookie = new Cookie("id", id);
+//			cookie.setMaxAge(5 * 24 * 60 * 60); // 5일동안 아이디 기억 유지
+//			response.addCookie(cookie);
+//		} else {	// 체크 안하면 아이디를 쿠킹 삭제한다.
+//			Cookie[] cookies = request.getCookies();
+//			for (Cookie cookie : cookies) {
+//				if (cookie.getName().equals("id")) {
+//					cookie.setMaxAge(0);	// 아이디 기억 유지 안함!
+//					response.addCookie(cookie);
+//					break;
+//				}
+//			}
+//		}
+//		
+//		
+//		service.login(request, response);
+//		return	null;
+//	}
+	
+	
+	
 }
