@@ -13,15 +13,17 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/follow.css">
 
 <script type="text/javascript">
-
+	
+	
+	
 </script>
 <style>
+.bbb {
+	display: block;
+	height: 2000px;
+}
 
 
-
-
- 
- 
 </style>
 </head>
 <body>
@@ -29,21 +31,21 @@
 		<jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
 	</header>
 	
-	<div class="follow_container">
-			<h1> ${loginUser.id} 님</h1>
-			<div class="follow">	
-		   	   	  <div id="profile_box2">
-		   	   	 	<c:if test="${empty loginUser.profile.pSaved}">
-		   	   	 			<h1>없을때</h1>
-							<img id="profile_img2" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg">
-					</c:if>
-					<c:if test="${not empty loginUser.profile.pSaved}">
-							<img id="profile_img2" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
-							<h1>있을때</h1>
-					</c:if>
-		          </div>
-			</div>
-	</div>
+ <h1>${loginUser.id}님의 팔로워들</h1>
+
+	<a href="/nearby/board/insertPage">새 갤러리 작성</a>
+	<a href="/nearby/member/logout">로그아웃</a>
 	
+	
+	
+	
+	
+	
+	<div class="bbb">
+	</div>
+	<h1>abc</h1>
+
+	
+
 </body>
 </html>

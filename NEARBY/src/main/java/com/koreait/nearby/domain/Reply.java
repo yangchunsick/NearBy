@@ -40,72 +40,118 @@ public class Reply {
 	public Long getrNo() {
 		return rNo;
 	}
+
+
 	public void setrNo(Long rNo) {
 		this.rNo = rNo;
 	}
+
+
 	public Long getbNo() {
 		return bNo;
 	}
+
+
 	public void setbNo(Long bNo) {
 		this.bNo = bNo;
 	}
+
+
 	public Long getrLikes() {
 		return rLikes;
 	}
+
+
 	public void setrLikes(Long rLikes) {
 		this.rLikes = rLikes;
 	}
+
+
 	public String getId() {
 		return id;
 	}
+
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
+
 	public String getrContent() {
 		return rContent;
 	}
+
+
 	public void setrContent(String rContent) {
 		this.rContent = rContent;
 	}
+
+
 	public Date getrCreated() {
 		return rCreated;
 	}
+
+
 	public void setrCreated(Date rCreated) {
 		this.rCreated = rCreated;
 	}
+
+
 	public Date getrModified() {
 		return rModified;
 	}
+
+
 	public void setrModified(Date rModified) {
 		this.rModified = rModified;
 	}
+
+
 	public int getDepth() {
 		return depth;
 	}
+
+
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
+
+
 	public int getState() {
 		return state;
 	}
+
+
 	public void setState(int state) {
 		this.state = state;
 	}
+
+
 	public int getGroupNo() {
 		return groupNo;
 	}
+
+
 	public void setGroupNo(int groupNo) {
 		this.groupNo = groupNo;
 	}
+
+
 	public int getGroupOrd() {
 		return groupOrd;
 	}
+
+
 	public void setGroupOrd(int groupOrd) {
 		this.groupOrd = groupOrd;
 	}
+
+
 	public Profile getProfile() {
 		return profile;
 	}
+
+
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
@@ -117,7 +163,9 @@ public class Reply {
 				+ ", rCreated=" + rCreated + ", rModified=" + rModified + ", depth=" + depth + ", state=" + state
 				+ ", groupNo=" + groupNo + ", groupOrd=" + groupOrd + ", profile=" + profile + "]";
 	}
-
-
+	
+	
+	
+	
 	
 }

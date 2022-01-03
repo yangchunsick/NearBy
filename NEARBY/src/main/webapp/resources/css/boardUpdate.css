@@ -4,11 +4,18 @@
 		padding: 0;
 		margin: 0;
 		box-sizing: border-box;	
+		width: 100%;
 	}
 	a {
 		text-decoration: none;
 		color: black;
 		font-weight: bold;
+	}
+/* header css */
+	.header {
+		width: 100%;
+		height: 106px;
+		background-color: white;
 	}
 	#home_btn { border-bottom: 8px solid  #fe4662; }
 	#home_icon { color: #fe4662; }
@@ -30,16 +37,16 @@
 		margin-bottom: 15px;
 	}
      #p_img{
-	   	width: 100px;
-		height: 100px;
+	   	width: 80px;
+		height: 80px;
 	    display: inline-block;
 	    border-radius: 100%;
 		margin-right: 10px;
 		position: relative;
    }
      #p_img #user_img {
-		width: 100px;
-		height: 100px;
+		width: 80px;
+		height: 80px;
 		border-radius: 100%;
 	}
    .id {
@@ -113,25 +120,29 @@
       height: 25px;
    }
    .no {   display: none; }
-   
    .addressAndImage {
    	   width:500px;
        margin: 5px auto 10px;
        position: relative;
    }
+   
    /* 이미지 wrap */
+   img {
+         width:480px; 
+ 		 height: 320px;
+   }
    #img_wrap{
-  		 border:1px solid black;
-  		 width:480px; 
-  		 height: 320px;
-  	 	 padding:30px; 
-  	 	 margin:0 auto;
-  		 font-size:30px;
-  		 background-color: #f0f2f5;
-  		 border: none;
-  		 border-radius: 5px;
-  		 overflow: hidden;
-  		 position:relative;
+ 		 border:1px solid black;
+ 		 width:480px; 
+ 		 height: 320px;
+ 	 	 padding:30px; 
+ 	 	 margin:0 auto;
+ 		 font-size:30px;
+ 		 background-color: #f0f2f5;
+ 		 border: none;
+ 		 border-radius: 5px;
+ 		 overflow: hidden;
+ 		 position:relative;
    }
    .preview{
       width:480px; 
@@ -184,6 +195,7 @@
    		border: none;
   		border-radius: 5px;
   		outline: none;
+  		resize: none;
    }
    /* 좋아요 및 댓글 */
    .likesAndReply  {

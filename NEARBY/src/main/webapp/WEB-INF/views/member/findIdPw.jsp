@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>* 아이디/비밀번호 찾기 *</title>
+<title>아이디/비밀번호 찾기</title>
 <!-- sweetCDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
@@ -13,6 +13,11 @@
 </head>
 <body>
  
+    <h1 class="title">
+       <a href="/nearby/">NearBy</a>
+    </h1>
+    
+    
     <div class="container">
         <!-- 아이디 찾기 -->
         <input id="findId_btn" type="button" value="아이디 찾기">
@@ -42,7 +47,7 @@
                         </div>
                         
                         <div>
-                        	<span id="id_confirm"></span>
+                           <span id="id_confirm"></span>
                         </div>
                     </div>   
                 </form>
@@ -87,7 +92,7 @@
                             <input type="text" name="authCode" id="pwAuthCode">
                         </span>
                         <input type="button" value="인증하기" id="pwVerify_btn">
-						<span id="pwVerify_msg"></span>
+                  <span id="pwVerify_msg"></span>
 
                         <input type="button" id="updatePw" value="임시 비밀번호 발급 받기">
 

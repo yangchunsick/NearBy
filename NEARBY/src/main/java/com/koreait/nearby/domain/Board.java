@@ -9,14 +9,15 @@ public class Board {
 	private Date created, modified;
 	private int state, depth, groupNo, groupOrd;
 	private Profile profile;
+	private Likes like;
 	
 	public Board() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public Board(Long bNo, Long likes, String id, String content, String origin, String saved, String path, String ip,
 			String location, Date created, Date modified, int state, int depth, int groupNo, int groupOrd,
-			Profile profile) {
+			Profile profile, Likes like) {
 		super();
 		this.bNo = bNo;
 		this.likes = likes;
@@ -34,6 +35,7 @@ public class Board {
 		this.groupNo = groupNo;
 		this.groupOrd = groupOrd;
 		this.profile = profile;
+		this.like = like;
 	}
 
 	public Long getbNo() {
@@ -79,7 +81,7 @@ public class Board {
 	public String getSaved() {
 		return saved;
 	}
-
+	
 	public void setSaved(String saved) {
 		this.saved = saved;
 	}
@@ -164,13 +166,24 @@ public class Board {
 		this.profile = profile;
 	}
 
+	public Likes getLike() {
+		return like;
+	}
+
+	public void setLike(Likes like) {
+		this.like = like;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Board [bNo=" + bNo + ", likes=" + likes + ", id=" + id + ", content=" + content + ", origin=" + origin
 				+ ", saved=" + saved + ", path=" + path + ", ip=" + ip + ", location=" + location + ", created="
 				+ created + ", modified=" + modified + ", state=" + state + ", depth=" + depth + ", groupNo=" + groupNo
-				+ ", groupOrd=" + groupOrd + ", profile=" + profile + "]";
+				+ ", groupOrd=" + groupOrd + ", profile=" + profile + ", like=" + like + "]";
 	}
+	
+	
 	
 	
 }

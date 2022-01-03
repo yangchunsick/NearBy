@@ -4,25 +4,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.koreait.nearby.repository.LikesRepository">
+
+
+<select id="likeSelectByNO" parameterType="Likes" resultType="Likes">
+    SELECT LIKE_NO, B_NO, ID, LIKE_CHECK, LIKE_DATE
+      FROM LIKES    
+     WHERE B_NO = #{bNo} and id = #{id}
+</select>
+
+
+
 <insert id="likeInsert" parameterType="Likes" >
- 	insert into likes
- 	values (likes_seq.nextval, #{bNo}, #{id}, 0, SYSDATE)
+ 	INSERT INTO LIKES
+ 	VALUES (LIKES_SEQ.NEXTVAL, #{bNo}, #{id}, 0, SYSDATE)
 </insert>
 
 
 
 <update id="likeCheck" parameterType="Map">
-    UPDATE likes
-    SET like_check = like_check + 1 
-    WHERE id=#{id} AND B_NO=#{bNo}
+    UPDATE LIKES
+    SET LIKE_CHECK = LIKE_CHECK + 1 
+    WHERE ID=#{id} AND B_NO=#{bNo}
   </update>
   
   
-  <update id="likeCheckCancel" parameterType="Map">
-    UPDATE likes
-    SET like_check = 0
-     WHERE id=#{id} AND B_NO=#{bNo}
-  </update>
+  <delete id="likeCheckCancel" parameterType="Map">
+    DELETE
+      FROM  LIKES
+     WHERE id=#{id} AND B_NO=#{bNo} 
+  </delete>
 
 
 </mapper>
