@@ -123,6 +123,18 @@ public class ProfileServiceImpl implements ProfileService {
 			int deleteResult = profileRepository.updateProfile(profile);
 			map.put("profile", profile);
 			map.put("deleteResult", deleteResult);
+			
+			// set session loginUser info after update
+			Member member = new Member();
+			member.setId(loginUser.getId());
+			member.setPw(loginUser.getPw());
+			MemberRepository repository = sqlSession.getMapper(MemberRepository.class);
+			loginUser = repository.login(member);
+			System.out.println("loginUser information after update : " + loginUser);
+			if (loginUser != null) {
+				request.getSession().invalidate();
+				request.getSession().setAttribute("loginUser", loginUser);
+			}		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

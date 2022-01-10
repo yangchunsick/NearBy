@@ -32,6 +32,12 @@ public class MemberController {
 		this.service = service;
 	}
 	
+	// 회원가입 전 동의
+	@GetMapping("agreement")
+	public String agreement() {
+		return "member/agreement";
+	}
+
 	
     // 회원가입하러 가기
 	@GetMapping("memberJoin")
@@ -82,11 +88,40 @@ public class MemberController {
 		return service.sendAuthCode(email);
 	}
 	
+	/*
+	 * // 로그인
+	 * @PostMapping(value="login") public void login(HttpServletRequest request,
+	 * HttpServletResponse response) { service.login(request, response); }
+	 */
+	
+	
 	// 로그인
-	@PostMapping(value="login")
-	public void login(HttpServletRequest request, HttpServletResponse response) {
-		service.login(request, response);
-	}
+		@PostMapping(value="login")
+		public void login(HttpServletRequest request, HttpServletResponse response, String id) {
+			
+			// 쿠키 아이디 기억하기
+			// 체크 안하면 널
+			String checkId = request.getParameter("checkId");
+			
+			// 체크 하면 아이디 를 저장한다.
+			if (checkId != null) {
+				Cookie cookie = new Cookie("id", id);
+				cookie.setMaxAge(5 * 24 * 60 * 60); // 5일동안 아이디 기억 유지
+				response.addCookie(cookie);
+			} else {	// 체크 안하면 아이디를 쿠킹 삭제한다.
+				Cookie[] cookies = request.getCookies();
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("id")) {
+						cookie.setMaxAge(0);	// 아이디 기억 유지 안함!
+						response.addCookie(cookie);
+						break;
+					}
+				}
+			}
+			
+			service.login(request, response);
+			
+		}
 	
 	// 로그아웃
 	@GetMapping(value="logout")
@@ -159,34 +194,6 @@ public class MemberController {
 		return "member/terms";
 	}
 	
-	// 로그인 성공시 게시판으로 이동 (세션 저장)
-//	@PostMapping(value = "login")
-//	public String login(HttpServletRequest request, HttpServletResponse response, String id) {
-//		
-//		// 쿠키 아이디 기억하기
-//		// 체크 안하면 널
-//		String checkId = request.getParameter("checkId");
-//		
-//		// 체크 하면 아이디 를 저장한다.
-//		if (checkId != null) {
-//			Cookie cookie = new Cookie("id", id);
-//			cookie.setMaxAge(5 * 24 * 60 * 60); // 5일동안 아이디 기억 유지
-//			response.addCookie(cookie);
-//		} else {	// 체크 안하면 아이디를 쿠킹 삭제한다.
-//			Cookie[] cookies = request.getCookies();
-//			for (Cookie cookie : cookies) {
-//				if (cookie.getName().equals("id")) {
-//					cookie.setMaxAge(0);	// 아이디 기억 유지 안함!
-//					response.addCookie(cookie);
-//					break;
-//				}
-//			}
-//		}
-//		
-//		
-//		service.login(request, response);
-//		return	null;
-//	}
 	
 	
 	

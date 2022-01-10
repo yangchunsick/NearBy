@@ -1,11 +1,11 @@
-DROP TABLE PROFILE;
-DROP TABLE FOLLOW;
-drop table likes;
-drop table reply_likes;
+
+DROP TABLE LIKES;
+DROP TABLE REPLY_LIKES;
 DROP TABLE REPLY;
 DROP TABLE BOARD;
+DROP TABLE FOLLOW;
+DROP TABLE PROFILE;
 DROP TABLE MEMBER;
-
 
 DROP SEQUENCE PROFILE_SEQ;
 DROP SEQUENCE FOLLOW_SEQ;
@@ -44,13 +44,6 @@ CREATE TABLE board (
 
 ALTER TABLE board ADD CONSTRAINT board_pk PRIMARY KEY ( b_no );
 
-CREATE TABLE follow (
-    f_no      NUMBER NOT NULL,
-    following VARCHAR2(32 BYTE) NOT NULL,
-    follower  VARCHAR2(32 BYTE) NOT NULL
-);
-
-ALTER TABLE follow ADD CONSTRAINT follow_pk PRIMARY KEY ( f_no );
 
 CREATE TABLE member (
     m_no     NUMBER NOT NULL,
@@ -70,15 +63,27 @@ ALTER TABLE member ADD CONSTRAINT member_pk PRIMARY KEY ( m_no );
 ALTER TABLE member ADD CONSTRAINT member__un UNIQUE ( id );
 
 CREATE TABLE profile (
-    p_no       NUMBER NOT NULL,
-    id         VARCHAR2(32 BYTE) NOT NULL,
+    p_no       NUMBER PRIMARY KEY,
+    id         VARCHAR2(32 BYTE) UNIQUE,
     p_content    VARCHAR2(1000 BYTE),
     p_origin   VARCHAR2(100 BYTE),
     p_saved    VARCHAR2(100 BYTE),
     P_PATH     VARCHAR2(200 BYTE)
 );
 
-ALTER TABLE profile ADD CONSTRAINT profile_pk PRIMARY KEY ( p_no );
+
+CREATE TABLE follow (
+    f_no      NUMBER,
+    following_id VARCHAR2(32 BYTE) NOT NULL,
+    followed_id  VARCHAR2(32 BYTE) NOT NULL
+);
+
+ALTER TABLE follow ADD CONSTRAINT follow_pk PRIMARY KEY ( f_no );
+ALTER TABLE follow ADD CONSTRAINT following_id_profile_fk FOREIGN KEY (following_id) REFERENCES profile(id);
+ALTER TABLE follow ADD CONSTRAINT followed_id_profile_fk FOREIGN KEY (followed_id) REFERENCES profile(id);
+ALTER TABLE follow ADD CONSTRAINT follow_unique UNIQUE (following_id , followed_id);
+
+
 
 CREATE TABLE reply (
     r_no     NUMBER NOT NULL,
@@ -101,20 +106,7 @@ ALTER TABLE board
         REFERENCES member ( id )
             ON DELETE CASCADE;
 
-ALTER TABLE follow
-    ADD CONSTRAINT follow_member_fk FOREIGN KEY ( following )
-        REFERENCES member ( id )
-            ON DELETE CASCADE;
 
-ALTER TABLE follow
-    ADD CONSTRAINT follow_member_fkv2 FOREIGN KEY ( follower )
-        REFERENCES member ( id )
-            ON DELETE CASCADE;
-
-ALTER TABLE profile
-    ADD CONSTRAINT profile_member_fk FOREIGN KEY ( id )
-        REFERENCES member ( id )
-            ON DELETE CASCADE;
 
 ALTER TABLE reply
     ADD CONSTRAINT reply_board_fk FOREIGN KEY ( b_no )

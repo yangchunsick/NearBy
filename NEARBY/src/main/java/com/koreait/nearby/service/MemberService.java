@@ -40,6 +40,9 @@ public interface MemberService {
 	// 회원 탈퇴
 	public  Map<String,Object> leaveMember(Long mNo);
 	
+	// 관리자만 가능한 회원 활성화
+	public  Map<String,Object> reInsertMember(Long mNo);
+		
 	// 비밀번호 확인
 	public Map<String, Object> checkPassword(HttpServletRequest request);
 	
@@ -71,8 +74,6 @@ public interface MemberService {
 	
 	// 검색(총 수, 리스트)
 	public Map<String, Object> findMember(HttpServletRequest request);
-	
-	
 	
 	// default method
 	 	public default void message(int result, HttpServletResponse response, 

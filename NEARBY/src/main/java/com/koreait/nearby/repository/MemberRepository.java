@@ -41,18 +41,20 @@ public interface MemberRepository {
 
 	
 	// 관리자 관련 /////////
+	// 관리자만 가능한 회원 활성화
+	public int reInsertMember(Long mNo);
+	
 	// 이용하는 총멤버
 	public List<Member> memberCount();
 	
-	
     // 남자 유저
-	public List<Member> memberCountMen();
+	public List<Member> memberMen();
 	
 	// 여자 유저
-	public List<Member> memberCountWomen();
+	public List<Member> memberWomen();
 	
 	// 성별 없음 유저
-	public List<Member> memberCountNoGender();
+	public List<Member> memberNoGender();
 
 	//오늘 가입한 유저
 	public List<Member> memberCreatedDay();
@@ -70,6 +72,5 @@ public interface MemberRepository {
 	
 	// 관리자의 검색 결과 리스트 
 	public List<Member> selectFindList(Map<String, Object> map);
-	
-	
+		
 }

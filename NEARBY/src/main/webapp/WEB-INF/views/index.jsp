@@ -6,15 +6,22 @@
 <head>
 <meta charset="UTF-8">
 <title>NearBy - 내 주변의 빠른 소식통</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
+<!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<!-- fontawesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- jquery cookie 제어쿼리 쿠키  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js" integrity="sha512-aUhL2xOCrpLEuGD5f6tgHbLYEXRpYZ8G5yD+WlFrXrPy2IrWBlu6bih5C9H6qGsgqnU6mgx6KtU8TreHpASprw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <style>
    * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
    }  
-   a { text-decoration: none; }
+   a { text-decoration: none; color:black }
    @font-face {
      font-family: 'S-CoreDream-5Medium';
      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
@@ -173,11 +180,9 @@
      color: black;
    }
    
-   .main_box3 h1 {
-      padding-top: 120px;
-   }
+   .main_box3 h1 {  padding-top: 120px;   }
    
-    #login_form {    
+   #login_form {    
        box-shadow: 10px 10px 20px rgba(30, 30, 30, 0.5);
        position:fixed;
        top: 140px;
@@ -192,10 +197,9 @@
        padding: 10px;
        text-align: center;
        background-color: white;
-       
    }
    #close_login_btn {
-    font-size: 20px;
+      font-size: 20px;
       margin-left: 520px;
       margin-top: 16px;
       color: rgb(43,26,27);
@@ -206,7 +210,12 @@
    }
    .input_wrap{
       margin: 0 auto;
-      
+   }
+   .idSavedCheck { 
+    display:inline-block;
+    width:400px;
+    height:50px;
+   	  text-align: left;
    }
    #login_submit {
       margin-top: 30px;
@@ -247,9 +256,7 @@
       line-height: 30px;
       margin-top: 8px;
       background-color: #e8f0fe;
-      
    }
-   
    .input_wrap > p{
       text-align: left;
       margin-left : 90px;
@@ -282,12 +289,17 @@
      font-weight: bold;
    }
    
-   .footer_wrap {
-   margin-top: 70px;
-   padding-bottom: 80px;
-   text-align: center;
-   font-weight: bold;
-   }
+   /* sweet alert */
+  .swal2-popup { padding: 0.5em; }
+  .swal2-icon {
+  	width: 4.5em;
+  	height: 4.5em;
+  }
+   .swal2-styled { margin:  0.5em; }
+   .swal2-styled.swal2-confirm { width: 100px; background-color: #d4d4d4;  }
+   .swal2-styled.swal2-cancel {width: 100px;}
+   .swal2-icon.swal2-warning { color: pink; border-color: pink;}
+   .swal2-header{ height: 100px; }
    
 </style>
 
@@ -296,6 +308,7 @@
    fnLoginBtn();      // login 버튼 눌렀을 때 로그인 창 나타나기
    fnLogin();         // login 서브밋
    fnCloseLoginBtn();
+   fnDisplayId();	// 아이디 표시
   });
      
   
@@ -307,7 +320,6 @@
       });
    }
      
-     
     // close_login_btn 눌렀을 때 로그인 창 사라지기 / 배경 흐림효과 삭제
     function fnCloseLoginBtn() {
      $('#close_login_btn').click( function() {
@@ -315,7 +327,43 @@
         $('.main').removeClass('blur');
       });
    }
-   
+    
+    function fnIdCheck(){
+       // 클릭했는데 핑크이면 그레이로 / 클릭했는데 그레이면 핑크로
+    	if( 	$('.fa-check-circle').css('color', "#fe585c") == true ){
+    		$('.fa-check-circle').css('color', "gray");
+       }else {
+    		   $('.fa-check-circle').css('color', '#fe585c'); 
+       }
+    	let rememberId = $.cookie('rememberId');
+    	if (rememberId != '') {  // id 값 널아니고, 아이디 저장 기억하기 되어있으면 
+    	 if( 	$('#checkRememberId').prop('checked') == true   ){
+    		 
+    		 $('#checkRememberId').prop('checked', true);
+    			$('.fa-check-circle').css('color',"gray");
+    	 } else {
+    			$('#id').val(rememberId);
+    			$('#checkRememberId').prop('checked', false);
+    			$('.fa-check-circle').css('color',"#fe585c");
+    	  }
+    	}
+    }
+    
+    
+    
+    // 아이디 표시
+    function fnDisplayId(){
+    	let rememberId = $.cookie('rememberId');
+    	if (rememberId != '') {
+    		$('#id').val(rememberId);
+    		$('#checkRememberId').prop('checked', true);
+    		$('.fa-check-circle').css('color',"#fe585c");
+    	} else {
+    		$('#checkRememberId').prop('checked', false);
+    		$('.fa-check-circle').css('color',"gray");
+    	} 
+}
+    
     
      // login 서브밋
    function fnLogin() {
@@ -327,7 +375,14 @@
             event.preventDefault();
             return false;
          }
-         return true;   
+         
+      // 아이디 저장하기
+			if ( $('#checkRememberId').is(':checked') ){  // 아이디 저장이 체크되어 있으면,
+				$.cookie('rememberId', $('#id').val());  // 쿠키 rememberId 생성(아이디 저장) 
+			} else {
+				$.cookie('rememberId', '');  // 쿠키 rememberId 생성(빈 문자열 저장)
+			}
+			return true;
       });
    }
    
@@ -346,8 +401,6 @@
            <img id="logo" src="resources/image/logo_white.png" width="200px">
            <input type="button" value="로그인" id="login_btn1" class="btn login_btn">
       </header>
-      
-      
       
       <!------------------------------------- main --------------------------------------->
       
@@ -380,12 +433,11 @@
                </div>
 
             </div>
-
                            
          </div>
          <div class="main_box1 main_box3">
             <h1 class="s_core_dream_m">지금 당장 NEARBY 시작하기</h1>
-            <a href="/nearby/member/memberJoin"><input type="button" class="nanum_square btn" value="간편회원가입" id="join_btn2" class="btn join_btn"></a>
+            <a href="/nearby/member/agreement"><input type="button" class="nanum_square btn" value="간편회원가입" id="join_btn2" class="btn join_btn"></a>
          </div>
       </main>
       <!---------------------------------------- 로그인 폼(숨김)---------------------------------------> 
@@ -408,23 +460,25 @@
                      <input type="text" name="pw" id="pw">
                   </div>
                   
-               </div>            
+               </div>     
+               <div>
+               		<input type="checkbox" id="checkRememberId" style="visibility: hidden;">
+               		
+               		<label for="checkRememberId" class="idSavedCheck" onclick="fnIdCheck()"><i class="far fa-check-circle"></i> 아이디 저장</label>
+               	</div>
+               
+                      
                   <button class="nanum_square" id="login_submit">로그인</button>
                         <div id="move_area">
                         <a id="find_btn1" class="find_btn1" href="/nearby/member/findIdPw"><i class="fas fa-key"></i>아이디/비밀번호 찾기</a><br><br>
-                        <a id="join_btn1" class="join_btn1" href="/nearby/member/memberJoin"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
+                        <a id="join_btn1" class="join_btn1" href="/nearby/member/agreement"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
                     </div>
              </form>   
       
         
      <!------------------------------------- footer ---------------------------------------->
-      <footer class="footer_wrap">
-           <h2>About NearBy©</h2><br>
-           <p>로고     히스토리     개인정보처리방침     도움말      제휴      광고      문의/피드백      채용</p>
-           <p>© 2021-2022 NEARBY.COM NEARBY isn’t endorsed by Facebook and doesn’t reflect the views or opinions of Facebook or anyone officially </p>
-           <p>involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot</p>
-           <p>Games, Inc. NEARBY Company © NearBy, Inc.</p>   
-            <br><br>
+      <footer>
+           <jsp:include page="/WEB-INF/views/layout/footerIndex.jsp" flush="true" />
       </footer>
    </div>   
 </body>

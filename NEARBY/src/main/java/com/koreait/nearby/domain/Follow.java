@@ -1,21 +1,22 @@
 package com.koreait.nearby.domain;
 
 public class Follow {
-
 	private Long fNo;
-	private String following, follower;
+	private String followingId, followedId;
+	private Profile profile;
 	
-	 
+	
 	public Follow() {
-	
+		// TODO Auto-generated constructor stub
 	}
 
 
-	public Follow(Long fNo, String following, String follower) {
+	public Follow(Long fNo, String followingId, String followedId, Profile profile) {
 		super();
 		this.fNo = fNo;
-		this.following = following;
-		this.follower = follower;
+		this.followingId = followingId;
+		this.followedId = followedId;
+		this.profile = profile;
 	}
 
 
@@ -29,30 +30,42 @@ public class Follow {
 	}
 
 
-	public String getFollowing() {
-		return following;
+	public String getFollowingId() {
+		return followingId;
 	}
 
 
-	public void setFollowing(String following) {
-		this.following = following;
+	public void setFollowingId(String followingId) {
+		this.followingId = followingId;
 	}
 
 
-	public String getFollower() {
-		return follower;
+	public String getFollowedId() {
+		return followedId;
 	}
 
 
-	public void setFollower(String follower) {
-		this.follower = follower;
+	public void setFollowedId(String followedId) {
+		this.followedId = followedId;
+	}
+
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Follow [fNo=" + fNo + ", following=" + following + ", follower=" + follower + "]";
+		return "Follow [fNo=" + fNo + ", followingId=" + followingId + ", followedId=" + followedId + ", profile="
+				+ profile + "]";
 	}
+	
 	
 	
 	

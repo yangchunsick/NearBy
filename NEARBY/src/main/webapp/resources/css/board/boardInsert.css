@@ -15,37 +15,43 @@
 		border-bottom: 8px solid #fe4662;
 	}
 	
-	#insert_icon {
-		color: #fe4662;
-	}
-	.header {
-		margin-top: 130px;
-	}
+	#insert_icon {  color: #fe4662;  }
+	.header {	margin-top: 130px;  }
   	 
   	 
   	 /* ----------------  insert box ----------------  */
   	.insert_wrap {
   	    position: relative;
         width:600px;
-        height : 920px;
+        height : 940px;
         margin: 30px auto 10px;
         padding: 30px 30px;
         background-color: rgba(255, 250, 250, 0.8);
-        border : 1px solid #fe4662; 
+        border : 2px solid pink;
         border-radius: 8px;
      }
-     
+     #insertBoard_Form { margin-left: 25px;}
     /* ----------------  기본 정보 ----------------  */
-   .id_wrap{  height: 50px;  }
+   .id_wrap{  
+   		height: 50px;
+   		display: inline-block;
+     }
     #board_writer {
    	   font-weight: bold;
-   	   font-size: 18px;
-	   display: inline-block;
+  	   display: inline-block;
+  	   font-size: 15px;
 	   margin-top: 10px;
 	   margin-left: 10px;
 	   width: 100px;
    }
-       #p_img{
+   	.date {
+		font-size: 11px; 
+		margin-left: 11px; 
+		color:#808080;
+	}
+	#today { font-size:  12px; }
+	.fa-globe-asia { font-size: 11px;   }
+   #p_img{
 	   	width: 80px;
 		height: 80px;
 	    display: inline-block;
@@ -205,7 +211,7 @@
    #insertBtn { 
    		display:inline-block;
         margin-top: 5px;
-        margin-left: 32px;
+        margin-left: 8px;
    		width: 480px;
    		height: 30px; 
    		color: white;
@@ -218,3 +224,21 @@
     /* ---------- 아래 공간 확보 위한 푸터처리 ----------  */
 	#footer_wrap {  height: 80px; }
    
+   /* ---------- sweet alet  ----------*/
+	.swal2-popup {
+		width: 400px;
+		height: 130px;
+	}
+	.swal2-icon.swal2-warning { color: pink; border-color: pink;}  // 경고창 
+	.swal2-header { height: 100px;}
+	.swal2-icon {
+		width: 55px;
+		height: 55px;
+	}
+	.swal2-styled { padding: 0;}
+	.swal2-styled.swal2-confirm { 
+		background-color: #d4d4d4;    
+	    height: 28px;
+	     width: 170px; 
+	    }
+	.swal2-actions { margin-top: 25px; }

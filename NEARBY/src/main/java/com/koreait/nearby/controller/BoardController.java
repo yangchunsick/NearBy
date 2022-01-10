@@ -11,12 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.koreait.nearby.domain.Board;
+import com.koreait.nearby.domain.Follow;
 import com.koreait.nearby.domain.Likes;
 import com.koreait.nearby.domain.Member;
 import com.koreait.nearby.service.BoardService;
@@ -127,16 +129,35 @@ public class BoardController {
 	    public String searchBoardList(Model model, HttpServletRequest request) {
 	       model.addAttribute("list", service.searchBoardList(request));
 	       model.addAttribute("query", request.getParameter("query"));
-	       System.out.println(model);
+	       model.addAttribute("profileList", service.searchProfileList(request));
 	       return "board/search";
 	    }	
 	    
-		/* myHome 이동 및 유저의 게시물 갯수 구하기 */
+
+	    /* myHome 이동 및 유저의 게시물 갯수 구하기 */
 		@GetMapping("myHome")
-		public String myHome(HttpServletRequest request) {
+		public String myHome(HttpServletRequest request, Model model) {
 			request.getSession().setAttribute("userBoardCount", service.selectUserBoardsCount(request));
 			request.getSession().setAttribute("list", service.selectBoardList());
+			model.addAttribute("followingList", service.userFollowingIdById(request));
+			model.addAttribute("followedList", service.userFollowedIdById(request));
 			return "board/myHome";
 		}
+	    
+		/* 해당 유저의 홈으로 가기 */
+		@GetMapping("selectUserHome")
+			public String selectUserHome (@RequestParam("id")String id, Model model) {
+			System.out.println("Controller Request param ID : " +  id);
+			model.addAttribute("user", service.selectUserHome(id));
+			model.addAttribute("followingList", service.selectFollowingIdById(id));
+			model.addAttribute("followedList", service.selectFollowedIdById(id));
+			model.addAttribute("userBoardCount", service.selectUserHomeBoardsCount(id));
+			model.addAttribute("userId", id);
+			System.out.println("userId@@@@@" + id);
+			System.out.println("@@@ 내가 어떻게 담았나 ? " + model);
+			
+			return "board/userHome";
+		}
+
 	    
 }

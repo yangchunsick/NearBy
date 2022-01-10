@@ -15,8 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <insert id="likeInsert" parameterType="Likes" >
- 	INSERT INTO LIKES
- 	VALUES (LIKES_SEQ.NEXTVAL, #{bNo}, #{id}, 0, SYSDATE)
+    INSERT INTO LIKES( B_NO, ID, LIKE_CHECK, LIKE_DATE  )
+ 	VALUES ( #{bNo}, #{id}, 0, NOW())
 </insert>
 
 

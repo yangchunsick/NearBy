@@ -1,17 +1,16 @@
 @charset "UTF-8";
-/* 초기화 */
+    /* 초기화 */
 	*{
 		padding: 0;
 		margin: 0;
 		box-sizing: border-box;	
-		width: 100%;
 	}
 	a {
 		text-decoration: none;
 		color: black;
 		font-weight: bold;
 	}
-/* header css */
+    /* header css */
 	.header {
 		width: 100%;
 		height: 106px;
@@ -19,13 +18,18 @@
 	}
 	#home_btn { border-bottom: 8px solid  #fe4662; }
 	#home_icon { color: #fe4662; }
-/* End header Css */	
+    /* End header Css */	
+	
+	.mainBoard_wrap {
+		margin: 0 auto;
+		width: 605px;
+	}
 	
 	/*  board form */
 	#mainBoardWrap_form {
 		width: 560px; 
-		border:1px solid pink;
-		padding: 15px;
+		border : 2px solid pink;
+		padding : 15px 15px 30px 15px;
 		border-radius: 10px;
 		margin: 30px auto;
 		background-color: rgba(255, 250, 250, 0.8);
@@ -53,6 +57,17 @@
    		width: 430px;
    		height: 80px;
    }
+   .id_wrap { width: 405px; }
+   .date {
+		font-size: 10px; 
+		margin-left: 11px; 
+		color:#808080;
+	}
+	.fa-globe-asia { 
+		font-size: 11px; 
+		display: inline-block;  
+	    width: 50px; 
+	 }
    .setting_wrap{
   	   position: relative; 
   	   width: 10px;
@@ -66,6 +81,10 @@
    }
    .fas {  display: inline-block;  }
    .fa-map-marker-alt, .fa-cog { font-size: 12px; }
+   .fa-map-marker-alt { 
+	   	text-align: right;
+	   	color: #fe4662;
+   }
    #board_writer {
    	   font-weight: bold;
    	   font-size: 18px;
@@ -75,9 +94,16 @@
    }
     	 
   /* MAP SEE ANd NO */
+   .my_map { text-align: right; }
    #map {  
       	margin: 10px auto; 
+      	width:500px; 
+      	height:200px; 
+      	display: none;
+        margin-bottom: 20px;
+        border: none; outline: none;
      }
+    #map div { border: none; outline: none; }
    #map ul li {
 	   	display: none;
 	   	border: none;
@@ -87,8 +113,8 @@
    		position:absolute;
    		z-index:1000;
    		display: inline-block;
-   		width: 80px;
-   		height: 25px;
+   	
+   		width: 400px; height: 25px; margin-bottom:10px;
    	}
   .search #submit { 
    		padding:0 10px;
@@ -108,7 +134,13 @@
    		outline: none;
    		border: #dfdfdf;
     } 
-   
+   .location {
+   		display: inline-block;
+   		width: 250px;
+   		height:24px; 
+   		outline: none;
+   		border: 1px solid #d4d4d4;
+   }
    .addrAndMap {
 	   padding-right: 10px;
 	   margin-top: 10px;
@@ -160,7 +192,9 @@
    		text-align: center;
    		color: gray;	
    }
-   
+   .fa-photo-video {
+  	 color:pink; font-size:70px;
+   }
    #previewImg {  
 	  width:100%;
       overflow: hidden;
@@ -190,7 +224,9 @@
    }
     .content_wrap {	 margin: 30px auto 15px;	  }
    .content_wrap #content {
+ 	    width: 480px;
    		padding: 10px;
+   		margin-left: 10px;
    		background-color:#f0f2f5;
    		border: none;
   		border-radius: 5px;
@@ -231,9 +267,9 @@
    	 
     /* 수정하기 버튼 */
       #updateBtn { 
-   		width: 100%;
+   		width: 500px;
    		height: 30px;
-   		margin-top: 5px; 
+   	    margin: 5px 14px;
    		color: white;
    		background-color:  #fe4662; 
    		border: none;
@@ -241,3 +277,27 @@
    		outline: none;
    		cursor: pointer;
     }
+   /* sweet alet */
+	.swal2-popup {
+		width: 470px;
+		height: 230px;
+	}
+	.swal2-icon.swal2-warning { color: pink; border-color: pink;}  // 경고창 
+	.swal2-header { height: 90px;}
+	.swal2-icon {
+		width: 55px;
+		height: 55px;
+	}
+	.swal2-styled { padding: 0;}
+	.swal2-styled.swal2-confirm { 
+		background-color: #d4d4d4;    
+	    height: 28px;
+	    width: 170px;
+	    }
+	.swal2-styled.swal2-cancel {
+	background-color: #d4d4d4;    
+	    height: 28px;
+	    width: 170px;
+	}
+	.swal2-actions {  	margin-top: 15px; }
+	.swal2-icon .swal2-icon-content {  padding-left: 18px;  } 

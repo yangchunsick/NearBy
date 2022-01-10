@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 
 import com.koreait.nearby.domain.Member;
 import com.koreait.nearby.domain.Profile;
+import com.koreait.nearby.repository.BoardRepository;
 import com.koreait.nearby.repository.MemberRepository;
 import com.koreait.nearby.repository.ProfileRepository;
 import com.koreait.nearby.util.SecurityUtils;
@@ -141,10 +142,11 @@ public class MemberServiceImpl implements MemberService {
 			
 			MimeMessage message = javaMailSender.createMimeMessage();
 			message.setHeader("Content-Type", "text/plain; charset=UTF-8");
-			message.setFrom(new InternetAddress("nearby.corp@gmail.com", "인증코드관리자"));
+			message.setFrom(new InternetAddress("nearby.corp@gmail.com", "NEARBY"));
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
 			message.setSubject("NEARBY 인증 요청 메일입니다.");
 			message.setText("인증번호는 " + authCode + " 입니다.");
+			System.out.println(authCode);
 			javaMailSender.send(message);
 			
 		} catch (Exception e) {
@@ -161,7 +163,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 			Member member = new Member();
-			member.setId(request.getParameter("id"));
+			String id = request.getParameter("id");
+			member.setId(id);
 			member.setPw(SecurityUtils.sha256(request.getParameter("pw")));
 			MemberRepository repository = sqlSession.getMapper(MemberRepository.class);
 			Member loginUser = repository.login(member);
@@ -178,20 +181,27 @@ public class MemberServiceImpl implements MemberService {
 		 			PrintWriter out = response.getWriter();
 		 			if (loginUser != null) {
 		 				out.println("<script>");
-		 				out.println("alert('로그인 성공')");
-		 				// 관리자 일때는 관리자 페이지로 이동하기 
-		 					if( "admin".equals(loginUser.getId()) == false) {
-		 					out.println("location.href='/nearby/board/boardList'");
+		 				if( "admin".equals(loginUser.getId()) == false) {
+		 					out.println("location.href='/nearby/board/boardList';");
 		 				} else {
-		 					out.println("location.href='/nearby/admin/admin'");
+		 					out.println("location.href='/nearby/admin/admin';");
 		 				}
-		 				out.println("</script>");
+	 					out.println("</script>");
 		 				out.close();
 		 			} else {
+	                    out.println("<script src='https://code.jquery.com/jquery-3.6.0.js' integrity='sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=' crossorigin='anonymous'></script>");
+	                    out.println("<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script> ");
+	                    out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+		 				out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+	                    out.println("<script src='https://unpkg.com/sweetalert/dist/sweetalert.min.js'></script>");
+	                    out.println("<style> .swal2-styled.swal2-confirm { width: 100px; background-color: #d4d4d4;  }</style>");
 		 				out.println("<script>");
-		 				out.println("alert('응아니야!')");
-		 				out.println("history.back()");
-		 				out.println("</script>");
+		 			    out.println("$(document).ready(function(){");
+		 		//		out.println("alert('아이디와 비밀번호를 확인해주세요');");
+		 			  	out.println("Swal.fire({ text: '아이디와 비밀번호를 확인해주세요', confirmButtonText:'OK',   closeOnClickOutside: false, timer: 11000 }).then((result) => {   if (result.isConfirmed) {  history.back(); }; }) ");
+		 			//	out.println("history.back();");
+		 				out.println("});");
+	 					out.println("</script>");
 		 				out.close();
 		 			}
 		 		} catch (Exception e) {
@@ -245,9 +255,9 @@ public class MemberServiceImpl implements MemberService {
 			String phone = m.getPhone();
 			String gender = m.getGender();
 			String content = m.getProfile().getpContent();
-			if (birthday.length() != 8) throw new NullPointerException("생일 정보가 없습니다");
-			if (name.isEmpty()) throw new NullPointerException("입력된 이름이 없습니다");
-			if (phone.isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다");
+			if (birthday.length() != 8) throw new NullPointerException("생일 정보가 없습니다.");
+			if (name.isEmpty()) throw new NullPointerException("입력된 이름이 없습니다.");
+			if (phone == null || phone.isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다.");
 			if (phone.length() != 11 ) throw new NullPointerException("올바른 형식이 아닙니다.");
 			
 			// Profile DB로 보낼 Bean 
@@ -301,7 +311,15 @@ public class MemberServiceImpl implements MemberService {
 		return map;
 	}
 	
-	
+	// 관리자만 가능한 회원 활성화
+    @Override
+    public Map<String, Object> reInsertMember(Long mNo) {
+    	Map<String, Object> map = new HashMap<String, Object>();
+		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
+		int result = memberRepository.reInsertMember(mNo);
+		map.put("result", result);
+		return map;
+    }
 	
 	@Override
 	public Map<String, Object> checkPassword(HttpServletRequest request) {
@@ -355,20 +373,20 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<Member> selectMemberMen() {
 		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
-		return memberRepository.memberCountMen();
+		return memberRepository.memberMen();
 	}
 	
 	// 여자 회원
 	@Override
 	public List<Member> selectMemberWomen() {
 		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
-		return memberRepository.memberCountWomen();
+		return memberRepository.memberWomen();
 	}
 	// 성별없음 회원 
 	@Override
 	public List<Member> selectMemberNoGender() {
 		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
-		return memberRepository.memberCountNoGender();
+		return memberRepository.memberNoGender();
 	}
 	// 오늘 가입한 사람 목록
 	@Override
@@ -433,8 +451,8 @@ public class MemberServiceImpl implements MemberService {
 	      p.setPageEntity(cnt, page);
 	  
 	  
-	      dbMap.put("beginRecord", p.getBeginRecord());
-	      dbMap.put("endRecord", p.getEndRecord());
+	      dbMap.put("beginRecord", p.getBeginRecord()-1 );
+	      dbMap.put("recordPerPage", p.getRecordPerPage());
 	      
 	      
 	      // 검색 결과 리스트
@@ -461,4 +479,8 @@ public class MemberServiceImpl implements MemberService {
 	      return resultMap;
 	  		
 	}
+
+	
+	
+	
 }

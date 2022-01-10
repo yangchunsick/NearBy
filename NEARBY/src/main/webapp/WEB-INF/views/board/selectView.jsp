@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri ="http://java.sun.com/jsp/jstl/functions" prefix="f" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +12,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boardFindView.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board/boardFindView.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/selectViewReply.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <style>
    .board_icon{
        margin-left: 25px;
@@ -25,151 +29,26 @@
    	.pointer {
    		cursor: pointer;
    	} 
-/* ------------------- reply 구역 ----------------- */
-
-	#reply_count_per_board {
-		margin: 10px;
-	}
-	.reply_user_img {
-		width:20px;
-		height: 20px;
-		margin: 5px;
-		border-radius: 100%;
-	}
-	.reply_count_box {
-		margin-left: 100px; 
-	}
-	#input_reply_table td:nth-of-type(1){
-		width:20px;
-	}
-	#input_reply_table #reply_user_name_area input[type=text]{
-		width: auto;
-	}
-	.insert_btn_area {
-		position: relative;
-	}
-	#insert_reply_btn {
-		right: 34px;
-		border-radius: 10px;
-	}
-	#input_reply_table input[type=text]{
-		margin: 5px;
-		width: 440px;
-	/* 	height: 24px; */
-		font-size: 12px;
-		outline-style: none;
-		padding:14px;
-		border-style: none;
-		background-color: #f0f2f5;
-		border-radius: 20px;
-	}
-	.disapear{
-		display: none;
-	}
-	
-	/* 댓글 보여주는 구역 CSS */
-	.replyCount {
-		margin-left: 100px; 
-	}
-	.output_reply_area {
-		width: 500px; 
-		margin:10px auto 5px;
-	}
-	.reply_user_image_area {
-		width: 25px;
-	}
-	.reply_user_image_area .reply_user_img{
-		width:25px;
-	 	height: 25px;
-		margin: 5px;
-	}
-	.output_reply_area .reply_user_name_area{
-		color: black;
-		width: auto;
-	}
-	.like_icon_area {
-		font-size: 16px;
-		padding: 5px;
-	}
-	.input_row {
-		position: relative;
-	}
-	.input_row .reply_btns {
-		position: absolute;
-		top: 10px;
-		right: 20px;
-		background-color: #f0f2f5;
-	}
-	.btn_area {
-		position: relative;
-	}
-	.btn_area .show_reply_btn {
-		position: absolute;
-		right: 58px;
-		width: 30px
-	}
-	.delete_reply_btn {
-		position: absolute;
-		right: 28px;
-		width: 30px
-	}
-	.output_reply_table input[type=text]{
-		margin: 5px;
-		width: 490px;
-		height: 24px; 
-		font-size: 12px;
-		outline-style: none;
-		padding:18px;
-		border-style: none;
-		background-color: #f0f2f5;
-		border-radius: 20px;
-	}
-	.reply_content {
-		word-break: break-all;
-	}
-	.btn_area {
-		width: auto;
-	}
-	.reply_insert_btns{
-		margin-right:5px;
-		width:36px; 
-		font-size: 12px;
+   	.textarea {
 		border: none;
-		padding: 5px 0 5px 0;
-		background-color:#fe4662;
-		color:white;
-		border-radius: 5px;
-	}
-	.reply_btns{
-		font-size: 12px;
-		border-style: none;
-		padding-right: 5px;
+		margin: 0 -10px;
 		background-color: rgba(255, 250, 250, 0.8);
-		color: gray;
-	}
-	.reply_btns:hover{
-		text-decoration: underline;
+		width: 500px;
+		padding: 10px 6px 20px 10px;
 	}
 
-/* 페이징용 CSS */
-   #paging {
-      display: flex;
-      justify-content: center;
-   }
-   #paging > div {
-      width: 35px;
-      heigth: 20px;
-      text-align: center;
-   }
-   .disable_link {
-      color: lightgray;
-   }
-   .enable_link {
-      cursor: pointer;
-   }
-   .now_page {
-      color: red;
-   }
+
+  /* sweet alert */
+  .swal2-popup { padding: 0.5em; }
+  .swal2-icon {
+  	width: 4.5em;
+  	height: 4.5em;
+  }
+   .swal2-styled { margin:  0.5em; }
+   .swal2-styled.swal2-confirm { width: 100px; background-color: #d4d4d4;  }
+   .swal2-styled.swal2-cancel {width: 100px;}
+   .swal2-icon.swal2-warning { color: pink; border-color: pink;}
+   .swal2-header{ height: 100px; }
 
 
 </style>
@@ -182,6 +61,7 @@
 		fnShowUpdateBtn();
 		fnUpdateReply(); // 댓글 수정
 		fnDeleteReply(); // 댓글 삭제
+	    fnCheckLogin();
 		
 	    var txtArea = $(".content_height");
 	    if (txtArea) {
@@ -189,6 +69,7 @@
 	            $(this).height(this.scrollHeight);
 	        });
 	    }
+	    
 	})
 
 	function fnSetting(){
@@ -197,10 +78,21 @@
 	}
 	
 	function fnDelete(){
-		if ( confirm('게시글을 삭제하시겠습니까?') ){
-			location.href= '/nearby/board/deleteBoard?bNo='+${board.bNo};
-		}
-	}
+		 Swal.fire({
+				text: '게시글을 삭제하시겠습니까?',
+		        icon: 'warning',
+		        showCancelButton: true,
+		        closeOnClickOutside: false,
+		        confirmButtonColor: '#D4D4D4',  // confirm
+		        cancelButtonColor: '#D4D4D4',   // cancel
+		        confirmButtonText: '삭제',
+		        cancelButtonText: '취소'	
+		     }).then((result) => {
+	             if (result.isConfirmed) {
+	            		location.href= '/nearby/board/deleteBoard?bNo='+${board.bNo};
+	             }
+		     })    
+	   }
 	
 	function fnAdminDelete(i){
 		if( confirm('게시글 번호 '+i+'를 삭제하시겠습니까?') ){
@@ -212,22 +104,36 @@
  				contentType:'application/json',
  				success: function(map){
  					 if(map.result.result > 0){
- 						alert('삭제성공');
  						location.href= "/nearby/board/boardList";
  					 } else {
- 						 alert('삭제실패');
  					 }
  					}, 
  				error: function(){
- 					alert("ajax에러입니다")
+ 				//	alert("ajax에러입니다")
  				}
  			})
  		}
 	}
 	
 	function fnUpdate(){
-		if(confirm('게시글을 수정하시겠습니까?') )
-			location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo};
+	/* 	if(confirm('게시글을 수정하시겠습니까?') )
+			location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo}; */
+		 Swal.fire({
+			text: '게시글을 수정하시겠습니까?',
+	        icon: 'warning',
+	        showCancelButton: true,
+	        closeOnClickOutside: false,
+	        confirmButtonColor: '#D4D4D4',  // confirm
+	        cancelButtonColor: '#D4D4D4',   // cancel
+	        confirmButtonText: '수정',
+	        cancelButtonText: '취소'	
+	     }).then((result) => {
+             if (result.isConfirmed) {
+            	 location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo}; 
+             }
+	     })    
+			
+			
 	}
 	
     function fnSendBno(){
@@ -240,20 +146,12 @@
 			      data: "bNo=" + bNo,
 			      dataType: 'json',
  			      success: function(map) {
-			    	  console.log('성공했을때');
-			    	  console.log(map.count);
 			    	    if( map.count == 1 ){
-			    	    	// 색 있는 하트
 			    	    	 console.log("색 채우기")
 			    	    	 	$("#like"+bNo).addClass('like');
-			    	    	    
-			    	    	 
 			    	    } else if (map.count == 0) {
-			    	    	// 빈 하트
-			    	    	 console.log("색이 없기")
 			    	    	$("#like"+bNo).removeClass('like');
 			    	    }
-			    	  
 			      },
 			      error: function() {
  			      }
@@ -276,8 +174,6 @@
 						data: "bNo="+i, 
 						dataType: 'json',
 		 				success: function(board){
-		 					console.log(board);
-		 					console.log("좋아요 누른 카운트"+ board.likes);
   			  			   $( '#like_count'+bNo ).text(board.likes);
   			  			   location.href="/nearby/board/selectBoard?bNo="+bNo;
 		 					
@@ -290,8 +186,6 @@
 		            return
 		   }
  			
-	 	//	  console.log("likehasClass = " + $("#"+i).children('i').hasClass('like') )
-  
   
 	    if(  $("#"+i).find('i').hasClass('like') ) {
 	    	$("#"+i).find('i').removeClass('like');
@@ -308,8 +202,7 @@
 	  				   
 	  				},
 	  				error : function(xhr, error){
-	  					console.log(xhr.status);
-	  					console.log(xhr.error)
+	  //					console.log(xhr.error)
 	  				}				
 	  			});  // ajax
 	  			return;
@@ -319,139 +212,149 @@
  	
 
 	
-/* ----------------------------------------- fnReplyList() --------------------------------  */
-var page = 1; // 시작은 무조건 1page이니까. 1로 초기화
-function fnReplyList(){
-   $.ajax({
-      url: '/nearby/reply/replyList',
-      type: 'get',
-      data: "bNo=" + '${board.bNo}' + "&page=" + page,
-      dataType: 'json',
-      success: function(map) {
-         fnPrintReplyList(map);
-         fnPrintPaging(map.pageUtils);
-         fnReplyTotalCount(map);
-      },
-      error: function(xhr) {
-         console.log(xhr.responseText);
-      }
-   }) // End ajax
-} // End fnReplyList
+	/* ----------------------------------------- fnReplyList() --------------------------------  */
+	var page = 1; // 시작은 무조건 1page이니까. 1로 초기화
+	function fnReplyList(){
+	   $.ajax({
+	      url: '/nearby/reply/replyList',
+	      type: 'get',
+	      data: "bNo=" + '${board.bNo}' + "&page=" + page,
+	      dataType: 'json',
+	      success: function(map) {
+	         fnReplyTotalCount(map);
+	         if (map.total != 0 ) {
+		         fnPrintPaging(map.pageUtils);
+	         } else if (map.total == 0) {
+	        	 $('#paging').empty();
+	         }
+	         fnPrintReplyList(map);
+	      },
+	      error: function(xhr) {
+	         console.log(xhr.responseText);
+	      }
+	   }) // End ajax
+	} // End fnReplyList
 
-   function fnReplyTotalCount(map) {
-         $('#reply_count_per_board').text(map.total);
-         console.log('  여기는 함수 내부이다     : '+map.total);
-         if (map.total > 0 ) {
-            $('.replyCount').addClass('like').removeClass('unlike');
-         } else if (map.total == 0) {
-            $('.replyCount').addClass('unlike').removeClass('like');
-         }
-}
+	function fnReplyTotalCount(map) {
+	         $('#reply_count_per_board').text(map.total);
+	         if (map.total > 0 ) {
+	            $('.replyCount').addClass('like').removeClass('unlike');
+	         } else if (map.total == 0) {
+	            $('.replyCount').addClass('unlike').removeClass('like');
+	         }
+	}
 
+	   /* ----------------------------------------- fnPrintReplyList() --------------------------------  */
 
-/* ----------------------------------------- fnPrintReplyList() --------------------------------  */
+		function fnPrintReplyList(map){
+			 $('.output_reply_table').empty();
+			 
+			 var p = map.pageUtils;
+			 let id = '${loginUser.id}';
+			 
+			 if (p.totalRecord == 0) {
+			    $('<tr>')
+			    .append( $('<td colspan="5" class="reply_none">').text('첫 번째 댓글의 주인공이 되어보세요!') )
+			    .appendTo( '.output_reply_table' );
+			 } else {
+			    
+			    $.each(map.replyList, function(i, reply){
+			         if ( reply.profile.pSaved != null ) { // 댓글 작성자의 프로필 사진이 있을 때 프로필 사진을 보여주고
+			        
+							let pSaved = reply.profile.pSaved;
+							let pPath = reply.profile.pPath;
+			        
+							$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
+			           } else if(reply.profile.pPath == null) { // 댓글 작성자의 프로필 사진이 없을 때 디폴트 사진을 보여준다.
+							$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
+			           } // End if 프사 부분 
+					
+					$('<tr class="icon_row">')
+					.append( $('<td class="reply_user_name_area">').html( $('<a id="link_'+reply.rNo+'" class="user_page_link">'+reply.id+'</a>') ) )
+					.append( $('<td class="like_icon_area">') )
+					.append( $('<td class="btn_area">').html( $('<input type="button" class="show_reply_btn pointer disapear reply_btns" data-upno="'+reply.rNo+'" value="수정" data-login="'+id+'" data-writer="'+reply.id+'"></td>') ) )
+					.append( $('<td class="btn_area">').html( $('<input type="button" class="delete_reply_btn pointer disapear reply_btns" data-no="'+ reply.rNo +'" value="삭제" data-login="'+id+'" data-writer="'+reply.id+'" ></td>') ) )
+					.appendTo( '.output_reply_table' );
+					$('.output_reply_table').append( $('<tr class="input_row">').html( $('<td colspan="4"><input type="text" class="reply_content" id="updateContent" value="'+reply.rContent+'" readonly></td><td class="btn_area"><input type="button" class="update_reply_btn pointer reply_btns disapear reply_insert_btns" data-updateno="'+reply.rNo+'" value="등록"></td>') ) );
 
-	function fnPrintReplyList(map){
-		 $('.output_reply_table').empty();
-		 
-		 var p = map.pageUtils;
-		 let id = '${loginUser.id}';
-		 
-		 if (p.totalRecord == 0) {
-		    $('<tr>')
-		    .append( $('<td colspan="5">').text('첫 번째 댓글의 주인공이 되어보세요!') )
-		    .appendTo( '.output_reply_table' );
-		 } else {
-		    
-		    $.each(map.replyList, function(i, reply){
-		         if ( reply.profile.pSaved != null ) { // 댓글 작성자의 프로필 사진이 있을 때 프로필 사진을 보여주고
-		        
-						let pSaved = reply.profile.pSaved;
-						let pPath = reply.profile.pPath;
-		        
-						$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
-		           } else if(reply.profile.pPath == null) { // 댓글 작성자의 프로필 사진이 없을 때 디폴트 사진을 보여준다.
-						$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
-		           } // End if 프사 부분 
-				
-				$('<tr class="icon_row">')
-				.append( $('<td class="reply_user_name_area">').html( $('<a href="#">'+reply.id+'</a>') ) )
-				.append( $('<td class="like_icon_area">') )//.html( $('<i class="fas fa-thumbs-up pointer" style="color:#fe4662; width: 16px"></i>') ) )
-				.append( $('<td class="btn_area">').html( $('<input type="button" class="show_reply_btn pointer disapear reply_btns" data-upno="'+reply.rNo+'" value="수정" data-login="'+id+'" data-writer="'+reply.id+'"></td>') ) )
-				.append( $('<td class="btn_area">').html( $('<input type="button" class="delete_reply_btn pointer disapear reply_btns" data-no="'+ reply.rNo +'" value="삭제" data-login="'+id+'" data-writer="'+reply.id+'" ></td>') ) )
-				.appendTo( '.output_reply_table' );
-				$('.output_reply_table').append( $('<tr class="input_row">').html( $('<td colspan="4"><input type="text" class="reply_content" id="updateContent" value="'+reply.rContent+'" readonly></td><td class="btn_area"><input type="button" class="update_reply_btn pointer reply_btns disapear reply_insert_btns" data-updateno="'+reply.rNo+'" value="등록"></td>') ) );
-
-		    }) // End each
-		    
-		    
-			$.each( $('.icon_row') , function(i, row) {
-				
-				let update_btn = $($(this).find('.reply_btns')[0]);
-				let delete_btn = $($(this).find('.reply_btns')[1]);
-				if (update_btn.data('login') == update_btn.data('writer')){			
-					update_btn.removeClass('disapear');
-					delete_btn.removeClass('disapear');
-				}
-				
-			});
-		    
-		    
-		 } // End if 
-	} // End fnPringReplyList
+					
+					// 유저 이름당 href 링크 만들기
+					if (reply.id != id) {
+						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','/nearby/board/selectUserHome?id='+reply.id);
+					} else if(reply.id == id) {
+						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','/nearby/board/myHome');
+					}
+					
+			    }) // End each
+			    
+				$.each( $('.icon_row') , function(i, row) {
+					
+					let update_btn = $($(this).find('.reply_btns')[0]);
+					let delete_btn = $($(this).find('.reply_btns')[1]);
+					if (update_btn.data('login') == update_btn.data('writer')){			
+						update_btn.removeClass('disapear');
+						delete_btn.removeClass('disapear');
+					}
+					
+				});
+			    
+			 } // End if 
+		} // End fnPrintReplyList
    
-/* ----------------------------------------- fnInsertReply() ----------------------------------------- */
-function fnInsertReply(){
-   $('#insert_reply_btn').on('click', function(){
-	   if ( $('#rContent').val().length > 38) {
-				Swal.fire({
-					icon: 'warning',
-					text: '댓글은 공백포함 38자 이내로 작성해주세요'
-				});
-		   return;
-	   } 
-	   
-	   if( $('#rContent').val() == '' ) {
-				Swal.fire({
-					icon: 'warning',
-					text: '작성된 내용이 없습니다.'
-				});
-		   $('#rContent').focus();
-		   return;
-	   }
-	   
-       let reply = JSON.stringify({
-         id: '${loginUser.id}',
-         bNo : '${board.bNo}',
-         rContent: $('#rContent').val(),
-         depth: 0,
-         groupNo: 0,
-         groupOrd: 0
-      }); 
-      $.ajax({
-         url: '/nearby/reply/insertReply',
-         type: 'post',
-         data: reply,
-         contentType: 'application/json',
-         dataType: 'json',
-         success: function(map) {
-               fnReplyList();
-               if (map.errorMsg != null) {
-	   				Swal.fire({
-						icon: 'warning',
-						text: map.errorMsg
-					});
-               } else {
-	               $('#rContent').val(''); // 나중에 주석 지워야 할 부분
-               }
 
-         },
-         error: function(xhr) {
-            console.log(xhr.responseText);
-         }
-      }) // End ajax
-   }) // End click event
-}  // End fnInsertReply
+		   
+		/* ----------------------------------------- fnInsertReply() ----------------------------------------- */
+		function fnInsertReply(){
+		   $('#insert_reply_btn').on('click', function(){
+			   if ( $('#rContent').val().length > 40) {
+						Swal.fire({
+							icon: 'warning',
+							text: '댓글은 공백포함 40자 이내로 작성해주세요'
+						});
+				   return;
+			   } 
+			   
+			   if( $('#rContent').val().trim() == '' ) {
+						Swal.fire({
+							icon: 'warning',
+							text: '작성된 내용이 없습니다.'
+						});
+				   $('#rContent').focus();
+				   return;
+			   }
+			   
+		      let reply = JSON.stringify({
+		         bNo: '${board.bNo}',
+		         id: '${loginUser.id}',
+		         rContent: $('#rContent').val(),
+		         depth: 0,
+		         groupNo: 0,
+		         groupOrd: 0
+		      }); 
+		      $.ajax({
+		         url: '/nearby/reply/insertReply',
+		         type: 'post',
+		         data: reply,
+		         contentType: 'application/json',
+		         dataType: 'json',
+		         success: function(map) {
+		               fnReplyList();
+		               if (map.errorMsg != null) {
+			   				Swal.fire({
+								icon: 'warning',
+								text: map.errorMsg
+							});
+		               } else {
+			               $('#rContent').val(''); // 나중에 주석 지워야 할 부분
+		               }
+
+		         },
+		         error: function(xhr) {
+		            console.log(xhr.responseText);
+		         }
+		      }) // End ajax
+		   }) // End click event
+		}  // End fnInsertReply
 
 /* ----------------------------------------- fnDeleteReply() ----------------------------------------- */
 
@@ -485,6 +388,37 @@ function fnInsertReply(){
 			completeBtn.toggleClass('disapear');
 		}) // fnShowUpdateBtn
 	}
+	/* ----------------------------------------- fnDeleteReply() ----------------------------------------- */
+
+	function fnDeleteReply(){
+		$('body').on('click', '.delete_reply_btn', function(){
+			let deleteNo = $(this).data('no');
+			//console.log(deleteNo);
+				$.ajax({
+					url: '/nearby/reply/deleteReply',
+					type: 'get',
+					data: 'rNo=' + deleteNo,
+					dataType: 'json',
+					success: function(map){
+						fnReplyList();
+					},
+					error: function(xhr){
+					}
+				})// end ajax
+		})
+	} // end fnDeleteMember
+/* ----------------------------------------- fnShowUpdateBtn() ----------------------------------------- */
+
+	function fnShowUpdateBtn(){
+		$('body').on('click', '.show_reply_btn', function(){
+			let upNo = $(this).data('upno');
+			let content = $(this).parent().parent().next().children().find('input');
+			let completeBtn = $(this).parent().parent().next().children().next().find('input');
+			
+			content.removeAttr('readonly');
+			completeBtn.toggleClass('disapear');
+		}) // fnShowUpdateBtn
+	}
 
 /* ----------------------------------------- fnUpdateReply() ----------------------------------------- */
 		
@@ -492,10 +426,16 @@ function fnInsertReply(){
 		$('body').on('click', '.update_reply_btn', function(){
 			let updateNo = $(this).data('updateno');
 			let updateContent = $(this).parent().prev().find('input').val();
-			if ( updateContent == '') {
+			if ( updateContent.trim() == '') {
 				Swal.fire({
 					icon: 'warning',
 					text: '작성된 내용이 없습니다'
+				});
+				return;
+			} else if (updateContent.length > 40) {
+				Swal.fire({
+					icon: 'warning',
+					text: '댓글은 공백포함 40자 이내로 작성해주세요'
 				});
 				return;
 			}
@@ -523,71 +463,92 @@ function fnInsertReply(){
 					}
 				})// end ajax 
 		})
-	} // end fnDeleteMember
+	} // end fnUpdateReply
 
 
-/* ----------------------------------------- fnPrintPaging() ----------------------------------------- */
-// 페이징 출력 함수
-	function fnPrintPaging(p) {
-		$('#paging').empty();
-	   // 1페이지로 이동
-		if (page == 1) {
-			$('<div class="disable_link">PREV</div>').appendTo('#paging');
-		} else {
-			$('<div class="enable_link" data-page="1">PREV</div>').appendTo('#paging'); 
-		}
-		// 이전 블록으로 이동
-		if (page <= p.pagePerBlock) {
-			$('<div class="disable_link">&nbsp;&nbsp;&nbsp;&lt;</div>').appendTo('#paging');
-		} else {
-			$('<div class="enable_link" data-page="'+(p.beginPage-1)+'">&nbsp;&nbsp;&nbsp;&lt;</div>').appendTo('#paging');
-		}
-		// 페이지 번호
-		for (let i = p.beginPage; i <= p.endPage; i++) {
-			if (i == page) {
-			   $('<div class="disable_link now_page">'+i+'</div>').appendTo('#paging');
+	/* ----------------------------------------- fnPrintPaging() ----------------------------------------- */
+	// 페이징 출력 함수
+		function fnPrintPaging(p) {
+			$('#paging').empty();
+		   // 1페이지로 이동
+			if (page == 1) {
+				$('<div class="disable_link">PREV</div>').appendTo('#paging');
 			} else {
-			   $('<div class="enable_link" data-page="'+i+'">'+i+'</div>').appendTo('#paging');
+				$('<div class="enable_link" data-page="1">PREV</div>').appendTo('#paging'); 
 			}
-		}
-		// 다음블록으로 이동
-		if (p.endPage == p.totalPage) {
-			$('<div class="disable_link">&gt;</div>').appendTo('#paging');
-		} else {
-			$('<div class="enable_link" data-page="'+(p.endPage+1)+'">&gt;</div>').appendTo('#paging');
-		}
-		
-		// 마지막 페이지로 이동
-		if (page == p.totalPage) {
-			$('<div class="disable_link">NEXT</div>').appendTo('#paging');
-		} else {
-			$('<div class="enable_link" data-page="'+p.totalPage+'">NEXT</div>').appendTo('#paging');
-		}
-	} // End fnPrintPaging
+			// 이전 블록으로 이동
+			if (page <= p.pagePerBlock) {
+				$('<div class="disable_link">&nbsp;&nbsp;&nbsp;&lt;</div>').appendTo('#paging');
+			} else {
+				$('<div class="enable_link" data-page="'+(p.beginPage-1)+'">&nbsp;&nbsp;&nbsp;&lt;</div>').appendTo('#paging');
+			}
+			// 페이지 번호
+			for (let i = p.beginPage; i <= p.endPage; i++) {
+				if (i == page) {
+				   $('<div class="disable_link now_page">'+i+'</div>').appendTo('#paging');
+				} else {
+				   $('<div class="enable_link" data-page="'+i+'">'+i+'</div>').appendTo('#paging');
+				}
+			}
+			// 다음블록으로 이동
+			if (p.endPage == p.totalPage) {
+				$('<div class="disable_link">&gt;</div>').appendTo('#paging');
+			} else {
+				$('<div class="enable_link" data-page="'+(p.endPage+1)+'">&gt;</div>').appendTo('#paging');
+			}
+			
+			// 마지막 페이지로 이동
+			if (page == p.totalPage) {
+				$('<div class="disable_link">NEXT</div>').appendTo('#paging');
+			} else {
+				$('<div class="enable_link" data-page="'+p.totalPage+'">NEXT</div>').appendTo('#paging');
+			}
+		} // End fnPrintPaging
 
-/* ----------------------------------------- fnChangePage() ----------------------------------------- */
-// 페이징 링크 처리 함수
-	function fnChangePage() {
-		$('body').on('click', '.enable_link', function(){
-			page = $(this).data('page');
-			fnReplyList();
-		}) // body click event
-	} // End fnChangePage   
-	
-	
+	/* ----------------------------------------- fnChangePage() ----------------------------------------- */
+	// 페이징 링크 처리 함수
+		function fnChangePage() {
+			$('body').on('click', '.enable_link', function(){
+				page = $(this).data('page');
+				fnReplyList();
+			}) // body click event
+		} // End fnChangePage   
+		
+		/* ----------------------------------------- fnCheckLogin() --------------------------------  */
+	 	function fnCheckLogin(){
+			let loginInfo = '${loginUser.id}';
+			if (loginInfo == '') {
+				
+			 Swal.fire({
+					text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
+			        icon: 'warning',
+			        showCancelButton: true,
+			        confirmButtonColor: '#D4D4D4',  // confirm
+			        cancelButtonColor: '#D4D4D4',   // cancel
+			        confirmButtonText: '이동',
+			        cancelButtonText: '취소'	
+			     }).then((result) => {
+					if(result.isConfirmed) { // confirm이 false이면 return
+						location.href='/nearby/';
+					}
+			     })
+			}
+		}	 	 		
 	
 </script>
 </head>
 <body>
 	 <c:if test="${loginUser.id != 'admin'}"> 
-		<header class="header">
-			<jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
-		</header>
-	</c:if>
-	
-	 <c:if test="${loginUser.id == 'admin'}"> 
-			<jsp:include page="/WEB-INF/views/layout/adminHeader.jsp" flush="true" />
-	</c:if>	
+      <header class="header">
+         <jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
+      </header>
+   </c:if>
+   
+    <c:if test="${loginUser.id == 'admin'}"> 
+      <header class="header">
+         <jsp:include page="/WEB-INF/views/layout/adminHeader.jsp" flush="true" />
+      </header>
+    </c:if>   
 	
 	<div class="mainBoardWrap" >
 	    <div class="boardIntro"> 
@@ -600,17 +561,25 @@ function fnInsertReply(){
 		    </c:if>
 	    	</div>
 	    	<input type="hidden" id="bNo" value="${board.bNo}">
-	    	<div class="id">
-	    	   <a href="/nearby/board/selectBoard" id="board_writer">${board.id}</a>
+	    	<div class="idAndDate">	
+		    	<c:if test="${loginUser.id != board.id}">
+					<a href="/nearby/board/selectUserHome?id=${board.id}">${board.id}</a>                
+				</c:if>
+				<c:if test="${loginUser.id == board.id}">
+					<a href="/nearby/board/myHome">${board.id}</a>                
+				</c:if>
+	    		<div class="date">
+			    	    <fmt:formatDate value="${board.created}" pattern="MM월 dd일  a hh:mm" />
+			    	    <i class="fas fa-globe-asia" ></i>
+			    </div>
 	    	</div> 
 	    
 		<c:if test="${board.id == loginUser.id}">   
 		 <div class="setting_wrap">	
-	    	<i class="fas fa-cog setting" onclick="fnSetting()" >
-	    	</i>
+	    	<i class="fas fa-ellipsis-h setting" onclick="fnSetting()"></i>
 	    	<ul class="delete_update_form b_no">
-		    		<li class="update_link" onclick="fnUpdate(); return false;">게시글 수정</li>
-		    		<li class="delete_link" onclick="fnDelete(); return false; ">게시글 삭제</li>
+    			<li class="update_link" onclick="fnUpdate(); return false;">게시글 수정</li>
+	    		<li class="delete_link" onclick="fnDelete(); return false; ">게시글 삭제</li>
 		    </ul>
 		   </div> 
 	    </c:if>	
@@ -618,10 +587,10 @@ function fnInsertReply(){
     	<!-- 관리자일때만 삭제가능  아이콘 표시 -->
    		<c:if test="${ 'admin' == loginUser.id}">   
    		 <div class="setting_wrap">	
-				<i class="fas fa-cog setting" onclick="fnSetting()" ></i>
-				 <ul class="delete_form b_no">
- 			   		<li class="delete_link" onclick="fnAdminDelete(${board.bNo}); return false;">게시글삭제</li>
-		  		 </ul>
+			<i class="fas fa-ellipsis-h setting" onclick="fnSetting()"></i>
+			 <ul class="delete_form b_no">
+			   		<li class="delete_link" onclick="fnAdminDelete(${board.bNo}); return false;">게시글삭제</li>
+	  		 </ul>
   		</div>
 	   </c:if>
 	    	
@@ -633,8 +602,8 @@ function fnInsertReply(){
 						       		  <i class="fas fa-map-marker-alt" style="color:#fe4662; font-size:15px; width:30px"></i>
 						              <span class="address"> ${board.location} </span>
 				      </div>
-		  		       <div class="content onlyContent">
-		           			<textarea readonly="readonly" class="content_height"> ${board.content}</textarea> 
+		       		   <div class="content">
+		       		         <pre style='white-space:pre-wrap; word_wrap:break-word; word-break: break-all; width:505px;'>${board.content}</pre>
 		       		   </div>
 	  		    </div>
 		  </c:if>
@@ -659,9 +628,8 @@ function fnInsertReply(){
 		  					</div>
 		  				</c:if>
 		  					<input type="hidden" name="path" value="${board.path}">
-		  					
 		  		      <div class="content">
-		           			<textarea readonly="readonly"  class="content_height"> ${board.content}</textarea> 
+		       		         <pre style='white-space:pre-wrap; word_wrap:break-word; word-break: break-all; width:499px;'>${board.content}</pre>
 		       		   </div>
 		  		</div>
 		  </c:if>		

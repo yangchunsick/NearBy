@@ -126,25 +126,21 @@ function fnFindPw(){
     /* 가입한 아이디 체크 */
     function fnPwFind_IdCheck(){
         $('#idCheck_btn').on('click', function(){
-            alert('눌름 ?');
             $.ajax({
                 url: '/nearby/member/idCheck',
                 type: 'post',
                 data: 'id=' + $('#pwId').val(),
                 dataType: 'json',
                 success: function(map){
-                    console.log(map.result.id);
-                    console.log(map.result.email);
-                    if(map.result.id == $('#pwId').val()){
-                        $('.emailCheck_box').css('display', 'block');
-                        fnPwFind_EmailCheck(map.result.email);
-                    }else if(map.result == null){
+                    if(map.result == null){
                         Swal.fire({
                             icon: 'error',
                             title: '실패',
                             text: '해당하는 아이디를 찾을 수 없습니다.',
                         });
-                        /*alert('해당하는 아이디를 찾을 수 없습니다.');*/
+                    }else if(map.result.id == $('#pwId').val()){
+                        $('.emailCheck_box').css('display', 'block');
+                        fnPwFind_EmailCheck(map.result.email);
                     }
                 },
                 error: function(){

@@ -61,10 +61,11 @@ public class adminController {
 	// 검색
 	@GetMapping("admin/findMember")
 	public String findMember(HttpServletRequest request, Model model) {
+		  String query = request.getParameter("query");
+		  String column = request.getParameter("column");
 		  model.addAttribute("request", request);
 		  Map<String, Object> map = mService.findMember(request);
 	      model.addAttribute("map", map);
-		  System.out.println("map??? " +map);
 		  return "admin/memberManage";
 	}
 	
@@ -78,7 +79,16 @@ public class adminController {
 	 	 m.put("result", map);
 		 return m;
 	}
-	
+	// 회원 활성화 
+	@ResponseBody
+	@GetMapping(value="admin/reInsertMember", produces ="application/json; charset=UTF-8" )
+	public Map<String, Object> reInsertMember(@RequestParam Long mNo) {
+		 Map<String, Object> map =  mService.reInsertMember(mNo);
+		 Map<String,Object> m = new HashMap<String, Object>();
+	 	 m.put("result", map);
+		 return m;
+	}
+		
 	
 	// 게시글 삭제
 	@ResponseBody

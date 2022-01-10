@@ -12,7 +12,7 @@
 		list-style-type: none;
 	}
 	
-	.container {
+	.admin_container {
 		display: flex;
         flex-direction: row;
         position: fixed;
@@ -25,67 +25,63 @@
 		box-shadow: 5px 5px 8px rgba(160, 160, 160, 0.3);
 	}
 	
-	.left_box {
+	.admin_left_box {
 		width: 360px;
 		height: 100%;
 	}
 	
-	.mid_box {
+	.admin_mid_box {
         display: inline-flex;
         flex-direction: row;
         margin: 0 auto;
         padding-right: 70px;
 	}
 	
-	.right_box {
+	.admin_right_box {
 		position: relative;
 		width: 40%;
 		height: 100%;
 		display: flex;
 	}
-	
-    .left_box > a{
+    .admin_left_box  a{
         display: block;
         margin: 10px 0 10px 70px;
         width: 200px; height: 85px;
         background-size: 219px 85px;
-        background-repeat: no-repeat;
-        background-image: url(../image/logo_color.png);
         font-size: 0;
     }
     
-	#logo_img {
+	#admin_logo_img {
 		width:  200px;
-		margin-top: 12px;
-		margin-left: 50px;
+
 	}
 	
-    .btn_box{
+    .admin_btn_box{
         display: flex;
         text-align: center;
         margin: 0 auto;
         width: 650px;
     }
     
-    #home_btn:hover, #myhome_btn:hover, #chat_btn:hover, #insert_btn:hover, #admin_btn:hover{
+    #admin_home_btn:hover,  #admin_admin_btn:hover, #memberList_btn:hover{
     	border-bottom: 8px solid #fe4662;
     }
 
-	.btn_box .boxes {
+	.admin_btn_box .admin_boxes {
         display: inline-block;
         margin: 0 auto;
         width: 200px; height: 100%;
 
 	}
 	
-	 .boxes > a{
+	 .admin_boxes > a{
 	 	width: 100%;
 	 	height: 100%;
 	 	margin: 0 auto;
 	 	flex-direction: row;
 	}
 	
-	li  a  i {
+	.admin_btn_box i {
 		color: #6f7070;
 		text-align: center;
 		margin: 30px auto;
@@ -100,12 +96,12 @@
     	color: #fe4662;
     }
     
-    .boxes:hover {
+    .admin_boxes:hover {
     	border-bottom: 8px solid #fe4662;
     	background-color: rgba(240,242,245,0.7);
     	border-radius: 4px;
     }
-	.search_box {
+	.admin_search_box {
 	    display: flex;
 	    border-radius: 10px;
         margin-left: 40px;
@@ -118,19 +114,22 @@
         line-height: 20px;
         background-color: #e8f0fe;
    }
+    .admin_board_search .admin_search_box { 
+    	  width: 240px;
+    }
+    
    .m_search_box {	width: 340px;   }
-    .search_box > input {
+    .admin_search_box > input {
 		border: none;
         outline: none;
-        width: 200px;
+        width: 180px;
         height: 30px;
         line-height: 30px;
         margin-top: 8px;
         margin-left: 18px;
         background-color: #e8f0fe;        
    }
-    .search_box > select {
-
+    .admin_search_box > select {
 		border: none;
         outline: none;
         width: 120px;
@@ -140,11 +139,11 @@
         margin-left: 18px;
         background-color: #e8f0fe;        
    }
-    .search_box > select:focus {
+    .admin_search_box > select:focus {
     	border: none;
         outline: none;
     }
-    .search_box option {
+    .admin_search_box option {
 		border: none;
         outline: none;
         width: 120px;
@@ -155,68 +154,25 @@
         background-color: #e8f0fe;        
         color: #6f7070
    }
-    #search_icon {
+    #admin_search_icon {
     	width: 40px;
     	height: 40px;
     	text-align: center;
-    	margin-top: 4px;
+    	margin-top: 6px;
     	margin-right: 16px;
     	border: none;
     	background-color: #e8f0fe;
-    	
+    	outline: none;
     }
     
-    #search_icon > i {
+    .fa-search {
     	color: #6f7070;
     	width: 38px;
+    	font-size: 16px;
     	height: 38px;
     	margin-top: 10px;
+    	cursor: pointer;
     }
- 	#profile_box {
-         position: absolute;
-         left : 390px;
-         top: 20px;
-         width: 60px;
-         height: 60px;
-         border-radius: 100%;
-   }
-   #profile_img {
-         width: 60px;
-         height: 60px;
-         border-radius: 100%;
-   }
+    .member_search_icon{ margin-top: 14px; }
 
-   #profile_menu {
- 		z-index: 6000;
-   		position: absolute;
-   		top: 102px;
-   		left: 360px;
-   	    width: 110px;
-   	    height: 100px;
-   	    border: 1px solid rgb(240,242,245);
-   	    border-radius: 3px;
-   	    background-color: white;
-   	    box-shadow: 5px 5px 8px rgba(160, 160, 160, 0.3);
-   	    
-   }
-   
-   #profile_menu li {
-        margin-top: 4px;
-        margin-left: 4px;
-   	    font-size: 14px;
-   	    font-weight: lighter;
-	    border-bottom: 1px solid rgb(240,242,245); 
-   }
-   
-   .profile_no {
-   		display: none;
-   }
-   .profile_see {
-   		display: block;
-   }
-   #profile_menu_list1, #profile_menu_list2, #profile_menu_list3 {
-   		font-weight: normal;
-   }
-   
-   
    

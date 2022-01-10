@@ -9,155 +9,18 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="${pageContext.request.contextPath}/resources/js/fnLoginCheck.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/changePw.css">
+
 <style>
+ @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+	.notosanskr * { font-family: 'Noto Sans KR', sans-serif; }
+	*{ margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; }
 
-
-	/* 초기화 */
-	*{ margin: 0; padding: 0; box-sizing: border-box; font-size: 14px; font-weight: 600; }
-	
-	html{ background-color: rgb(240, 242, 245); }
-	
-	a{ text-decoration: 0; color: black; }
-	ul, ol{ list-style-type: none; }
-	
-	label{
-	    display: block;
-	    text-align: left;
-	    padding-bottom: 5px;
-	    font-size: 18px;
+	footer {
+		margin-top : 200px;
 	}
-	
-	input{
-		background-color: aliceblue;
-	    border: 2px solid rgb(0, 0, 0, 0);
-	}
-	
-	input:focus{
-	    outline: none;
-	}
-	
-	.container{
-	    width: 600px;
-	    margin: 100px auto;
-	    background-color: white;
-	    border-radius: 30px;
-	}
-	
-	.head{
-	    width: 100%;
-	}
-	
-	/* 상단 로고 */
-	.title > a{
-	    display: block;
-	    width: 200px; height: 130px;
-	    margin: 30px auto;
-	    text-align: center;
-	    font-size: 0;
-	
-	    background-image: url(/NearBy_logo.png);
-	    background-size: 200px 130px;
-	    background-repeat: no-repeat;
-	}
-	
-	.pw_change_box{
-	    width: 600px;
-	    margin: 0 auto;
-	}
-	
-	/* 비밀번호 : 현재 비밀번호 / 새 비밀번호 / 새 비밀번호 확인 */
-	.input_box{
-	    width: 450px;
-	    height: 80px;
-	    margin: 35px auto 20px; 	
-	}
-	
-	.input_box input{
-	    width: 100%; height: 45px;
-	    border-radius: 10px;
-	}
-	
-	/* 이메일 */
-	.email_box{
-	    width: 450px;
-	    margin: 35px auto;
-	}
-	
-	.email_box input[type=text]{
-	    width: 75%; height: 45px;
-	    border-radius: 10px;
-	    margin-bottom: 5px;
-	}
-	
-	.email_box input[type=button]{
-	    width: 23%; height: 45px;
-	    background-color: pink;
-	    border-radius: 10px;
-	    font-size: 12px;
-	}
-	
-	.email_box input[type=button]:hover{
-	    background-color: #ff3268;
-	}
-	
-	
-	/* input tag 공백 */
-	.space input[type=text] {
-		padding-left:15px;
-	}
-	
-	/* 정규식 메세지 */
-	.error_msg {
-	    font-size:13px;
-	    color:red;
-	}
-	.pass_msg {
-	    font-size:13px;
-	    color:grey;
-	}
-	
-	
-	/* btn */
-	.btn_wrap{
-	    width: 450px;
-	    margin: 35px auto;
-	}
-	.btn_wrap input, button{
-		color:white;
-	    width: 220px; height: 50px;
-	    background: linear-gradient(#ff6e56,#ff3268);
-	    border-radius: 10px;
-	    margin-bottom: 40px;
-		border: none; 
-	}
-	
-	/* 포인터 */
-	.pointer:hover {
-		cursor: pointer;
-	}
-	
-	/* 안내메세지 박스 */
-	.msg_box {
-		padding: 5px;
-	} 
-	
-	/* 현재 비밀번호 */
-	#password_check_btn {
-	    width: 102.5px;
-	    height: 45px;
-	    background-color: pink;
-	    border-radius: 10px;
-	    font-size: 12px;
-	    margin-left: 5px;
-	}
-	#pw {
-		width: 337.5px;
-	}
-	#current_pw_box {
-		display: flex;
-		width:220px;
-	}
-	
 </style>
 
 <script type="text/javascript">
@@ -170,35 +33,48 @@
 		fnNewPwCheck(); // 새 비밀번호 정규식
 		fnPwDoubleCheck();
 		fnCurrentEmailCheck();
-		fnHomeBtn(); // 홈으로 가기
+		fnCheckLogin();
 	}); 
 	
 	// 서브밋
 	 function fnCheckSubmit(){
-	  /*   $('#pw_change_form').on('submit', function(event){ */
 	    $('#modify_btn').on('click', function(event){
 	      if( confirm('변경하시겠습니까?') == false){
 				event.preventDefault(); 
 	          return false;
 			} else if ( pw_result == false ) {
                 event.preventDefault(); 
+					Swal.fire({
+						text: '현재 비밀번호를 확인해주세요'
+					})
                 console.log('submit result : ' + pw_result);
                 return false;  
             } else if ( new_pw_result == false ) {
                 event.preventDefault();  
+					Swal.fire({
+						text: '새 비밀번호를 확인해주세요'
+					})
                 console.log('submit new_pw_result : ' + new_pw_result);
                 return false;  
             } else if ( pw_double_result == false ) {
-                event.preventDefault();  
+                event.preventDefault(); 
+					Swal.fire({
+						text: '새 비밀번호를 확인해주세요'
+					})
                 console.log('submit pw_double_result : ' + pw_double_result);
                 return false;  
             } else if ( email_result == false ) {
 				event.preventDefault();
+	    		  Swal.fire({
+						text: '이메일을 확인해주세요'
+					})
                 console.log('submit email_result : ' + email_result);
                 return false;  
             } else if ( authCodePass == false ) { 
 				event.preventDefault();
-				alert('이메일 인증을 진행해주세요'); 
+	    		  Swal.fire({
+						text: '이메일 인증을 진행해주세요'
+					})
                 console.log('submit authCodePass : ' + authCodePass);
             	return false;
             } else{
@@ -273,28 +149,38 @@
          			data: 'email='+ $('#email').val(),
          			dataType: 'json',
          			success : function(map) {
-         				alert('인증코드가 발송되었습니다.');
+    					Swal.fire({
+    						text: '인증코드가 전송되었습니다.'
+    					})
          				fnVerifyAuthcode(map.authCode); // 12/13추가
          			},
          			error: function() {
-     					alert('인증코드 전송 실패');
+    					Swal.fire({
+    						text: '인증코드 전송 실패'
+    					})
      				}
          		});	 // ajax
          	});
          	return;
          } 
-/* ******************* 12/14 수정 ************* fnVerifyAuthcode() ********************* */
+/* ------------------------------------------ fnVerifyAuthcode() ------------------------------------ */
       	// 인증코드 검증 변수와 함수
       	function fnVerifyAuthcode(authCode){
       		$('#verify_btn').click(function(){
-      			if ( $('#authCode').val() == authCode ) {
-      				alert('인증되었습니다.');
-      				authCodePass = true;
-      			} else if ( $('#authCode').val() == '' ) {
-      				alert('인증번호를 입력하세요');
+      			if ( $('#authCode').val() == '' ) {
+					Swal.fire({
+						text: '인증번호를 입력하세요'
+					});
       				authCodePass = false;
+      			}else if ( $('#authCode').val() == authCode ) {
+					Swal.fire({
+						text: '인증되었습니다.'
+					});
+      				authCodePass = true;
       			} else {
-      				alert('인증에 실패했습니다.');
+					Swal.fire({
+						text: '인증에 실패했습니다.'
+					});
       				authCodePass = false;
       			}
       		}); // end click
@@ -329,7 +215,7 @@
 						Swal.fire({
 							icon: 'error',
 							title: '비밀번호 재확인필요',
-							text: name + '님의 비밀번호가 일치하지 않습니다. 다시시도해 주세요.',
+							text: name + '님의 비밀번호가 일치하지 않습니다.',
 						})
 						 pw_result = false;
 					 }
@@ -397,7 +283,9 @@
     				fnVerifyAuthcode(map.authCode, id); // 12/13추가
     			},
     			error: function() {
-					alert('인증코드 전송 실패');
+					Swal.fire({
+						text: '인증코드 전송실패'
+					})
 				}
     		});	 // ajax
 /*     	}); */
@@ -410,45 +298,57 @@
    	function fnVerifyAuthcode(authCode){
    		$('#verify_btn').click(function(){
    			if ( $('#authCode').val() == authCode ) {
-   				alert('인증되었습니다.');
+				Swal.fire({
+					text: '인증되었습니다.'
+				})
    				authCodePass = true;
    			} else if ( $('#authCode').val() == '' ) { // 12/14 추가
-   				alert('인증번호를 입력하세요');
+				Swal.fire({
+					text: '인증번호를 입력하세요'
+				})
    				authCodePass = false;
    			} else {
-   				alert('인증에 실패했습니다.');
+				Swal.fire({
+					text: '인증에 실패했습니다.'
+				})
    				authCodePass = false;
    			}
    			
    		}); // end click
    	}         
-
-
+	
+	/* ----------------------------------------- fnCheckLogin() --------------------------------  */
+ 	function fnCheckLogin(){
+		let loginInfo = '${loginUser.id}';
+		if (loginInfo == '') {
+			
+		 Swal.fire({
+				text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
+		        icon: 'warning',
+		        showCancelButton: true,
+		        confirmButtonColor: '#D4D4D4',  // confirm
+		        cancelButtonColor: '#D4D4D4',   // cancel
+		        confirmButtonText: '이동',
+		        cancelButtonText: '취소'	
+		     }).then((result) => {
+				if(result.isConfirmed) { // confirm이 false이면 return
+					location.href='/nearby/';
+				}
+		     })
+		}
+	}	 	
+	
 </script>	
 
-
-<script>
-/* ---------------------------------------	fnHomeBtn()	------------------------------------------- */
-// 홈으로 가기
-function fnHomeBtn() {
-	$('#home_btn').on('click', function(){
-		if(confirm('홈으로 이동하시겠습니까?')) {
-			location.href='/nearby/board/updateProfilePicture';
-		}
-	}) // End home_btn click event
-} // End fnHomeBtn
-</script>
 </head>
 <body>
 
- <!-- 레이아웃 header 삽입하기 -->
- 
-    <div class="container">
-    
-        <div class="head">
-            <h1 class="title"><a href="/nearby/">NearBy</a></h1>
-        </div>
- 
+
+   		<header class="header">
+			<jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
+		</header>
+
+    <div class="form_container" style="margin-top: 160px;">
         <div class="pw_change_box">
     
             <form action="/nearby/member/changePassword" method="post" id="pw_change_form">
@@ -476,7 +376,7 @@ function fnHomeBtn() {
 
                 <!-- 비밀번호 확인 -->
                 <div class="input_box">
-                    <label for="pw">새 비밀번호 확인</label>
+                    <label for="pwCheck">새 비밀번호 확인</label>
                     <span class="space">
 	                    <input type="text" id="pwCheck" >
                     </span>
@@ -507,12 +407,17 @@ function fnHomeBtn() {
 
                <div class="btn_wrap">
                    <button id="modify_btn" class="btn btn-primary pointer">수정완료</button>             
-                   <input type="button" value="홈으로" id="home_btn" class="pointer">                
                </div>                    
             </form>
             
         </div>
    
     </div>
+    
+
+	  <footer>
+           <jsp:include page="/WEB-INF/views/layout/footer.jsp" flush="true" />
+      </footer>
+
 </body>
 </html>

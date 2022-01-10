@@ -10,15 +10,53 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/findIdPw.css">
 <script src="${pageContext.request.contextPath}/resources/js/findIdPw.js"></script>
+
+<style>
+/* header 관련 */
+   .header_wrap {
+      z-index: 5;
+      position: fixed;
+      top: 0;
+      width:100%;
+      height: 100px;
+      background-color: white;
+      display: flex;
+   }
+   .header_btn {
+      width: 140px;
+      height: 40px;
+      border-radius: 30px;
+      border: none;
+      font-size: 20px;
+      margin-top: 30px;
+      cursor:pointer;   
+      right: 30px;
+   }
+   #header_logo {
+   	display: inline-block;
+   	margin-left: 40px;
+   	margin-top: 10px;
+   }
+/* footer */
+	footer {
+		margin-top : 200px;
+	}
+</style>
 </head>
 <body>
  
-    <h1 class="title">
+ 	  <header class="header_wrap">
+           <a href="/nearby/"><img id="header_logo" src="${pageContext.request.contextPath}/resources/image/logo_color.png" width="200px"></a>
+      </header>
+ 
+ 
+ 
+    <<!-- h1 class="title">
        <a href="/nearby/">NearBy</a>
-    </h1>
+    </h1> -->
     
     
-    <div class="container">
+    <div class="container" style="margin-top: 200px;">
         <!-- 아이디 찾기 -->
         <input id="findId_btn" type="button" value="아이디 찾기">
         <div class="wrap" id="id_box">
@@ -102,5 +140,11 @@
             </div>
         </div>
     </div>
+    
+	<footer>
+         <jsp:include page="/WEB-INF/views/layout/footer.jsp" flush="true" />
+    </footer>
+    
+    
 </body>
 </html>

@@ -65,19 +65,11 @@ public class PageUtils {
 	public String getPageEntity(String path) {
 		
 		StringBuilder sb = new StringBuilder();
-		// path에 ?가 포함되어 있으면 path에 파라미터가 포함되어 있다는 의미임.
-		// path = find.notice?column=WRITER&query=admin
-		
-		// 위와 같은 경우 page 파라미터는 "&page"로 path에 추가해야 함.
-		// path = find.notice?column=WRITER&query=admin&page=
-		// 검색 : 만약 path에 ?가 있으면 parameter가 있다는 뜻이고, 뒤의 parameter에 page를 붙일 수 있도록 ?를 &로 바꿔주는 작업이 필요하다.
-		// == path에 ?가 있다는 의미는 무조건 parameter가 있다는 의미이다.
-		
-		// 1페이지로 이동 : 1페이지는 링크가 필요 없음 == 링크를 걸지 않음 
+
 		if (page == 1) {
 			sb.append("◀◀&nbsp;");
 		} else {
-			if (path.contains("?")) {		// path에 ?를 포함하고 있나 
+			if (path.contains("?")) {		
 				sb.append("<a href=\"" + path +"&page=1\">◀◀</a>&nbsp;");		
 			} else {
 				sb.append("<a href=\"" + path +"?page=1\">◀◀</a>&nbsp;");
@@ -127,7 +119,7 @@ public class PageUtils {
 			}
 		}
 		
-		return sb.toString(); // string 대신 builder 쓰는건, 성능상의 이유
+		return sb.toString(); 
 	}
 
 	public int getTotalRecord() {

@@ -22,9 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.koreait.nearby.domain.Board;
+import com.koreait.nearby.domain.Follow;
 import com.koreait.nearby.domain.Likes;
 import com.koreait.nearby.domain.Member;
+import com.koreait.nearby.domain.Profile;
 import com.koreait.nearby.repository.BoardRepository;
+import com.koreait.nearby.repository.FollowRepository;
 import com.koreait.nearby.repository.LikesRepository;
 
 public class BoardServiceImpl implements BoardService {
@@ -33,7 +36,6 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
 	
 	// 게시글 전체 목록
 	@Override
@@ -106,7 +108,6 @@ public class BoardServiceImpl implements BoardService {
 				
 				board.setPath(path);
 				board.setOrigin(origin);
-			
 				
 				// 비디오 확장자 saved 네임에 "video" 붙이기!
 				for( int i =0; i<video.length; i++) {
@@ -144,13 +145,11 @@ public class BoardServiceImpl implements BoardService {
  			
  			if (result > 0) {
  				out.println("<script>");
- 				out.println("alert('등록하겠습니다')");
  				out.println("location.href='/nearby/board/boardList'");
  				out.println("</script>");
  				out.close();
  			} else {
- 				out.println("<script>");
- 				out.println("alert('게시글 등록에 실패했습니다.')");
+ 				out.println("<script>");	
  				out.println("history.back()");
  				out.println("</script>");
  				out.close();
@@ -182,26 +181,26 @@ public class BoardServiceImpl implements BoardService {
 		board.setbNo(Long.parseLong(multipartRequest.getParameter("bNo")));
 		board.setContent(multipartRequest.getParameter("content"));
 		board.setLocation(multipartRequest.getParameter("location"));
+		board.setPath(multipartRequest.getParameter("path"));
+		board.setOrigin(multipartRequest.getParameter("origin"));
+		board.setSaved(multipartRequest.getParameter("saved"));
 //		System.out.println("conent 수정 ? "+ multipartRequest.getParameter("content"));
 	
 		MultipartFile file = multipartRequest.getFile("file");
 		String[] video = {"mp4", "mpeg", "avi", "mov"};
-		String origin = file.getOriginalFilename();
-		String extName = origin.substring(origin.lastIndexOf("."));
-		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-		String saved = uuid + extName;
 		try {
-				
 				if( multipartRequest.getParameter("path").isEmpty() == false ) {   // path가 빈값이 아니라는건 기존에 이미지/비디오가 있었다는 의미다. 때문에 없는 경우엔 새로 만들고, 아니면 원래  path, saved, origin을 board에 다시 넣는다!!!
+					String sep = Matcher.quoteReplacement(File.separator);
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					String path = "resources"+sep + "upload" + sep + id+sep + sdf.format(new Date()).replaceAll("-", sep);
+					String realPath = multipartRequest.getServletContext().getRealPath(path);
 					
 					if(file != null && !file.isEmpty() ) {   // file이 있으면 
-//							System.out.println("origin " + origin);
-							
-							String sep = Matcher.quoteReplacement(File.separator);
-							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-							String path = "resources"+sep + "upload" + sep + id+sep + sdf.format(new Date()).replaceAll("-", sep);
-							String realPath = multipartRequest.getServletContext().getRealPath(path);
-							
+//							
+						String origin = file.getOriginalFilename();
+						String extName = origin.substring(origin.lastIndexOf("."));
+						String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+						String saved = uuid + extName;
 							logger.info("path: "+ path);
 							logger.info("realpath: "+realPath);  // 루트 확인용
 							
@@ -220,23 +219,28 @@ public class BoardServiceImpl implements BoardService {
 									saved = "video" + saved;
 									uploadFile = new File(realPath, saved); 
 									board.setSaved(saved);
-						} else {
-							uploadFile = new File(realPath, saved); 
-							board.setSaved(saved);
-						}
-							}
+								} else {
+									uploadFile = new File(realPath, saved); 
+									board.setSaved(saved);
+							    }
+				        }
 							file.transferTo(uploadFile);
-					} else {
-					
+					} else if (file == null && board.getSaved() == null  ){
 						board.setPath("");
 						board.setOrigin("");
 						board.setSaved("");
-					} 		
+					} else if ( file == null)  {
+						board.setPath(board.getPath());
+						board.setSaved(board.getSaved());
+						board.setOrigin(board.getOrigin());
+					}
+					
+			// 내용게시글에서 ->>> 사진 첨부한 경우		
 			} else {	
-				origin = file.getOriginalFilename();
-				extName = origin.substring(origin.lastIndexOf("."));
-				uuid = UUID.randomUUID().toString().replaceAll("-", "");
-				saved = uuid + extName;
+				String origin = file.getOriginalFilename();
+				String extName = origin.substring(origin.lastIndexOf("."));
+				String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+				String saved = uuid + extName;
 				String sep = Matcher.quoteReplacement(File.separator);
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				String path = "resources"+sep + "upload" + sep + id+sep + sdf.format(new Date()).replaceAll("-", sep);
@@ -278,7 +282,7 @@ public class BoardServiceImpl implements BoardService {
 		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);	
 		int result = boardRepository.updateBoard(board);	
 //		logger.info("수정되었닝" + board.toString());
-		message(result, response, "수정성공", "수정실패",  "/nearby/board/boardList");
+		message(result, response, "/nearby/board/boardList");
 	}
 		
 	
@@ -386,9 +390,7 @@ public class BoardServiceImpl implements BoardService {
 			//System.out.println("like 테이블 삭제  : " +likeCancelTBLUpdate );
 			  if( likeCancelTBLUpdate == 1 ) { // 성공하면 보드 다시 세팅 -1로
 				  oneBoard = boardRepository.boardLikesCount(oneBoard);
-			//	  System.out.println("board 취소 한 결과   " + oneBoard.getLikes());
 				  Likes like = likesRepository.likeSelectByNO(likes);  //  각 보드의 좋아요 누른 테이블 리스트 반환
-			//	  System.out.println("dd" + like);
 				  oneBoard.setLikes(oneBoard.getLikes());
 				  oneBoard.setbNo(bNo);
 				  oneBoard.setLike(like);
@@ -408,7 +410,7 @@ public class BoardServiceImpl implements BoardService {
 	  
 	    for(int i=1; i<list.size(); i++) {
 	    	fullLocation = list.get(i).getLocation();       
-	          System.out.println(fullLocation);
+	     //     System.out.println(fullLocation);
 	    	
 	        if (fullLocation == null || fullLocation.isEmpty()) {
 		      	nothing = 0;
@@ -469,19 +471,36 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	
-	// 검색하기
-	@Override
-	public List<Board> searchBoardList(HttpServletRequest request) {
-		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
-		String query = request.getParameter("query");
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("query", query);
+	// 통합 검색하기
+		@Override
+		public List<Board> searchBoardList(HttpServletRequest request) {
+			BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
+			String query = request.getParameter("query");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("query", query);
+			
+			List<Board> searchResult = boardRepository.searchListBoard(map);
+			return searchResult;
+		}
 		
-		List<Board> searchResult = boardRepository.searchListBoard(map);
+		
+		// ID 만 검색 및 프로필 정보 받아오기
+		@Override
+		public List<Profile> searchProfileList(HttpServletRequest request) {
+			
+			BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
+			
+			String query = request.getParameter("query");
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("query", query);
+			
+			List<Profile> searchResult = boardRepository.searchProfileList(map);
+			
+			return searchResult;
+		}
 
-		return searchResult;
-	}
-	
+
 	/* myHome 이동 및 유저의 게시물 개수 구하기 */
 	@Override
 	public int selectUserBoardsCount(HttpServletRequest request) {
@@ -491,5 +510,80 @@ public class BoardServiceImpl implements BoardService {
 		int userBoardCount = boardRepository.selectUserBoardsCount(loginUser.getId());
 		return userBoardCount;
 	}
+	// myHome 이동시 user 팔로잉 정보 //
+	@Override
+	public List<Follow> userFollowingIdById(HttpServletRequest request) {
+		
+		FollowRepository followRepository = sqlSession.getMapper(FollowRepository.class);
+		
+		Member user = (Member) request.getSession().getAttribute("loginUser");
+		String id = user.getId();
+		List<Follow> list = followRepository.selectFollowingIdById(id);
+		
+		return list;
+	}
+	
+	// myHome 이동시 user 팔로워 정보 //
+	@Override
+	public List<Follow> userFollowedIdById(HttpServletRequest request) {
+		
+		FollowRepository followRepository = sqlSession.getMapper(FollowRepository.class);
+		
+		Member user = (Member) request.getSession().getAttribute("loginUser");
+		String id = user.getId();
+		List<Follow> list = followRepository.selectFollowedIdById(id);
+		
+		return list;
+		
+	}
+	
+	
+	/* 상대 홈으로 이동  / 모든 정보 가져오기 */
+	@Override
+	public List<Board> selectUserHome(String id) {
+		System.out.println("ServiceImpl 에서 받은 ID : " + id);
+		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
+		String userId = id;
+		System.out.println("parameter 저장 id : " + userId);
+		List<Board> user = boardRepository.selectUserHome(userId);
+				
+		System.out.println("@@@@@@@ DB 다녀온 list 결과 : " + user);
+		return user;
+	}
+	
+	// 이동한 대상의 팔로잉 리스트
+	@Override
+	public List<Follow> selectFollowingIdById(String id) {
+
+		FollowRepository followRepository = sqlSession.getMapper(FollowRepository.class);
+		
+		List<Follow> list = followRepository.selectFollowingIdById(id);
+		
+		return list;
+	}
+	
+	
+	// 이동한 대상의 팔로워 리스트
+	@Override
+	public List<Follow> selectFollowedIdById(String id) {
+		
+		FollowRepository followRepository = sqlSession.getMapper(FollowRepository.class);
+		
+		List<Follow> list = followRepository.selectFollowedIdById(id);
+		
+		return list;
+	}
+	
+	
+	
+	/* 해당 유저의 게시물 구하기 */
+	@Override
+	public int selectUserHomeBoardsCount(String id) {
+		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
+		int userBoardCount = boardRepository.selectUserBoardsCount(id);
+		return userBoardCount;
+	}
+
+	
 	
 }

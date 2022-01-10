@@ -1,6 +1,6 @@
 package com.koreait.nearby.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

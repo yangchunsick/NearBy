@@ -7,10 +7,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<!-- fontawesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
 
-	* {
-		font-family: sans-serif;
+	@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+	
+	 * { 
+	 font-family: 'Noto Sans KR', sans-serif;
+	 margin: 0;
+	 padding: 0;
+	 box-sizing: border-box;
 	}
 	
 	body {	/* 요소는 HTML 문서의 내용을 나타냅니다. 한 문서에 하나의 전체화면에 색상추가	*/
@@ -21,7 +28,7 @@
 		border-radius: 10px;
 		margin: 20px auto;
 		width: 600px;
-		height: 7900px;	/* 높이 */
+	    padding-bottom: 20px;
 		background-color: #FFFFFF;
 		box-shadow: 10px 10px 20px 10px #cbcdcf;
 	}
@@ -37,10 +44,16 @@
 	
 	.under {	/* 글자 위치 */
 		display: inline-block;
-		margin-top: 20px;
+		margin-top: 10px;
 		margin-left: 20px;
 		text-decoration: none;
+		font-size: 13px;
+		cursor: pointer;
 		color: black;
+	}
+	.fa-reply {
+		font-size: 13px;
+		color:  #fe495c;
 	}
 	
 	.center {	/* 글자 정가은데 위치로 이동	*/
@@ -51,10 +64,12 @@
 		display: flex;
 		text-align: center;
 		padding-left: 30px;
+		margin-top: 20px;
 	}
 	
 	h1 {	/* 글자 자식 */
 		display: inline-block;
+		line-height: 75px;
 	}
 	
 	#logo_icon {	/* 이미지 자식 */
@@ -68,6 +83,7 @@
 	#thing {	/* 글자 위 올리기와 글자 오른쪽 으로 위치 */
 		text-align: right;
 		margin-right: 40px;
+		margin-top: 15px;
 		align-content: start;
 		position: relative;	/* 속성은 문서 상에 요소를 배치하는 방법을 지정합니다	*/
 		bottom: 30px;	/* 글자 올라가기 속성 요소 */
@@ -79,27 +95,31 @@
 	
 	h4 {	/* h4 태그 글자크기와 글자 색상 */
 		color: #fe495c;
-		font-size: 20px;
+		font-size: 18px;
+		margin-top: 25px;
+		margin-bottom: 5px;
 	}
 	
 	.box {	/* 아래 회원가입 돌아가기 박스 */
 		text-align: center;
-     	margin-top: 30px;
+     	margin-top: 40px;
+     	height: 35px;
      	border-radius: 8px;
         background-color: #fe4b60;
 	}
 	
 	.pol {	/* 아래 회원가입 돌아가기	*/
-		margin-top: 44px;
-		width: 100px;
-		height: 30px;
-		font-size: 30px;
+		margin-top: 48px;
+	    width: 100px;
+	    height: 30px;
+	    font-size: 15px;
+	    line-height: 34px;
 		text-decoration: none;
         color: #FFFFFF;
 	}
 	
 	p span{  /* p태그에 글자 크기  */
-		font-size: 16px;
+		font-size: 14px;
 	}
 	
 </style>
@@ -110,7 +130,7 @@
 	
 		<div id="under_box">	<!-- 좌측상단 회원가입 -->
 		
-			<a class="under" href="/nearby/member/memberJoin"><p id="lt">&lt</p> 회원가입 돌아가기</a>
+			<a class="under" href="/nearby/member/memberJoin"><i class="fas fa-reply" ></i> 회원가입 돌아가기</a>
 			
 		</div>
 		
@@ -118,7 +138,8 @@
 			
 				<div id="logo_box">	<!-- 이미지와 서비스 연결한는  -->
 				
-					<img id="logo_icon" src="${pageContext.request.contextPath}/resources/image/logo_color.png" width="200px;"><h1>서비스 이용 약관</h1>
+					<a href="/nearby/"><img id="logo_icon" src="${pageContext.request.contextPath}/resources/image/logo_color.png" width="200px;"></a>
+					<h1>서비스 이용 약관</h1>
 					
 				</div>
 				

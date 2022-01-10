@@ -182,9 +182,16 @@ body {
 .user_id {
    display: inline-block;
    width: 420px;
-   height: 80px;
+   height: 35px;
    padding: 10px 0 0 20px;
 }
+/* 게시 업로드 날짜 */
+.date {
+	    font-size: 11px;
+        margin-left: 35px;
+		color:#808080;
+}
+.fa-globe-asia { font-size: 11px;   }
 
 #board_writer {
    padding-left: 15px;
@@ -271,7 +278,8 @@ body {
 .like_box, .reply_box {
    display: inline-block;
    position: relative;
-   width: 160px;
+   margin-left: 20px;
+   width: 90px;
    height: 35px;
    line-height: 37px;
 }
@@ -302,4 +310,17 @@ footer {
    display: block;
    width: 100%;
    height: 150px;
+}
+
+.id > a{
+    padding-left: 15px;
+    font-size: 18px;
+}
+
+.goHome{
+   width: 80px; height: 80px;
+   display: inline-block;
+   margin-left: 35px;
+   opacity:0;
+   position: absolute;
 }

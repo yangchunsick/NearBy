@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,12 +10,16 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boardInsert.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board/boardInsert.css" />
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4lnq99nnpg&submodules=geocoder"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
 <script>
   $(document).ready(function(){
 		fnFileCheck();
 		fnSubmitCheck();
+		fnTextLimit(); // content 2000자 막기
 		// file 클릭시 map 안보이게 처리
 		$("#file").click(function(){
 			$("#map").css('display', 'none');
@@ -27,32 +32,71 @@
 	            $(this).height(this.scrollHeight);
 	        });
 	    }
-	});
+	    // 글 삽입 날짜
+	    let today = new Date();
+	    let year = today.getFullYear();
+	    let month = today.getMonth() + 1;
+	    let day = today.getDate();
+	    let hour = today.getHours();
+	    let minute = today.getMinutes();
+	    let amPm = '';
+	    if( hour < 12) { amPm = '오전'; }
+	    if( 12<= hour <24 ) { amPm = '오후'; }
+	    if (hour   < 10) {hour   = "0"+hour;}
+	    if (minute < 10) {minute = "0"+minute;}
+	    
+	    $('#today').text(month +"월 "+ day+"일 "+ amPm +" "+ hour+":"+minute);
+	    
+	    fnCheckLogin();
+	}); // document 
     
-  // submit 막기
-  function fnSubmitCheck(){
-      $('#insertBtn').click(function(event){
-    	  
-    	  // 위치 파일 내용 빈값일때
-    	  if( $('.location').val() == ''  && $('#content').val() == '' && $('#modify_file').val() == '' )  {
-    		  alert("당신의 일상을 입력해주세요.");
-    	  	  event.preventDefault();
-    	  
-    	  // 위치는 빈값 이고 내용이나 파일은 있을 때
-    	  } else if (  $('.location').val() == ''  &&  ( $('#content').val() != '' || $('#modify_file').val() != '' ) )  {
-    		  if ( confirm ("주변 사람들에게 일상을 공유하고 싶으시다면 위치를 입력해주세요") ) {
-    			  map();
-	    		  $("#map").css('display', 'block');
-	    		  event.preventDefault();
-    		  } else {}
-    	// 위치는 빈값이 아니나 파일이랑 내용이 빈값일 때 
-    	  } else if ( $('.location').val() != ''  &&   $('#content').val() == '' && $('#modify_file').val() == '' )  {
-    		  alert("사진이나 일상을 입력해주세요.");
-    		  event.preventDefault();
-          }  
-  	  })
-    
-}
+  
+   function fnTextLimit(){
+	      $('#content').on('keyup', function(event){
+	      //console.log(  $('#content').val());
+	      
+	         if( $('#content').val().length > 2000) {
+	         //alert("글자수는 2000자까지입니다.");
+	         Swal.fire({
+	               text: '글자수는 2000자까지입니다.',
+	            })
+	         $('#content').val( $('#content').val().substring(0,2000) );
+	         return;
+	         }
+	      });
+	   }
+  
+  
+// submit 막기
+   function fnSubmitCheck(){
+       $('#insertBtn').click(function(event){
+          
+          // 위치 파일 내용 빈값일때
+          if( $('.location').val() == ''  && $('#content').val() == '' && $('#modify_file').val() == '' )  {
+             Swal.fire({
+                text: '당신의 일상을 적어주세요.'
+             })
+               event.preventDefault();
+          
+          // 위치는 빈값 이고 내용이나 파일은 있을 때
+          } else if (  $('.location').val() == ''  &&  ( $('#content').val() != '' || $('#modify_file').val() != '' ) )  {
+           if(confirm('주변 사람들에게 위치를 알려주세요! ') ){
+               event.preventDefault();
+                map();
+                $("#map").css('display', 'block');
+           }
+        
+        // 위치는 빈값이 아니나 파일이랑 내용이 빈값일 때 
+          } else if ( $('.location').val() != ''  &&   $('#content').val() == '' && $('#modify_file').val() == '' )  {
+           //  alert("사진이나 일상을 입력해주세요.");
+             Swal.fire({
+                text: '사진이나 일상을 적어주세요.'
+                
+             })
+             event.preventDefault();
+           }  
+        })
+  }
   
 	// 이미지 및 비디오 확장자 및 크기  체크
 	function fnFileCheck(){
@@ -63,7 +107,10 @@
 			
 			// 확장자 정보
 			if( $.inArray(extName, ["JPG", "PNG", "JPEG", "GIF","MP4", "MPEG", "AVI", "MOV", "M4V", "JFIF"])  == -1 )  {  // 첨부된 파일이 ["JPG", "PNG", "JPEC", "GIF"] 중 하나가 아니면
-			 	alert('업로드 할 수 없는 확장자입니다.');
+			// 	alert('업로드 할 수 없는 확장자입니다.');
+			 	Swal.fire({
+					text:'업로드 할 수 없는 확장자입니다.'
+				})
 				$(this).val('');
 				return;
 		   }
@@ -72,7 +119,10 @@
 			let maxSize = 1024 * 1024 * 1000;   		   // 최대크기 10MB
 			let fileSize = $(this)[0].files[0].size;       // 첨부된 파일 크기
 			if ( fileSize > maxSize ){
-				alert('1GB 이하의 파일만 업로드가 가능합니다.');
+			//	alert('1GB 이하의 파일만 업로드가 가능합니다.');
+				Swal.fire({
+					text:'1GB 이하의 파일만 업로드가 가능합니다.'
+				})
 				$(this).val('');
 				return;
 			}
@@ -305,6 +355,28 @@
 		naver.maps.onJSContentLoaded = initGeocoder;
 		naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
 	}
+   
+	/* ----------------------------------------- fnCheckLogin() --------------------------------  */
+ 	function fnCheckLogin(){
+		let loginInfo = '${loginUser.id}';
+		if (loginInfo == '') {
+			
+		 Swal.fire({
+				text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
+		        icon: 'warning',
+		        showCancelButton: true,
+		        confirmButtonColor: '#D4D4D4',  // confirm
+		        cancelButtonColor: '#D4D4D4',   // cancel
+		        confirmButtonText: '이동',
+		        cancelButtonText: '취소'	
+		     }).then((result) => {
+				if(result.isConfirmed) { // confirm이 false이면 return
+					location.href='/nearby/';
+				}
+		     })
+		}
+	}	 	 	   
+	   
 </script>
 <style>
 </style>
@@ -325,10 +397,14 @@
 	    		<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}"  class="pointer">
 	    	</c:if>
 	    </div>
-		<span class="id_wrap">
-		    	   <a href="/nearby/board/selectBoard" id="board_writer">${loginUser.id}</a>
-		    	   	<input type="hidden" name="id" class="id" value="${loginUser.id}" >
-		 </span>
+		<div class="id_wrap">
+    	   <span id="board_writer">${loginUser.id}</span>
+    	   	<div class="date">
+	    	    <span id="today"></span>
+	    	    <i class="fas fa-globe-asia" ></i>
+	        </div>
+		 </div>
+		 <input type="hidden" name="id" class="id" value="${loginUser.id}" >
 			
 	     <div class="myMap">
 		     <span onclick="map()" id="my_location">내 위치   <i class="fas fa-map-marker-alt" onclick="map()"></i>
@@ -347,7 +423,7 @@
 	    
 	    <input type="file" name="file" id="modify_file" style="display:none;" onchange="readURL(this);">
 		<div id="img_wrap" >
-			  <label for="modify_file" id="file_label" class="file_label"> 
+			  <label for="modify_file" id="file_label" class="file_label" style="font-size:20px;"> 
 			  <i class="fas fa-photo-video" id="upload" ></i>
 			       사진 / 동영상을 올려주세요   </label>
 			      <div class="preview">
