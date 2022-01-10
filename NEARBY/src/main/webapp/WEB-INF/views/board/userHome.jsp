@@ -370,11 +370,11 @@ function fnSendBno(){
         <!-- 프로필 사진, 이름, 게시물, 팔로워, 팔로잉, 프로필 설정-->
         <div class="user_box">
             <div class="user_img_box">
-            	<c:if test="${empty user[0].profile.pSaved}">
+            	<c:if test="${empty userProfile[0].pSaved}">
             		<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png">
             	</c:if>
-            	<c:if test="${not empty user[0].profile.pSaved}">
-            		<img id="user_img" src="/nearby/${user[0].profile.pPath}/${user[0].profile.pSaved}">            	
+            	<c:if test="${not empty userProfile[0].pSaved}">
+            		<img id="user_img" src="/nearby/${userProfile[0].pPath}/${userProfile[0].pSaved}">            	
             	</c:if>
             </div>
 

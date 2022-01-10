@@ -178,12 +178,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
     <!-- userHome -->
     <select id="selectUserHome" resultMap="BoardMap" parameterType="String">
-	    SELECT B.B_NO, B.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE, P.ID, P.P_ORIGIN, P.P_SAVED, P.P_PATH
-          FROM BOARD B RIGHT JOIN PROFILE P
-            ON B.ID = P.ID
-         WHERE P.ID = #{id}
-           AND B.STATE = 0
-         ORDER BY B.B_NO DESC
-    </select>	
-	
+		SELECT B.B_NO, B.ID, B.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE,
+		       P.ID, P.P_ORIGIN, P.P_SAVED, P.P_PATH,
+	           L.LIKE_NO, L.LIKE_CHECK, L.LIKE_DATE
+	      FROM BOARD B LEFT JOIN PROFILE P
+	           ON B.ID = P.ID LEFT JOIN LIKES L
+	           ON B.ID = L.ID
+	     WHERE STATE = 0
+	       AND B.ID = #{id}
+	     ORDER BY B.B_NO DESC
+    </select>
+
+    <select id="selectUserProfile" resultMap="ProfileMap" parameterType="String">
+    	SELECT ID, P_ORIGIN, P_SAVED, P_PATH
+    	  FROM PROFILE
+    	WHERE ID = #{id}	    
+    </select>
+
 </mapper>

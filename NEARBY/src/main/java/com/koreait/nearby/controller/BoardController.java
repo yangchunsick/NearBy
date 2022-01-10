@@ -149,13 +149,12 @@ public class BoardController {
 			public String selectUserHome (@RequestParam("id")String id, Model model) {
 			System.out.println("Controller Request param ID : " +  id);
 			model.addAttribute("user", service.selectUserHome(id));
+			model.addAttribute("userProfile", service.selectUserProfile(id));
 			model.addAttribute("followingList", service.selectFollowingIdById(id));
 			model.addAttribute("followedList", service.selectFollowedIdById(id));
 			model.addAttribute("userBoardCount", service.selectUserHomeBoardsCount(id));
 			model.addAttribute("userId", id);
-			System.out.println("userId@@@@@" + id);
-			System.out.println("@@@ 내가 어떻게 담았나 ? " + model);
-			
+			System.out.println("userHome MODEL" + model);
 			return "board/userHome";
 		}
 

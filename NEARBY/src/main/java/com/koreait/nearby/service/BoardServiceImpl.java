@@ -584,6 +584,14 @@ public class BoardServiceImpl implements BoardService {
 		return userBoardCount;
 	}
 
+	/* 해당 유저의 프로필 정보 */
+	@Override
+	public List<Profile> selectUserProfile(String id) {
+		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
+		List<Profile> userProfile = boardRepository.selectUserProfile(id);
+		return userProfile;
+	}
+
 	
 	
 }

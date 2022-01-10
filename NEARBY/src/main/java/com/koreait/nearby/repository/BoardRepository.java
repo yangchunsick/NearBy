@@ -44,5 +44,6 @@ public interface BoardRepository {
    
    /* userHome */
    public List<Board> selectUserHome(String id);
+   public List<Profile> selectUserProfile(String id);
    
 }

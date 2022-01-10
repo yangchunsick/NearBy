@@ -8,13 +8,12 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 	<style type="text/css">
 	
 		* {
 			font-family: sans-serif;
 		}
-		
+
 		body {	/* 요소는 HTML 문서의 내용을 나타냅니다. 한 문서에 하나의 전체화면에 색상추가	*/
 			background-color: rgb(240,242,245);
 		}
@@ -46,7 +45,7 @@
 			display: inline-block;
 		    width: 156px;
 		    height: 60px;
-		    padding-top: 50px;
+		    padding-top: 50px;	/* 이미지 50px 올리겟다. */
 		    background-size: 156px 60px;
 		    background-image: url('${pageContext.request.contextPath}/resources/image/logo_color.png');
 		    background-repeat: no-repeat;
@@ -56,7 +55,7 @@
 		}
 		
 		.title2 {
-			margin-top: 80px;  
+			margin-top: 80px;  /* 80px 글자 내린다. */
 		}
 		
 		form {
@@ -71,12 +70,16 @@
 		} */
 		
 		.box {	/* 설명서 박스에 넣어서 스크롤 y축 추가한다 */
-			border: 1px solid black;
+			border: 1px solid black;	/* 박스 */
 			margin: 10px;
 			width: 500px;
 			padding: 10px;
 	  		height: 120px;
 	  		overflow-y: scroll /* y 축만 스크롤하면 되지만 */
+		}
+		
+		.accordion {
+			margin-top: 30px;
 		}
 		
 		.all_check_wrap {	/* 박스와 사이 아래 너비 사이에 준다. */
@@ -86,10 +89,6 @@
 		.all_check_wrap2 {
 			margin-bottom: 40px;
 			margin-top: 40px;
-		}
-		
-		.accordion {
-			margin-top: 30px;
 		}
 		
 		span {
@@ -117,7 +116,7 @@
 		} 
 		
 		/* active:마우스 클릭하는 이벤트 , hover:마우스 오버 이벤트, visied:한번더 클릭 하는 이벤트 */
-		#agreement:active {	/* 마우스 클릭하고있을때 색상 변경 */ 
+		#agreement:hover {	/* 마우스 클릭하고있을때 색상 변경 */ 
 			background-color: #fe4b60;
 			color: #FFFFFF;
 			outline: none;
@@ -138,7 +137,7 @@
 			cursor: pointer;
 		}
 			
-		#disagree:active {	/* 마우스 클릭하고있을때 색상 변경 */
+		#disagree:hover {	/* 마우스 클릭하고있을때 색상 변경 */
 			background-color: #fe4b60;
 			color: #FFFFFF;
 			outline: none;
@@ -153,32 +152,81 @@
 	</style>
 	<!-- accordion 접히는 Script 선언 -->
 	<script>
-	
-		$(function() {
-			
-			$( "#accordion" ).click(function() {
+		$(document).ready(function() {
+			// 전체 체크박스
+			$('#check_all').click(function() {
+				if ($('#check_all').prop("checked")) {
+					$('.test').prop('checked', true);
+				} else {
+					$('.test').prop('checked', false);
+				}
 			});
-			
-				$('#accordion input[type="checkbox"]').click(function(e) {
+			// 전체 체크 박스 선택중 체크박스 하나를 풀었을때
+			$('.test').click(function() {
+				if ($('input[name="check"]:checked').length == 4) {
+					$('#check_all').prop('checked', true);
+				} else {
+					$('#check_all').prop('checked', false);
+				}
+			});
+			$('#accordion input[type="checkbox"]').click(function(e) {
 				e.stopPropagation();
+			}); 
+			/* 필수 선택 안하면 경고창 */
+			/*
+			$('#form').on('submit', function(event){
+				if ($('#check1').is(':checked')) {
+					alert('이용동의 약관에 동의하지 않았습니다.');
+					event.preventDefault();
+					return false;
+				} else if ($('#check2').is(':checked')) { // check2를 선택하지 않은 경우
+					alert('개인정보 수집 및 이용에 대한 안내를 동의하지 않았습니다.');
+					event.preventDefault();
+					return false;
+				}
+				return true;*/
+			 $('#form').on('submit', function(event){
+				if ($('#check1').is(':checked')) {  // check1을 선택하지 않은 경우
+					
+				
+				} else {
+					alert('이용동의 약관에 동의하지 않았습니다.');
+					event.preventDefault();
+					return false;
+				} if ($('#check2').is(':checked')) {
+					
+				
+				} else  {  // check2를 선택하지 않은 경우
+					alert('개인정보 수집 및 이용에 대한 안내를 동의하지 않았습니다.');
+					event.preventDefault();
+					return false;
+				}
+				return true;
 			});
 		});
-		
 	</script>
 </head>
 
+
 <body>
+
 	<div class="container">	<!-- 전체 박스 -->
+	
 		<form id="form" action="/nearby/member/memberJoin">
+		
 			<div>
+			
 				<div class="header_box">
+				
 					<h1 class="title">
+					
 						<a href="#">Nearby</a>
+						
 					</h1>
 					
 					<!-- 제목 -->
 					
-					<h1 class="title2" align="center">이용약관</h1> 
+					<h1 class="title2" align="center">이용약관 동의</h1> 
 					
 				</div>
 				
@@ -187,18 +235,20 @@
 					<div class="all_check_wrap">	
 					
 						<label>
-							<input type="checkbox" name="check_all" id="check_all"><span id="all_check_text">모두확인, 동의합니다.</span>
+							<input type="checkbox" name="check_all" id="check_all" class="test"><span id="all_check_text">모두확인, 동의합니다.</span>
 						</label>
 					
 					</div>
+					
 					<hr/>
+					
 					
 					<div id="accordion" class="dccordio">
 						<!-- 중간 따로 박스 넣음 -->
 					 	<div class="all_check_wrap2">	
 					 	
 					 		<label>
-								<input type="checkbox" name="check1" id="check1"/><span>이용약관 동의(필수)</span>
+								<input type="checkbox" class="test" name="check" id="check1" class="test"><span>이용약관 동의(필수)</span>
 					 		</label>
 					 		
 							<!-- 박스에 스크롤 추가 -->
@@ -366,7 +416,7 @@
 						<div class="all_check_wrap2">	
 							
 							<label>
-								<input type="checkbox" name="check2" id="check2"/><span>개인정보 수집 및 이용에 대한 안내(필수)</span>
+								<input type="checkbox" class="test" name="check" id="check2" class="test"><span>개인정보 수집 및 이용에 대한 안내(필수)</span>
 							</label>
 							
 							<div>
@@ -389,7 +439,7 @@
 						<div class="all_check_wrap2">	
 							
 							<label>
-								<input type="checkbox" name="check3" id="check3"/><span>위치정보 이용약관 동의(선택)</span>
+								<input type="checkbox" class="test" name="check" id="check3" class="test"><span>위치정보 이용약관 동의(선택)</span>
 							</label>
 							
 							<!-- 박스에 스크롤 추가 -->
@@ -422,97 +472,37 @@
 					<div class="all_check_wrap">	
 					
 						<label>
-							<input type="checkbox" name="check4" id="check4"><span>이벤트 등 프로모션 알림 메일 수신(선택)</span>
+							<input type="checkbox" class="test" name="check" id="check4" class="test"><span>이벤트 등 프로모션 알림 메일 수신(선택)</span>
 						</label>
 						
 						<div class="right ">
 						
 							<span>NEARBY에서 제공하는 이벤트/혜택 등 다양한 정보를 휴대전화(NEARBY앱 알림 또는 문자), 이메일로 받아보실 수 있습니다. 일부 서비스(별도 회원 체계로 운영하거나 NEARBY 가입 이후 추가 가입하여 이용하는 서비스 등)의 경우, 개별 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도 수신 동의에 대해 별도로 안내하고 동의를 받습니다.</span>
+						
 						</div>
+						
 					</div>
 					
 					<hr>
 					
 					<div align="center">
+						
 						<br/>
+						
 						<input type="submit" value="동의" id="agreement" >
+						
 						<input type="reset" value="비동의" id="disagree">
-						<br/>
+						
+					
 					</div>
+				
 				</div>
+				
 			</div>
 			
 		</form>
 		
 	</div>
-		
-	<!-- check:"체크하면" Box 이벤트처리를 위한 Script 동이한다 놀리면 경고창 나오면 이벤트 -->
-	<script>
 	
-		var doc = document; 	// document : 생성자는 브라우저에 로드되고 페이지 컨텐츠로의 진입점으로써
-		var form = doc.getElementById('form'); 	// getElementById: null을 반환합니다
-		var inputs = form.getElementsByTagName('input'); 	// getElementsByTagName 사용해 특정 부모의 자손 문단(p) 엘리먼트를 셉니다(다큐먼트 자체 또는 중첩된 <div> 엘리먼트 중 하나)
-		
-		var form_data = {
-			
-			"check1": false,  // 전체 선택
-			"check2": false,  // 필수 선택 1
-			"check3": false   // 필수 선택 2
-			
-		}; 
-		
-		var check1 = doc.getElementById('check1'); // 이용약관 동의(필수)
-		var check2 = doc.getElementById('check2'); // 개인정보 수집 및 이용에 대한 안내(필수)
-		var check3 = doc.getElementById('check3'); // 위치정보 이용약관 동의(선택)
-		
-		function checkboxListener() {	// checkboxListener : 체크박스 리그너 
-			
-			form_data[this.name] = this.checked; //각각 자신의 checkBox를 Checked 상태로 바꿈 
-		
-		}
-		
-		
-		check1.onclick = check2.onclick = check3.onclick = checkboxListener;   //check1, check2, check3를 checkBoxListenner를 호출하여
-		                                                                //Checked로 바꿈
-		var check_all = doc.getElementById('check_all');  //전체 체크를 위한 체크박스 선언
-		
-		check_all.onclick = function() {  //전체 체크를 누를 시 onclick 속성은 주어진 요소의 click 이벤트를 처리하기 위한
-			
-			if (this.checked) {
-				
-				setCheckbox(form_data, true);   // form_data(check1,check2,check3)의 값을 모두 Checked로 바꿈
-			
-			} else {
-				
-				setCheckbox(form_data, false);  // form_data(check1,check2,check3)의 값을 모두 no checked로 바꿈
-			}
-		}; 
-		
-		function setCheckbox(obj, state) { //checkbox상태 변경하는 함수
-			
-			for (var x in obj) {
-				obj[x] = state; 
-				for(var i = 0; i < inputs.length; i++) {
-					if(inputs[i].type == "checkbox") {
-						inputs[i].checked = state; 
-					}
-				}
-			}
-		}
-		
-		form.onsubmit = function(e) {
-			e.preventDefault();	//	preventDefault : 메소두는 어떤 이벤트를 명시적으로 처리하지 않은 경우, 해당이벤트에 대한 사용자 에이전트의 기본 동작 preventDefault()를 호출해도 아무 효과도 나타나지 않는다.
-			if ( !form_data['check1'] ) {	// check1 체크 안하면 이벤트 경고창이 나타난다.
-				alert('이용동의 약관에 동의하지 않았습니다.');  
-				return false; 
-			}
-			if ( !form_data['check2'] ) {	// check2 체크 안하면 이벤트 경고창이 나타난다.
-				alert('개인정보 수집 및 이용에 대한 안내를 동의하지 않았습니다.'); 
-				return false; 
-			}
-			this.submit();
-		}; 
-		
-	</script>
 </body>
-</html>>
+</html>
