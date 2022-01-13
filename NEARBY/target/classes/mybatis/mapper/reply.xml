@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		                    ON P.ID = R.ID
 		                 WHERE R.B_NO = #{bNo}
 		                   AND R.STATE = 0
-		                 ORDER BY R.R_CREATED DESC, GROUPORD ASC) A) B
+		                 ) A ORDER BY A.R_CREATED desc ) B
 		 LIMIT #{beginRecord}, #{recordPerPage}	   
 	</select>
 	

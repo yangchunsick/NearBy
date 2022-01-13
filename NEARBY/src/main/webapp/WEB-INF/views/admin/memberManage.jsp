@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/adminHeader.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/memberManage.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<title>Insert title here</title>
+<title>NearBy - 관리자</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 
 <script type="text/javascript">
 
@@ -48,7 +49,7 @@ function fnMemberDelete(i){
 		        }).then((result) => {
                     if (result.isConfirmed) {
 	                        $.ajax({
-									url : "/nearby/admin/deleteMember",
+									url : "<%=request.getContextPath()%>/admin/deleteMember",
 									type: "get",
 									data : "mNo="+i,
 									dataType: 'json',
@@ -57,13 +58,10 @@ function fnMemberDelete(i){
 										 if(map.result.result > 0){
 										  $('#mNoReInsert'+i).addClass('member_delete');
 										  $('#mNo'+i).removeAttr('onclick');
-										  location.href="/nearby/admin/findMember";
-									 } else {
-										 alert('삭제실패');
-									 }
+										  location.href="<%=request.getContextPath()%>/admin/findMember";
+									 } 
 									}, 
 									error: function(xhr){
-										alert('삭제서버 실패');
 										console.log(xhr.responseText);
 									}
 								})
@@ -89,7 +87,7 @@ function fnMemberDelete(i){
               if (result.isConfirmed) {
            
                       $.ajax({
-                    		url : "/nearby/admin/reInsertMember",
+                    		url : "<%=request.getContextPath()%>/admin/reInsertMember",
             				type: "get",
             				data : "mNo="+i,
             				dataType: 'json',
@@ -97,7 +95,7 @@ function fnMemberDelete(i){
             				success : function(map){
             				 if(map.result.result > 0){
             					 $('#mNo'+i).addClass('member_delete');
-            					 location.href="/nearby/admin/findMember";
+            					 location.href="<%=request.getContextPath()%>/admin/findMember";
             				 } else {
             					// alert('삭제실패');
             				 }

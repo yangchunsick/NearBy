@@ -66,7 +66,6 @@ public class SecurityUtils {
 				sb.append( (char)((int)(Math.random() * 10) + '0') );
 			}
 		}
-		logger.info("인증번호 : "+sb.toString()); // 인증번호 확인용
 		return sb.toString();
 	}
 

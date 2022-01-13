@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NearBy - 이용약관</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <!-- fontawesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -130,7 +131,7 @@
 	
 		<div id="under_box">	<!-- 좌측상단 회원가입 -->
 		
-			<a class="under" href="/nearby/member/memberJoin"><i class="fas fa-reply" ></i> 회원가입 돌아가기</a>
+			<a class="under" href="<%=request.getContextPath()%>/member/memberJoin"><i class="fas fa-reply" ></i> 회원가입 돌아가기</a>
 			
 		</div>
 		
@@ -138,7 +139,7 @@
 			
 				<div id="logo_box">	<!-- 이미지와 서비스 연결한는  -->
 				
-					<a href="/nearby/"><img id="logo_icon" src="${pageContext.request.contextPath}/resources/image/logo_color.png" width="200px;"></a>
+					<a href="<%=request.getContextPath()%>/"><img id="logo_icon" src="${pageContext.request.contextPath}/resources/image/logo_color.png" width="200px;"></a>
 					<h1>서비스 이용 약관</h1>
 					
 				</div>
@@ -309,7 +310,7 @@
 				
 				<div class="box">	<!-- 아래 회원가입 돌아가기 -->
 				
-					<a class="pol" href="/nearby/member/memberJoin">회원가입 돌아가기</a>
+					<a class="pol" href="<%=request.getContextPath()%>/member/memberJoin">회원가입 돌아가기</a>
 					
 				</div>
 			

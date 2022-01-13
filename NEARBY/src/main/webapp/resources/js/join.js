@@ -52,7 +52,7 @@ $(document).ready(function(){
 	        }
 	        // 중복 체크
 	        $.ajax({
-	            url: '/nearby/member/idCheck',
+	            url: '<%=request.getContextPath()%>/member/idCheck',
 	            type: 'post',
 	            data: 'id=' + $(this).val(),
 	            dataType: 'json',
@@ -192,7 +192,7 @@ $(document).ready(function(){
 	    	// 이메일 중복 확인
 	    	$('#emailCheck_btn').click(function(){
 	    		$.ajax({
-	    			url: '/nearby/member/selectByEmail',
+	    			url: '<%=request.getContextPath()%>/member/selectByEmail',
 	    			type: 'post',
 	    			data: 'email=' + $('#email').val(),
 	    			dataType: 'json',
@@ -229,7 +229,7 @@ $(document).ready(function(){
 				$('#authCode_btn').css('display', 'none');
 			 	$('#authCode_box').css('display', 'inline-block');
 				$.ajax({
-					url: '/nearby/member/sendAuthCode',
+					url: '<%=request.getContextPath()%>/member/sendAuthCode',
 					type: 'post',
 					data: 'email=' + $('#email').val(),
 					dataType: 'json',

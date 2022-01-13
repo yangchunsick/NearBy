@@ -32,7 +32,7 @@ import com.koreait.nearby.repository.LikesRepository;
 
 public class BoardServiceImpl implements BoardService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
+//	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -128,7 +128,6 @@ public class BoardServiceImpl implements BoardService {
 				board.setOrigin("");
 				board.setSaved("");
 			} 
-			logger.info(board.toString());
 	} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -145,7 +144,7 @@ public class BoardServiceImpl implements BoardService {
  			
  			if (result > 0) {
  				out.println("<script>");
- 				out.println("location.href='/nearby/board/boardList'");
+ 				out.println("location.href='/board/boardList'");
  				out.println("</script>");
  				out.close();
  			} else {
@@ -201,9 +200,6 @@ public class BoardServiceImpl implements BoardService {
 						String extName = origin.substring(origin.lastIndexOf("."));
 						String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 						String saved = uuid + extName;
-							logger.info("path: "+ path);
-							logger.info("realpath: "+realPath);  // 루트 확인용
-							
 							File dir = new File(realPath);
 							if ( !dir.exists() ) dir.mkdirs();
 							
@@ -267,9 +263,6 @@ public class BoardServiceImpl implements BoardService {
 					}
 				}
 				file.transferTo(uploadFile);
-				System.out.println("Path " + path);
-				System.out.println("saved " + saved);
-				System.out.println("origin "+ origin);
 						board.setPath(path);
 						board.setSaved(saved);
 						board.setOrigin(origin);					
@@ -282,7 +275,7 @@ public class BoardServiceImpl implements BoardService {
 		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);	
 		int result = boardRepository.updateBoard(board);	
 //		logger.info("수정되었닝" + board.toString());
-		message(result, response, "/nearby/board/boardList");
+		message(result, response, "/board/boardList");
 	}
 		
 	
@@ -305,7 +298,7 @@ public class BoardServiceImpl implements BoardService {
 			if (result > 0) {
 				out.println("<script>");
 				out.println("alert('삭제하겠습니다')");
-				out.println("location.replace('/nearby/board/boardList')");
+				out.println("location.replace('/board/boardList')");
 				out.println("</script>");
 				out.close();
 			} else {
@@ -462,9 +455,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Map<String, Object> adminBoardDelete(Long bNo, HttpServletRequest request) {
 		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
-        
 		int result = boardRepository.adminBoardDelete(bNo);
-		
 		 Map<String, Object> map = new HashMap<String, Object>();
 		 map.put("result", result);
 		 return map;
@@ -478,7 +469,6 @@ public class BoardServiceImpl implements BoardService {
 			String query = request.getParameter("query");
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("query", query);
-			
 			List<Board> searchResult = boardRepository.searchListBoard(map);
 			return searchResult;
 		}
@@ -487,16 +477,11 @@ public class BoardServiceImpl implements BoardService {
 		// ID 만 검색 및 프로필 정보 받아오기
 		@Override
 		public List<Profile> searchProfileList(HttpServletRequest request) {
-			
 			BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
-			
 			String query = request.getParameter("query");
-			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("query", query);
-			
 			List<Profile> searchResult = boardRepository.searchProfileList(map);
-			
 			return searchResult;
 		}
 
@@ -510,12 +495,20 @@ public class BoardServiceImpl implements BoardService {
 		int userBoardCount = boardRepository.selectUserBoardsCount(loginUser.getId());
 		return userBoardCount;
 	}
+	
+	@Override
+		public List<Board> selectMyHomeBoardList(HttpServletRequest request) {
+			Member user = (Member) request.getSession().getAttribute("loginUser");
+			String id = user.getId();
+			BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
+			List<Board> list = boardRepository.selectUserHome(id);
+			return list;
+		}
+	
 	// myHome 이동시 user 팔로잉 정보 //
 	@Override
 	public List<Follow> userFollowingIdById(HttpServletRequest request) {
-		
 		FollowRepository followRepository = sqlSession.getMapper(FollowRepository.class);
-		
 		Member user = (Member) request.getSession().getAttribute("loginUser");
 		String id = user.getId();
 		List<Follow> list = followRepository.selectFollowingIdById(id);
@@ -526,9 +519,7 @@ public class BoardServiceImpl implements BoardService {
 	// myHome 이동시 user 팔로워 정보 //
 	@Override
 	public List<Follow> userFollowedIdById(HttpServletRequest request) {
-		
 		FollowRepository followRepository = sqlSession.getMapper(FollowRepository.class);
-		
 		Member user = (Member) request.getSession().getAttribute("loginUser");
 		String id = user.getId();
 		List<Follow> list = followRepository.selectFollowedIdById(id);
@@ -541,24 +532,17 @@ public class BoardServiceImpl implements BoardService {
 	/* 상대 홈으로 이동  / 모든 정보 가져오기 */
 	@Override
 	public List<Board> selectUserHome(String id) {
-		System.out.println("ServiceImpl 에서 받은 ID : " + id);
 		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);
 		String userId = id;
-		System.out.println("parameter 저장 id : " + userId);
 		List<Board> user = boardRepository.selectUserHome(userId);
-				
-		System.out.println("@@@@@@@ DB 다녀온 list 결과 : " + user);
 		return user;
 	}
 	
 	// 이동한 대상의 팔로잉 리스트
 	@Override
 	public List<Follow> selectFollowingIdById(String id) {
-
 		FollowRepository followRepository = sqlSession.getMapper(FollowRepository.class);
-		
 		List<Follow> list = followRepository.selectFollowingIdById(id);
-		
 		return list;
 	}
 	
@@ -566,11 +550,8 @@ public class BoardServiceImpl implements BoardService {
 	// 이동한 대상의 팔로워 리스트
 	@Override
 	public List<Follow> selectFollowedIdById(String id) {
-		
 		FollowRepository followRepository = sqlSession.getMapper(FollowRepository.class);
-		
 		List<Follow> list = followRepository.selectFollowedIdById(id);
-		
 		return list;
 	}
 	

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>개인정보수정</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -25,6 +26,27 @@
    .swal2-styled.swal2-cancel {width: 100px;}
    .swal2-icon.swal2-warning { color: pink; border-color: pink;}
 
+	#profile_menu {
+	    z-index: 6000;
+	    position: absolute;
+	    top: 104px;
+	    left: 1710px;
+	    width: 170px;
+	    height: 186px;
+	    border: 1px solid rgb(240, 242, 245);
+	    border-radius: 3px;
+	    background-color: white;
+	    box-shadow: 5px 5px 8px rgb(160 160 160 / 30%);
+	}
+	#profile_menu li {
+	    display: block;
+	    width: 150px;
+	    margin-top: 4px;
+	    margin-left: 4px;
+	    font-size: 14px;
+	    font-weight: lighter;
+	    border-bottom: 1px solid rgb(240, 242, 245);
+	}
 	.hidden_box {
 		z-index: -99;
 	    background-color: white;
@@ -40,8 +62,6 @@
 	.hidden_class{
 		z-index: 2;
 	}
-
-
 	.pointer:hover {
 		cursor: pointer;
 	}
@@ -85,7 +105,7 @@
 	function fnFindMemberInfo(){
 	 
 		$.ajax({
-			 url: '/nearby/member/memberInfo', // url에 param이 아니라, 변수가 포함되어 넘어간다.
+			 url: '<%=request.getContextPath()%>/member/memberInfo', // url에 param이 아니라, 변수가 포함되어 넘어간다.
 			type: 'post',
 			dataType: 'json', // 받아오는 data Type
 			success: function(map){
@@ -98,14 +118,13 @@
 					        cancelButtonColor: '#D4D4D4',   // cancel
 					        confirmButtonText: '이동',
 					        cancelButtonText: '취소'	
-					     }).then((result) =>{
+					     }).then((result) => {
 							if(result.isConfirmed) { // confirm이 false이면 return
-								location.href='/nearby/';
+								location.href='<%=request.getContextPath()%>/';
 							}
 					     })
 				} else if (map.member != null) { 
 				let birthday = map.result.birthday;
-				console.log(birthday);
 				let year = birthday.substring(0,4);
 				let month = birthday.substring(4,6);
 				let day = birthday.substring(6,8);
@@ -118,8 +137,8 @@
 					$('#month').val(month);
 					$('#day').val(day);
 					if (map.result.profile.pOrigin != '') {
-						$('#user_img').attr('src', '/nearby/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
-						$('#profile_img').attr('src', '/nearby/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
+						$('#user_img').attr('src', '/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
+						$('#profile_img').attr('src', '/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
 					} else {
 						$('#user_img').attr('src', '${pageContext.request.contextPath}/resources/image/profile_default.png');
 						$('#profile_img').attr('src', '${pageContext.request.contextPath}/resources/image/profile_default.png');
@@ -147,7 +166,6 @@
 			let extName = origin.substring(origin.lastIndexOf(".") + 1).toUpperCase(); // 확장자를 대문자로 저장 aaa.aaa.aaa.ccc 일 때, 마지막 마침표 다음 자리부터 끝까지 substring으로 가지고오고 
 			if ( $.inArray(extName, ['JPG', 'JPEG', 'GIF', 'PNG', 'JFIF']) == -1 ) {	// 첨부된 파일이 ['JPG', 'JPEG', 'GIF', 'PNG'] 중 하나가 아니면 (-1) :: 확장자 제한 두기
 				Swal.fire({
-				//	icon: 'warning',
 					title: '확장자를 확인해주세요',
 					text: '첨부 가능한 이미지의 확장자는 jpg, jpeg, gif, png, jfif 입니다.'
 				});
@@ -160,7 +178,6 @@
 			let fileSize = $(this)[0].files[0].size; // 첨부된 파일 크기
 			if (fileSize > maxSize) {
 				Swal.fire({
-				//	icon: 'warning',
 					title: '파일의 크기를 확인해 주세요',
 					text: '10MB 이하의 파일만 사용하실 수 있습니다.'
 				});
@@ -182,7 +199,7 @@
 				let file = $('#file')[0].files[0];
 				formData.append('file', file); // 첨부를 FormData에 넣기
 				$.ajax({
-				url: '/nearby/profile/profilePic',
+				url: '<%=request.getContextPath()%>/profile/profilePic',
 				type: 'post',
 				contentType: false,
 				processData: false,
@@ -201,7 +218,6 @@
 						fnFindMemberInfo();
 						$('.hidden_box').removeClass('hidden_class');
 					} else if (map.nullMsg != null) {
-						console.log(map.nullMsg);
 						Swal.fire({
 							icon: 'error',
 							text: name + '님의 프로필 사진등록을 실패했습니다.',
@@ -218,13 +234,13 @@
 		}) // End profile_insert_btn click event
 	} // fnProfilePic
 
-/* ------------------------------------------------------------ fnProfilePic() ------------------------------------------------------------ */
+/* ------------------------------------------------------------ fnDeleteProfilePic() ------------------------------------------------------------ */
 	// 사진 삭제
 	function fnDeleteProfilePic(){
 		$('#delete_btn').on('click', function(){
 
 			$.ajax({
-			url: '/nearby/profile/profilePicDelete',
+			url: '<%=request.getContextPath()%>/profile/profilePicDelete',
 			type: 'post',
 			dataType: 'json',
 			success: function(map){
@@ -243,7 +259,7 @@
 						icon: 'error',
 						text: name + '님의 프로필이 초기화되지 않았습니다.',
 					})
-				}
+				 }
 				} // success
 			}) // End ajax
 		}) // End deleteBtn Click Event
@@ -253,47 +269,83 @@
 	// 회원정보 수정하기 modify_btn"
 	function fnModifyMemberInfo() {
 		$('#modify_btn').click(function(){
-	// /nearby/member/modifyMember'
- 			let member = JSON.stringify({
-				mNo: $('#mNo').val(),
-				profile : {pContent : $('#content').val()},
-				name: $('#name').val(),
-				phone: $('#phone').val(),
-				birthday: $('#birthday').val() + $('#month').val() + $('#day').val(),
-				gender: $('input:radio[name="gender"]:checked').val()
-			}); 
-			
-			$.ajax({
-				url: '/nearby/member/modifyMember',
-				type: 'post',
-				data: member,
-				contentType: 'application/json',
-				dataType: 'json',
-				success: function(map){
-					if(map.result && map.result != null) {
-						Swal.fire({
-				            icon: 'success',
-				            text: map.member.name + '님의 회원정보가 수정되었습니다.',
-				        });
-						fnFindMemberInfo();
-					} else if (map.nullErrorMsg == '올바른 형식이 아닙니다.'){
-						Swal.fire({
-				            icon: 'error',
-				            text: '핸드폰 번호는 11자리 정수입니다.',
-				        });
-					} else if (map.nullErrorMsg != null){
-						Swal.fire({
-	                        icon: 'error',
-	                        text: map.nullErrorMsg + ' 내용을 채워주세요.',
-	                    });
-					} else {
-						Swal.fire({
-				            icon: 'error',
-				            text: '잘못 된 접근입니다. 다시 시도해 주세요.',
-				        });
-					}
-				} // End fn_success
-			}) // End ajax
+			let birthday = $('#birthday').val() + $('#month').val() + $('#day').val();
+			if ( $('#content').val().length > 75 ) {
+				$('#content').focus();
+				Swal.fire({
+                    icon: 'error',
+                    text: '자기소개는 75자 이내로 작성해주세요' ,
+                });
+				return;
+			} else if ( $('#name').val().trim() == '' ) {
+				$('#name').focus();
+				Swal.fire({
+                    icon: 'error',
+                    text: '이름을 입력해주세요' ,
+                });
+				return;
+			} else if ( $('#name').val().length > 16 ) {
+				$('#name').focus();
+				Swal.fire({
+                    icon: 'error',
+                    text: '이름은 16자 이내로 작성해주세요' ,
+                });
+				return;
+			} else if ( $('#phone').val().trim().length != 11 || $('#phone').val() == '' ) {
+				$('#phone').focus();
+				Swal.fire({
+                    icon: 'error',
+                    text: '핸드폰 번호는 11자리 정수입니다' ,
+                });
+				return;
+			} else if ( birthday.length != 8 ) {
+				Swal.fire({
+                    icon: 'error',
+                    text: '생일정보를 모두 입력해주세요' ,
+                });
+				return;
+			} else {
+	 			let member = JSON.stringify({
+					mNo: $('#mNo').val(),
+					profile : {pContent : $('#content').val()},
+					name: $('#name').val(),
+					phone: $('#phone').val(),
+					birthday: birthday,
+					gender: $('input:radio[name="gender"]:checked').val()
+				}); 
+				
+				$.ajax({
+					url: '<%=request.getContextPath()%>/member/modifyMember',
+					type: 'post',
+					data: member,
+					contentType: 'application/json',
+					dataType: 'json',
+					success: function(map){
+						if(map.result && map.result != null) {
+							Swal.fire({
+					            icon: 'success',
+					            text: map.member.name + '님의 회원정보가 수정되었습니다.',
+					        });
+							fnFindMemberInfo();
+						} else if (map.nullErrorMsg == '올바른 형식이 아닙니다.'){
+							Swal.fire({
+					            icon: 'error',
+					            text: '핸드폰 번호는 11자리 정수입니다.',
+					        });
+						} else if (map.nullErrorMsg != null){
+							Swal.fire({
+		                        icon: 'error',
+		                        text: map.nullErrorMsg + ' 내용을 채워주세요.',
+		                    });
+						} else {
+							Swal.fire({
+					            icon: 'error',
+					            text: '입력데이터를 확인해주세요',
+					        });
+						}
+					} // End fn_success
+				}) // End ajax
+			} // End if
 		}) // End modify_btn click event
 	} // End fnModifyMemberInfo
 
@@ -317,17 +369,14 @@
 					if(result.isConfirmed) { // confirm이 false이면 return
 						if(pw_result == true) { 
 								Swal.fire({
-						     //       icon: 'error',
 						            title: '탈퇴되었습니다.',
 						            text: 'NearBy를 이용해주셔서 감사합니다.',
-						            timer: 300000,
 						        });
-								$('#form').attr('action', '/nearby/member/leaveMember/');
+								$('#form').attr('action', '<%=request.getContextPath()%>/member/leaveMember/');
 								$('#form').submit();
 							} else if (pw_result == false || $('#pw').val()=='') { // pw_result == false 이면 return;
 								Swal.fire({
 						            icon: 'error',
-						      //      title: '비밀번호 확인필요',
 						            text: '비밀번호 확인 후 진행해 주세요',
 						        });
 							return;
@@ -346,7 +395,7 @@
 	    $('#password_check_btn').on('click',function(){ // TODO ajax로 select 결과 받아서 처리하기해야함.
 
 			$.ajax({
-				url : '/nearby/member/checkPassword',
+				url : '<%=request.getContextPath()%>/member/checkPassword',
 				type : 'post',
 				data : 'pw=' + $('#pw').val(),
 				dataType: 'json',               // 받아올 데이터 타입
@@ -356,19 +405,16 @@
 					 if( map.selectResult > 0){
 						Swal.fire({
 							icon: 'success',
-				//			title: '비밀번호 확인완료',
 							text: name + '님의 비밀번호가 확인되었습니다.',
 						})
 						 pw_result = true;
 		             } else if(map.selectResult == 0) {
 						Swal.fire({
 							icon: 'error',
-					//		title: '비밀번호 재확인필요',
 							text: name + '님의 비밀번호가 일치하지 않습니다. 다시시도해 주세요.',
 						})
 						 pw_result = false;
 					 }
-					 console.log(pw_result);
 				}, // End Seuccess function
 				error : function(xhr, ajaxOptions, thrownError) {
 			       alert(xhr.responseText);
@@ -432,7 +478,7 @@
 	// 홈으로 가기
 	function fnHomeLink() {
 		$('#home_link').on('click', function(){
-			location.href='/nearby/board/updateProfilePicture';
+			location.href='<%=request.getContextPath()%>/board/updateProfilePicture';
 		}) // End home_btn click event
 	} // End fnHomeBtn
 
@@ -490,7 +536,7 @@
 	               		
 	                    <div id="current_pw_box">
 		                    <span class="space">
-		                  	  <input type="text" id="pw" name="pw">
+		                  	  <input type="password" id="pw" name="pw">
 		                    </span>
 		                    <span>
 			                    <input type="button" value="확인하기" id="password_check_btn" class="pointer">
@@ -509,7 +555,7 @@
 								<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
 							</c:if>
 							<c:if test="${not empty loginUser.profile.pSaved}">
-								<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
+								<img id="user_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
 							</c:if>
 						 
 						</div>
@@ -520,7 +566,6 @@
 					<!-- 첨부박스 -->
 					<div class="file_box">
 						<div id="close_file_box_icon_area">
-							<!-- <i id="close_file_box_icon" class="fas fa-times pointer" onclick="fnShowBtnBox()"></i>    -->
 							<i id="close_file_box_icon" class="fas fa-times pointer" onclick="fnImageClose()"></i>   
 						</div>
 						<label id="file_label" for="file"><i class="fas fa-photo-video"></i></label>

@@ -437,11 +437,11 @@
          </div>
          <div class="main_box1 main_box3">
             <h1 class="s_core_dream_m">지금 당장 NEARBY 시작하기</h1>
-            <a href="/nearby/member/agreement"><input type="button" class="nanum_square btn" value="간편회원가입" id="join_btn2" class="btn join_btn"></a>
+            <a href="<%=request.getContextPath()%>/member/agreement"><input type="button" class="nanum_square btn" value="간편회원가입" id="join_btn2" class="btn join_btn"></a>
          </div>
       </main>
       <!---------------------------------------- 로그인 폼(숨김)---------------------------------------> 
-             <form id="login_form" method="post" class="no" action="/nearby/member/login">
+             <form id="login_form" method="post" class="no" action="/member/login">
                <div>
                   <i id="close_login_btn" class="fas fa-times"></i>   
                </div>
@@ -457,7 +457,7 @@
                <div class="input_wrap">
                   <p class="nanum_square">비밀번호<p>
                   <div class="input_box">
-                     <input type="text" name="pw" id="pw">
+                     <input type="password" name="pw" id="pw">
                   </div>
                   
                </div>     
@@ -466,12 +466,11 @@
                		
                		<label for="checkRememberId" class="idSavedCheck" onclick="fnIdCheck()"><i class="far fa-check-circle"></i> 아이디 저장</label>
                	</div>
-               
                       
                   <button class="nanum_square" id="login_submit">로그인</button>
                         <div id="move_area">
-                        <a id="find_btn1" class="find_btn1" href="/nearby/member/findIdPw"><i class="fas fa-key"></i>아이디/비밀번호 찾기</a><br><br>
-                        <a id="join_btn1" class="join_btn1" href="/nearby/member/agreement"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
+                        <a id="find_btn1" class="find_btn1" href="<%=request.getContextPath()%>/member/findIdPw"><i class="fas fa-key"></i>아이디/비밀번호 찾기</a><br><br>
+                        <a id="join_btn1" class="join_btn1" href="<%=request.getContextPath()%>/member/agreement"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
                     </div>
              </form>   
       

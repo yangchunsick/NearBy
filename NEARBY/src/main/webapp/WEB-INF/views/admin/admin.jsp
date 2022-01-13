@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/admin.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<title>Insert title here</title>
+<title>NearBy - 관리자</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -36,7 +37,7 @@ function fnMemberSearch(){
 	$('#search_btn').click(function(){
 		// 검색하는 것에 따라 이동경로 다르게 설정함
 		if ( $('#column').val() == 'ID' || $('#column').val() == 'NAME' || $('#column').val() == 'M_NO'  ||  $('#column').val() == 'EMAIL'  || $('#column').val() == 'BIRTHDAY' || $('#column').val() == 'GENDER' ) {
-			location.href='/nearby/admin/findMember?column=' + $('#column').val() + '&query=' + $('#query').val();				
+			location.href='<%=request.getContextPath()%>/admin/findMember?column=' + $('#column').val() + '&query=' + $('#query').val();				
 		}
 		else {
 			Swal.fire({
@@ -131,7 +132,6 @@ new Chart(document.getElementById("barchart1"), {
       responsive: false     
     }
 });
-console.log($('#seoul').val())
 new Chart(document.getElementById("barchart2"), {
     type: 'bar',
     data: {
@@ -164,7 +164,6 @@ new Chart(document.getElementById("barchart2"), {
  let men = $('#men').val()
  let women = $('#women').val()
  let noGender = $('#noGender').val()
- console.log(men + noGender + women)
  
 var ctx = $('#donutchart').get(0).getContext('2d');
 var donutdata =

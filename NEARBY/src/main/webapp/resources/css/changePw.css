@@ -75,7 +75,7 @@
 	}
 
 	/* input tag 공백 */
-	.space input[type=text] {
+	input[type=text], input[type=password] {
 		padding-left:15px;
 	}
 	

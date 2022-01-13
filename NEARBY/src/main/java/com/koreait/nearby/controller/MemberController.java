@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,7 +63,6 @@ public class MemberController {
 	@PostMapping(value = "findPw", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> findPw(@RequestParam("email") String email) {
-		System.out.println(email.toString());
 		Map<String, Object> map = service.findPw(email);
 		return map;
 	}	
@@ -70,10 +71,17 @@ public class MemberController {
     // 아이디 중복확인하기 
 	@ResponseBody
 	@PostMapping(value="idCheck", produces ="application/json; charset=UTF-8" )
-	public Map<String,Object> idCheck(@RequestParam String id) {
+	public Map<String, Object> idCheck(String id) {
 		return service.idCheck(id);
 	}
 	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @PostMapping(value="idCheck", produces ="application/json; charset=UTF-8" )
+	 * public ResponseEntity<Integer> idCheck(String id) { return new
+	 * ResponseEntity(service.idCheck(id), HttpStatus.OK); }
+	 */
 	// 이메일 중복확인 + 아이디 찾기 
 	@ResponseBody
 	@PostMapping(value="selectByEmail", produces ="application/json; charset=UTF-8" )
@@ -142,7 +150,6 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping(value="modifyMember", produces ="application/json; charset=UTF-8")
 	public Map<String, Object> modifyMember(@RequestBody Member member, HttpServletRequest request) {
-		System.out.println(member);
 		return service.modifyMember(member, request);
 	}
 	

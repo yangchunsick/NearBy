@@ -51,7 +51,7 @@ function fnEmailCheck(){
      $('#authCode_btn').click(function(){
           // 이메일 있는지 확인하기
           $.ajax({
-              url: "/nearby/member/selectByEmail",
+              url: "<%=request.getContextPath()%>/member/selectByEmail",
               type: 'post',
               data : 'email=' + $("#email").val(),
               dataType: 'json',
@@ -75,7 +75,7 @@ function fnEmailCheck(){
 function fnSendAuthCode(id){
    $("#authCode_box").css("display", 'inline-block');
      $.ajax({
-        url: '/nearby/member/sendAuthCode',
+        url: '<%=request.getContextPath()%>/member/sendAuthCode',
         type: 'post',
         data: 'email=' + $('#email').val(),
         dataType: 'json',
@@ -127,7 +127,7 @@ function fnFindPw(){
     function fnPwFind_IdCheck(){
         $('#idCheck_btn').on('click', function(){
             $.ajax({
-                url: '/nearby/member/idCheck',
+                url: '<%=request.getContextPath()%>/member/idCheck',
                 type: 'post',
                 data: 'id=' + $('#pwId').val(),
                 dataType: 'json',
@@ -187,7 +187,7 @@ function fnFindPw(){
         $('#pwAuthCode_btn').click(function(){
             $('#pwAuthCode_box').css('display', 'inline-block');
             $.ajax({
-                url: '/nearby/member/sendAuthCode',
+                url: '<%=request.getContextPath()%>/member/sendAuthCode',
                 type: 'post',
                 data: 'email=' + $('#pwEmail').val(),
                 dataType: 'json',
@@ -236,7 +236,7 @@ function fnFindPw(){
     function fnUpdatePw(){
         $('#updatePw').click(function(){
             $.ajax({
-                url: '/nearby/member/findPw',
+                url: '<%=request.getContextPath()%>/member/findPw',
                 type: 'post',
                 data: 'email=' + $('#pwEmail').val(),
                 dataType: 'json',
@@ -248,7 +248,7 @@ function fnFindPw(){
                      text: '이메일로 임시 비밀번호를 전송 했습니다.',
                   })
                         /*alert('이메일로 임시 비밀번호를 전송 했습니다.');*/
-                        location.href='/nearby/';
+                        location.href='<%=request.getContextPath()%>/';
                     } else {
                         Swal.fire({
                             icon: 'error',

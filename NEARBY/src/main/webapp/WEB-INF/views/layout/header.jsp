@@ -37,7 +37,7 @@
 		        cancelButtonText: '취소'	
 		     }).then((result) => {
 				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='/nearby/';
+					location.href='<%=request.getContextPath()%>/';
 				}
 		     })
 		}
@@ -47,38 +47,38 @@
 <div class="container">
 
 	<div class="left_box">
-		<a href="/nearby/board/boardList">logo_img</a>
+		<a href="<%=request.getContextPath()%>/board/boardList">logo_img</a>
 	</div>
 	<div class="mid_box">
 		<ul class="btn_box">
 			<li id="home_btn" >
-				<a class="boxes" href="/nearby/board/boardList"><i id="home_icon" class="fas fa-home"></i></a>
+				<a class="boxes" href="<%=request.getContextPath()%>/board/boardList"><i id="home_icon" class="fas fa-home"></i></a>
 				<div class="text_icon_box t1">
-					<a href="/nearby/board/boardList">홈</a>
+					<a href="<%=request.getContextPath()%>/board/boardList">홈</a>
 				</div>
 			</li>
 			<li id="myhome_btn">
-				<a class="boxes" href="/nearby/board/myHome"><i id="myhome_icon" class="fas fa-border-all"></i></a>
+				<a class="boxes" href="<%=request.getContextPath()%>/board/myHome"><i id="myhome_icon" class="fas fa-border-all"></i></a>
 				<div class="text_icon_box t2">
-					<a href="/nearby/board/boardList">마이홈</a>
+					<a href="<%=request.getContextPath()%>/board/boardList">마이홈</a>
 				</div>
 			</li>
 			<li id="follow_btn">
-				<a class="boxes" href="/nearby/follow/followList"><i id="follow_icon" class="fas fa-user-friends"></i></a>
+				<a class="boxes" href="<%=request.getContextPath()%>/follow/followList"><i id="follow_icon" class="fas fa-user-friends"></i></a>
 				<div class="text_icon_box t3">
-					<a href="/nearby/board/boardList">친구들</a>
+					<a href="<%=request.getContextPath()%>/board/boardList">친구들</a>
 				</div>
 			</li>
 			<li id="insert_btn" >
-				<a class="boxes" href="/nearby/board/insertPage"><i id="insert_icon" class="far fa-plus-square"></i></a>
+				<a class="boxes" href="<%=request.getContextPath()%>/board/insertPage"><i id="insert_icon" class="far fa-plus-square"></i></a>
 				<div class="text_icon_box t4">
-					<a href="/nearby/board/boardList">사진/ 동영상 게시</a>
+					<a href="<%=request.getContextPath()%>/board/boardList">사진/ 동영상 게시</a>
 				</div>
 			</li>
 		</ul>
 	</div>
 	<div class="right_box">
-		<form class="main_search" action="/nearby/board/searchBoardList">
+		<form class="main_search" action="<%=request.getContextPath()%>/board/searchBoardList">
 			<div class="search_box pointer">
 				<input type=text id="query" name="query">
 				<button id="search_icon">
@@ -91,7 +91,7 @@
 					<img id="profile_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg">
 			</c:if>
 			<c:if test="${not empty loginUser.profile.pSaved}">
-					<img id="profile_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
+					<img id="profile_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
 			</c:if>
           </div>
 		<div id="profile_menu" class="profile_no">
@@ -102,10 +102,10 @@
 					<p>${loginUser.email}</p>	
 					
 				</li>
-   	   			<li><a id="profile_menu_list2" href="/nearby/board/myHome"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;마이홈</a></li>
-   	   			<li><a id="profile_menu_list3" href="/nearby/member/mypage"><i class="fas fa-cog"></i>&nbsp;&nbsp;프로필 관리</a></li>
-   	   			<li><a id="profile_menu_list4" href="/nearby/member/changePasswordPage"><i class="fas fa-key"></i>&nbsp;&nbsp;비밀번호 변경</a></li>
-   	   			<li><a id="profile_menu_list5" href="/nearby/member/logout"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;로그아웃</a></li>
+   	   			<li><a id="profile_menu_list2" href="<%=request.getContextPath()%>/board/myHome"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;마이홈</a></li>
+   	   			<li><a id="profile_menu_list3" href="<%=request.getContextPath()%>/member/mypage"><i class="fas fa-cog"></i>&nbsp;&nbsp;프로필 관리</a></li>
+   	   			<li><a id="profile_menu_list4" href="<%=request.getContextPath()%>/member/changePasswordPage"><i class="fas fa-key"></i>&nbsp;&nbsp;비밀번호 변경</a></li>
+   	   			<li><a id="profile_menu_list5" href="<%=request.getContextPath()%>/member/logout"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;로그아웃</a></li>
 			</ul>
 		</div>
 	</div>

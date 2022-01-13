@@ -85,10 +85,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 </select>
 	
 	<!-- 비밀번호 확인용 -->
-	<select id="selectPassword" parameterType="String" resultType="int">
+	<select id="selectPassword" parameterType="Member" resultType="int">
 		SELECT count(*)
 		  FROM MEMBER
-		 WHERE PW = #{pw} AND STATE = 0
+		 WHERE PW = #{pw} AND ID=#{id} AND STATE = 0
 	</select>
 	
 	<!-- 비밀번호 수정  -->

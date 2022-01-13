@@ -112,7 +112,6 @@ public class ReplyServiceImpl implements ReplyService {
 			ReplyRepository replyRepository = sqlSession.getMapper(ReplyRepository.class);
 			int updateResult = replyRepository.updateReply(reply);
 			map.put("updateResult", updateResult);
-			System.out.println("반환될 댓글의 map : " +  map);
 			} catch (NullPointerException e) {
 				map.put("errorMsg", e.getMessage());
 			} catch (SQLException e) {

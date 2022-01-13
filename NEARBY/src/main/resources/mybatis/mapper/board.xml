@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     LEFT JOIN  LIKES L
 	   	   ON B.ID = L.ID
 	    WHERE STATE = 0
-	    ORDER BY b.B_NO DESC
+	    ORDER BY B.B_NO DESC
    </select>
    
    
@@ -128,22 +128,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <select id="selectLikePerBoard" parameterType="Map" resultType="int">
 	    SELECT COUNT(B_NO)
  		  FROM LIKES
- 		 WHERE ID IN ((SELECT ID
-                         FROM LIKES
-                        WHERE  ID in ((  SELECT L.ID
-                                     FROM BOARD B RIGHT JOIN LIKES L
-                                       ON B.B_NO = L.B_NO
-                                    WHERE B.B_NO = #{bNo}  ))
-                                     AND B_NO = #{bNo}))
-         AND ID = #{id} and B_NO = #{bNo}
+ 		 WHERE ID IN  ((  SELECT L.ID
+                            FROM BOARD B RIGHT JOIN LIKES L
+                              ON B.B_NO = L.B_NO
+                           WHERE B.B_NO = #{bNo}  ))
+           AND ID = #{id} and B_NO = #{bNo}
 	 </select>
 	   
 	 	   
 	   
-	   
     <!-- 관리자를 위한  지역 select문  -->
 	<select id="adminBoardList" resultMap="BoardMap">
-        SELECT B.B_NO, B.ID, b.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE
+        SELECT B.B_NO, B.ID, B.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE
           FROM BOARD B 
          WHERE B.STATE = 0
     </select>
@@ -156,6 +152,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    	     WHERE UPPER(B.ID) LIKE CONCAT('%', CONCAT(IFNULL(#{query}, ''), '%'))
    	        OR UPPER(B.CONTENT)  LIKE CONCAT('%', CONCAT(IFNULL(#{query}, ''), '%'))
    	        OR B.LOCATION  LIKE CONCAT('%', CONCAT(IFNULL(#{query}, ''), '%'))
+   	       AND B.STATE = 0
    	     ORDER BY B.B_NO DESC
     </select>
     
@@ -190,7 +187,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectUserProfile" resultMap="ProfileMap" parameterType="String">
-    	SELECT ID, P_ORIGIN, P_SAVED, P_PATH
+    	SELECT ID, P_ORIGIN, P_SAVED, P_PATH, P_CONTENT
     	  FROM PROFILE
     	WHERE ID = #{id}	    
     </select>

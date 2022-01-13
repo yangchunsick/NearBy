@@ -14,15 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.ui.Model;
 
 import com.koreait.nearby.domain.Member;
 import com.koreait.nearby.domain.Profile;
-import com.koreait.nearby.repository.BoardRepository;
 import com.koreait.nearby.repository.MemberRepository;
 import com.koreait.nearby.repository.ProfileRepository;
 import com.koreait.nearby.util.SecurityUtils;
@@ -30,7 +26,7 @@ import com.koreait.nearby.util.adminPage;
 
 public class MemberServiceImpl implements MemberService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
+//	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -64,9 +60,8 @@ public class MemberServiceImpl implements MemberService {
 		profile.setpSaved("");
 		ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);
 		int profileResult = profileRepository.insertProfile(profile);
-		System.out.println("profileResult 결과 : " + profileResult );
 		
-		message(result, response, "회원가입성공", "회원가입실패", "/nearby");
+		message(result, response, "회원가입성공", "회원가입실패", request.getContextPath()+"/" );
 	}
 	
 
@@ -77,6 +72,7 @@ public class MemberServiceImpl implements MemberService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
 		map.put("result", memberRepository.idCheck(id));
+		
 		return map;
 	}
 	
@@ -108,7 +104,6 @@ public class MemberServiceImpl implements MemberService {
 			findPwMessage.setSubject("NearBy 임시 비밀번호 발급");
 			findPwMessage.setText("임시 비밀번호는 " + pw + "입니다.");
 			javaMailSender.send(findPwMessage);
-			System.out.println("MemberServiceImple 이메일로 보낸 임시 비밀번호 : " + pw + "입니다.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,7 +114,6 @@ public class MemberServiceImpl implements MemberService {
 		// 임시 비밀번호를 담음
 		member.setEmail(email);
 		member.setPw(SecurityUtils.sha256((pw)));
-		System.out.println("SecurityUtils 암호화가된 임시 비밀번호 : " + pw + "입니다.");
 
 		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
 		int result = memberRepository.findPw(member);
@@ -146,7 +140,6 @@ public class MemberServiceImpl implements MemberService {
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
 			message.setSubject("NEARBY 인증 요청 메일입니다.");
 			message.setText("인증번호는 " + authCode + " 입니다.");
-			System.out.println(authCode);
 			javaMailSender.send(message);
 			
 		} catch (Exception e) {
@@ -168,12 +161,10 @@ public class MemberServiceImpl implements MemberService {
 			member.setPw(SecurityUtils.sha256(request.getParameter("pw")));
 			MemberRepository repository = sqlSession.getMapper(MemberRepository.class);
 			Member loginUser = repository.login(member);
-			System.out.println("loginUser information : " + loginUser);
 			
 			// 로그인한 유저 보드에 좋아요한 유무 DB에서 갖고와서 세션에 저장하기 
 			if (loginUser != null) {
 				request.getSession().setAttribute("loginUser", loginUser);
-				logger.info(loginUser.toString());
 			}		
 							
 				try {
@@ -182,9 +173,9 @@ public class MemberServiceImpl implements MemberService {
 		 			if (loginUser != null) {
 		 				out.println("<script>");
 		 				if( "admin".equals(loginUser.getId()) == false) {
-		 					out.println("location.href='/nearby/board/boardList';");
+		 					out.println("location.href='/board/boardList';");
 		 				} else {
-		 					out.println("location.href='/nearby/admin/admin';");
+		 					out.println("location.href='/admin/admin';");
 		 				}
 	 					out.println("</script>");
 		 				out.close();
@@ -235,8 +226,6 @@ public class MemberServiceImpl implements MemberService {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("DB갔다온 Map : " + map.toString());
-		
 		return map;
 	}
 	
@@ -256,10 +245,12 @@ public class MemberServiceImpl implements MemberService {
 			String gender = m.getGender();
 			String content = m.getProfile().getpContent();
 			if (birthday.length() != 8) throw new NullPointerException("생일 정보가 없습니다.");
-			if (name.isEmpty()) throw new NullPointerException("입력된 이름이 없습니다.");
-			if (phone == null || phone.isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다.");
+			if (name.trim() == null || name.trim().isEmpty()) throw new NullPointerException("입력된 이름이 없습니다.");
+			if (name.length() > 16 ) throw new PersistenceException("이름은 16자 이내로 작성해주세요.");
+			if (phone.trim() == null || phone.trim().isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다.");
 			if (phone.length() != 11 ) throw new NullPointerException("올바른 형식이 아닙니다.");
-			
+			if (content.length() > 75) throw new PersistenceException("자기소개는 75자 이내로 작성해주세요.");
+
 			// Profile DB로 보낼 Bean 
 			Profile profile = new Profile();
 			profile.setpContent(content);
@@ -325,12 +316,16 @@ public class MemberServiceImpl implements MemberService {
 	public Map<String, Object> checkPassword(HttpServletRequest request) {
 		// 가입당시 비밀번호는 ajax 처리하여 pass true - false 매김 -- DB 에서 비밀번호 일치하는지 확인 필요.
 		// 비밀번호가 일치하면 1 아니면 0
-		//javax.mail.internet.AddressException: Illegal address in string ``''
 		Map<String, Object> map = new HashMap<String, Object>();	
 		try {
+			Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 			String password = SecurityUtils.sha256(request.getParameter("pw"));
+			String id = loginUser.getId();
+			Member memberForDB = new Member();
+			memberForDB.setPw(password);
+			memberForDB.setId(id);
 			MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
-			int selectResult = memberRepository.selectPassword(password);
+			int selectResult = memberRepository.selectPassword(memberForDB);
 			map.put("selectResult", selectResult);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -349,11 +344,9 @@ public class MemberServiceImpl implements MemberService {
 		// 보낼 파라미터 새로운 pw / email
 		Member member = new Member();
 		member.setPw(SecurityUtils.sha256(request.getParameter("newPw")));
-		System.out.println(request.getParameter("newPw"));
 		member.setEmail(request.getParameter("email"));
 		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
 		memberRepository.updatePw(member);
-		System.out.println("결과 : " + memberRepository.updatePw(member));
 		return;
 	}
 
@@ -432,7 +425,6 @@ public class MemberServiceImpl implements MemberService {
 	    MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
 	      String query = request.getParameter("query");
 	      String column = request.getParameter("column");
-	      logger.info("column + query "+ column+", "+query);
 	      
 	      // 페이징2. 현재 페이지 번호 확인하기
 	      // page가 안 넘어오면 page = 1로 처리함.
@@ -457,7 +449,6 @@ public class MemberServiceImpl implements MemberService {
 	      
 	      // 검색 결과 리스트
 	      List<Member> searchResult = memberRepository.selectFindList(dbMap);
-	      System.out.println("검색 결과 리스트 : "+searchResult);
 	      
 	      int index = searchResult.size();
 	      
@@ -470,7 +461,7 @@ public class MemberServiceImpl implements MemberService {
 		   resultMap.put("beginRecord", p.getBeginRecord()+"");
 		   resultMap.put("endRecord", p.getEndRecord()+"");
 		   resultMap.put("searchResult", searchResult); //list
-		   resultMap.put("pageEntity", p.getPageEntity("/nearby/admin/findMember?column="+column+"&query="+query)); 
+		   resultMap.put("pageEntity", p.getPageEntity("/admin/findMember?column="+column+"&query="+query)); 
 	       resultMap.put("startNum", cnt - (page - 1) * p.getRecordPerPage());
 		   resultMap.put("cnt",cnt);
 		   resultMap.put("index",index);

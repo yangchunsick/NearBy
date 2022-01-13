@@ -7,7 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NearBy</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -89,7 +90,7 @@
 		        cancelButtonText: '취소'	
 		     }).then((result) => {
 	             if (result.isConfirmed) {
-	            		location.href= '/nearby/board/deleteBoard?bNo='+${board.bNo};
+	            		location.href= '<%=request.getContextPath()%>/board/deleteBoard?bNo='+${board.bNo};
 	             }
 		     })    
 	   }
@@ -97,14 +98,14 @@
 	function fnAdminDelete(i){
 		if( confirm('게시글 번호 '+i+'를 삭제하시겠습니까?') ){
  			$.ajax({
- 				url : '/nearby/admin/adminBoardDelete',
+ 				url : '<%=request.getContextPath()%>/admin/adminBoardDelete',
  				type: "get",
  				data : "bNo="+i,
  				dataType: 'json',
  				contentType:'application/json',
  				success: function(map){
  					 if(map.result.result > 0){
- 						location.href= "/nearby/board/boardList";
+ 						location.href= "<%=request.getContextPath()%>/board/boardList";
  					 } else {
  					 }
  					}, 
@@ -117,7 +118,7 @@
 	
 	function fnUpdate(){
 	/* 	if(confirm('게시글을 수정하시겠습니까?') )
-			location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo}; */
+			location.href= '/board/updateBoardPage?bNo='+${board.bNo}; */
 		 Swal.fire({
 			text: '게시글을 수정하시겠습니까?',
 	        icon: 'warning',
@@ -129,7 +130,7 @@
 	        cancelButtonText: '취소'	
 	     }).then((result) => {
              if (result.isConfirmed) {
-            	 location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo}; 
+            	 location.href= '<%=request.getContextPath()%>/board/updateBoardPage?bNo='+${board.bNo}; 
              }
 	     })    
 			
@@ -141,14 +142,13 @@
 		$.each($('.output_reply_table'), function(i, replyTable) {	
  		let bNo = '${board.bNo}';
  		$.ajax({
- 			      url: '/nearby/board/boardBnoList',
+ 			      url: '<%=request.getContextPath()%>/board/boardBnoList',
 			      type: 'get',
 			      data: "bNo=" + bNo,
 			      dataType: 'json',
  			      success: function(map) {
 			    	    if( map.count == 1 ){
-			    	    	 console.log("색 채우기")
-			    	    	 	$("#like"+bNo).addClass('like');
+		    	    	 	$("#like"+bNo).addClass('like');
 			    	    } else if (map.count == 0) {
 			    	    	$("#like"+bNo).removeClass('like');
 			    	    }
@@ -169,13 +169,13 @@
 	          if( $("#"+i).find('i').hasClass('like') == false )  {
 	            	$("#"+i).find('i').addClass('like');
 		            $.ajax({
-		 				url : '/nearby/board/likes',
+		 				url : '<%=request.getContextPath()%>/board/likes',
 		 				type: 'post',
 						data: "bNo="+i, 
 						dataType: 'json',
 		 				success: function(board){
   			  			   $( '#like_count'+bNo ).text(board.likes);
-  			  			   location.href="/nearby/board/selectBoard?bNo="+bNo;
+  			  			   location.href="<%=request.getContextPath()%>/board/selectBoard?bNo="+bNo;
 		 					
 		 				},
 		 				error : function(xhr, error){
@@ -191,14 +191,14 @@
 	    	$("#"+i).find('i').removeClass('like');
 	    	
 	 		$.ajax({
-	  				url : '/nearby/board/likesCancel',
+	  				url : '<%=request.getContextPath()%>/board/likesCancel',
 	  				type: 'post',
 	  				data: "bNo="+i, 
 	 				dataType: 'json',
 	  				success: function(board){
 	  			//	  console.log("좋아요 취소 카운트" + board.likes);
 	  				   $( '#like_count'+ bNo ).text(board.likes);
-	  				 location.href="/nearby/board/selectBoard?bNo="+bNo;
+	  				 location.href="<%=request.getContextPath()%>/board/selectBoard?bNo="+bNo;
 	  				   
 	  				},
 	  				error : function(xhr, error){
@@ -216,15 +216,15 @@
 	var page = 1; // 시작은 무조건 1page이니까. 1로 초기화
 	function fnReplyList(){
 	   $.ajax({
-	      url: '/nearby/reply/replyList',
+	      url: '<%=request.getContextPath()%>/reply/replyList',
 	      type: 'get',
 	      data: "bNo=" + '${board.bNo}' + "&page=" + page,
 	      dataType: 'json',
 	      success: function(map) {
 	         fnReplyTotalCount(map);
-	         if (map.total != 0 ) {
+	         if (map.total > 0 ) {
 		         fnPrintPaging(map.pageUtils);
-	         } else if (map.total == 0) {
+	         } else if (map.total <= 0) {
 	        	 $('#paging').empty();
 	         }
 	         fnPrintReplyList(map);
@@ -239,7 +239,7 @@
 	         $('#reply_count_per_board').text(map.total);
 	         if (map.total > 0 ) {
 	            $('.replyCount').addClass('like').removeClass('unlike');
-	         } else if (map.total == 0) {
+	         } else if (map.total <= 0) {
 	            $('.replyCount').addClass('unlike').removeClass('like');
 	         }
 	}
@@ -259,13 +259,13 @@
 			 } else {
 			    
 			    $.each(map.replyList, function(i, reply){
-			         if ( reply.profile.pSaved != null ) { // 댓글 작성자의 프로필 사진이 있을 때 프로필 사진을 보여주고
+			         if ( reply.profile.pSaved != '' ) { // 댓글 작성자의 프로필 사진이 있을 때 프로필 사진을 보여주고
 			        
 							let pSaved = reply.profile.pSaved;
 							let pPath = reply.profile.pPath;
 			        
-							$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
-			           } else if(reply.profile.pPath == null) { // 댓글 작성자의 프로필 사진이 없을 때 디폴트 사진을 보여준다.
+							$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/'+pPath+'/'+pSaved+'"></td>') ) );
+			           } else if(reply.profile.pPath == '') { // 댓글 작성자의 프로필 사진이 없을 때 디폴트 사진을 보여준다.
 							$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
 			           } // End if 프사 부분 
 					
@@ -280,9 +280,9 @@
 					
 					// 유저 이름당 href 링크 만들기
 					if (reply.id != id) {
-						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','/nearby/board/selectUserHome?id='+reply.id);
+						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','<%=request.getContextPath()%>/board/selectUserHome?id='+reply.id);
 					} else if(reply.id == id) {
-						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','/nearby/board/myHome');
+						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','<%=request.getContextPath()%>/board/myHome');
 					}
 					
 			    }) // End each
@@ -332,7 +332,7 @@
 		         groupOrd: 0
 		      }); 
 		      $.ajax({
-		         url: '/nearby/reply/insertReply',
+		         url: '<%=request.getContextPath()%>/reply/insertReply',
 		         type: 'post',
 		         data: reply,
 		         contentType: 'application/json',
@@ -355,47 +355,13 @@
 		      }) // End ajax
 		   }) // End click event
 		}  // End fnInsertReply
-
-/* ----------------------------------------- fnDeleteReply() ----------------------------------------- */
-
-	function fnDeleteReply(){
-		$('body').on('click', '.delete_reply_btn', function(){
-			let deleteNo = $(this).data('no');
-			//console.log(deleteNo);
-			alert(deleteNo);
-				$.ajax({
-					url: '/nearby/reply/deleteReply',
-					type: 'get',
-					data: 'rNo=' + deleteNo,
-					dataType: 'json',
-					success: function(map){
-						fnReplyList();
-					},
-					error: function(xhr){
-					}
-				})// end ajax
-		})
-	} // end fnDeleteMember
-/* ----------------------------------------- fnShowUpdateBtn() ----------------------------------------- */
-
-	function fnShowUpdateBtn(){
-		$('body').on('click', '.show_reply_btn', function(){
-			let upNo = $(this).data('upno');
-			let content = $(this).parent().parent().next().children().find('input');
-			let completeBtn = $(this).parent().parent().next().children().next().find('input');
-			
-			content.removeAttr('readonly');
-			completeBtn.toggleClass('disapear');
-		}) // fnShowUpdateBtn
-	}
 	/* ----------------------------------------- fnDeleteReply() ----------------------------------------- */
 
 	function fnDeleteReply(){
 		$('body').on('click', '.delete_reply_btn', function(){
 			let deleteNo = $(this).data('no');
-			//console.log(deleteNo);
 				$.ajax({
-					url: '/nearby/reply/deleteReply',
+					url: '<%=request.getContextPath()%>/reply/deleteReply',
 					type: 'get',
 					data: 'rNo=' + deleteNo,
 					dataType: 'json',
@@ -444,7 +410,7 @@
 	              rContent: updateContent
 	           });
 			 	$.ajax({
-					url: '/nearby/reply/updateReply',
+					url: '<%=request.getContextPath()%>/reply/updateReply',
 					type: 'post',
 					contentType: 'application/json',
 					data: reply,
@@ -529,7 +495,7 @@
 			        cancelButtonText: '취소'	
 			     }).then((result) => {
 					if(result.isConfirmed) { // confirm이 false이면 return
-						location.href='/nearby/';
+						location.href='<%=request.getContextPath()%>/';
 					}
 			     })
 			}
@@ -557,16 +523,16 @@
 				<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg">
 			</c:if>
 		    <c:if test="${board.profile.id == board.id and not empty board.profile.pSaved}" >
-		    		<img id="user_img" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
+		    		<img id="user_img" src="/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
 		    </c:if>
 	    	</div>
 	    	<input type="hidden" id="bNo" value="${board.bNo}">
 	    	<div class="idAndDate">	
 		    	<c:if test="${loginUser.id != board.id}">
-					<a href="/nearby/board/selectUserHome?id=${board.id}">${board.id}</a>                
+					<a href="<%=request.getContextPath()%>/board/selectUserHome?id=${board.id}">${board.id}</a>                
 				</c:if>
 				<c:if test="${loginUser.id == board.id}">
-					<a href="/nearby/board/myHome">${board.id}</a>                
+					<a href="<%=request.getContextPath()%>/board/myHome">${board.id}</a>                
 				</c:if>
 	    		<div class="date">
 			    	    <fmt:formatDate value="${board.created}" pattern="MM월 dd일  a hh:mm" />
@@ -597,7 +563,7 @@
 	 </div>
 		<!--------------------- 내용만 삽입할 때 ------------------------------->
  			 <c:if test="${ null == board.origin }">
-	  			<div class="AddrAndContent"  onclick="location.href='/nearby/board/selectBoard?bNo=${board.bNo}';">
+	  			<div class="AddrAndContent"  onclick="location.href='<%=request.getContextPath()%>/board/selectBoard?bNo=${board.bNo}';">
 	  				  <div class="addrAndMap">
 						       		  <i class="fas fa-map-marker-alt" style="color:#fe4662; font-size:15px; width:30px"></i>
 						              <span class="address"> ${board.location} </span>
@@ -609,7 +575,7 @@
 		  </c:if>
   		<!-------------------- 이미지/비디오 삽입할때 ---------------->		  
 		 <c:if test="${board.saved ne null}">	  
-		      <div class="addressAndImage"  onclick="location.href='/nearby/board/selectBoard?bNo=${board.bNo}';">
+		      <div class="addressAndImage"  onclick="location.href='<%=request.getContextPath()%>/board/selectBoard?bNo=${board.bNo}';">
 			      <div class="addrAndMap">
 			       		  <i class="fas fa-map-marker-alt" style="color:#fe4662; font-size:15px; width:30px"></i>
 			              <span class="address"> ${board.location} </span>
@@ -617,13 +583,13 @@
 		    	  <!------------------ 이미지 및 영상 관련 ----------------------------------------->
   					   <c:set value="${board.saved}" var="video"></c:set>
 		  				 <c:if test="${not f:contains(video, 'video')}">
-		  						 <div class="imgSize">  <img alt="${board.origin}" src="/nearby/${board.path}/${board.saved}" id="image">  </div>
+		  						 <div class="imgSize">  <img alt="${board.origin}" src="/${board.path}/${board.saved}" id="image">  </div>
 		  				  </c:if>
 		  				
 		  				<c:if test ="${f:contains(video, 'video')}">
 		  				   <div class="imgSize">
 			  				    <video autoplay controls loop muted poster="video"  id="video">
-			  						<source src="/nearby/${board.path}/${board.saved}"  type="video/mp4" >
+			  						<source src="/${board.path}/${board.saved}"  type="video/mp4" >
 			  					</video>
 		  					</div>
 		  				</c:if>
@@ -657,7 +623,7 @@
 						<img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg">
 					</c:if>
 					<c:if test="${not empty loginUser.profile.pSaved}">
-						<img class="reply_user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
+						<img class="reply_user_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
 					</c:if>
 				</td>
 				<td>

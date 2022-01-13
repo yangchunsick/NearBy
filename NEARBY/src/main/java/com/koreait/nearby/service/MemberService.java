@@ -18,6 +18,7 @@ public interface MemberService {
 	
     // 회원가입시 아이디 중복 체크 
 	public Map<String, Object> idCheck(String id);
+	//public int idCheck(String id);
 	
 	// 회원가입시 이메일 중복 체크 + 아이디 찾기
 	public Map<String, Object> selectByEmail(String email);

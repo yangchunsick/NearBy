@@ -39,6 +39,7 @@ public interface BoardService {
 	public int selectUserBoardsCount(HttpServletRequest request);
 	public List<Follow> userFollowingIdById(HttpServletRequest request);
 	public List<Follow> userFollowedIdById(HttpServletRequest request);
+	public List<Board> selectMyHomeBoardList(HttpServletRequest request);
     
     // 좋아요
     public Board likes( Likes likes, HttpSession session);
@@ -58,6 +59,7 @@ public interface BoardService {
     public List<Board> selectUserHome(String id);
 	public List<Follow> selectFollowingIdById(String id);
 	public List<Follow> selectFollowedIdById(String id);
+	
 	
 	
 	// 해당 유저의 게시물 구하기

@@ -14,6 +14,7 @@ public interface MemberRepository {
 	
 	// 아이디중복 
 	public Member idCheck(String id);
+	//public int idCheck(String id);
 	
 	// 이메일중복 + 아이디 찾기 
 	public Member selectByEmail(String email);
@@ -28,7 +29,7 @@ public interface MemberRepository {
 	public Member selectMemberById(Member member);
 	
 	// 비밀번호 일치여부 (조회 성공 : 1 / 조회 실패 : 0)
-	public int selectPassword(String password);
+	public int selectPassword(Member member);
 	
 	// 비밀번호수정 
 	public int updatePw(Member member);

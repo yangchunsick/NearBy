@@ -114,7 +114,6 @@ public class BoardController {
 	   @ResponseBody
 	   @PostMapping(value="likesCancel",  produces ="application/json; charset=UTF-8")
 	   public Board likesCancel(@RequestParam Long bNo, HttpSession session){
-		   System.out.println("controller bNo" + bNo);
 		   Likes likes = new Likes();
 		   likes.setbNo(bNo); // 좋아요 한 게시글 번호
 		   Member user = (Member)session.getAttribute("loginUser");
@@ -138,7 +137,7 @@ public class BoardController {
 		@GetMapping("myHome")
 		public String myHome(HttpServletRequest request, Model model) {
 			request.getSession().setAttribute("userBoardCount", service.selectUserBoardsCount(request));
-			request.getSession().setAttribute("list", service.selectBoardList());
+			request.getSession().setAttribute("list", service.selectMyHomeBoardList(request));
 			model.addAttribute("followingList", service.userFollowingIdById(request));
 			model.addAttribute("followedList", service.userFollowedIdById(request));
 			return "board/myHome";
@@ -147,14 +146,12 @@ public class BoardController {
 		/* 해당 유저의 홈으로 가기 */
 		@GetMapping("selectUserHome")
 			public String selectUserHome (@RequestParam("id")String id, Model model) {
-			System.out.println("Controller Request param ID : " +  id);
 			model.addAttribute("user", service.selectUserHome(id));
 			model.addAttribute("userProfile", service.selectUserProfile(id));
 			model.addAttribute("followingList", service.selectFollowingIdById(id));
 			model.addAttribute("followedList", service.selectFollowedIdById(id));
 			model.addAttribute("userBoardCount", service.selectUserHomeBoardsCount(id));
 			model.addAttribute("userId", id);
-			System.out.println("userHome MODEL" + model);
 			return "board/userHome";
 		}
 

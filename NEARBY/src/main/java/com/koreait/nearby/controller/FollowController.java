@@ -42,7 +42,6 @@ public class FollowController {
 			model.addAttribute("followingList", service.selectUserFollowingIdById(id));
 			model.addAttribute("followedList", service.selectUserFollowedIdById(id));
 			model.addAttribute("userProfile", service.selectUserProfileOnly(id));
-			System.out.println("model로 반환할 profile : " + service.selectUserProfileOnly(id));
 			return "/member/userFollow";
 		}
 	   
@@ -66,7 +65,6 @@ public class FollowController {
 	   @ResponseBody
 	   @PostMapping(value="follow/checkFollow", produces ="application/json; charset=UTF-8")
 	   public Map<String, Object> checkFollow(@RequestBody Follow follow, HttpSession session) {
-		   System.out.println("컨트롤러 :" + follow);
 		   return service.checkFollow(follow, session);
 	   }
 	   

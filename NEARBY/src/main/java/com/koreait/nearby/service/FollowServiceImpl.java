@@ -97,9 +97,6 @@ public class FollowServiceImpl implements FollowService {
 		FollowRepository followRepository = sqlSession.getMapper(FollowRepository.class);
 		
 		List<Follow> list = followRepository.selectFollowedIdById(id);
-	
-		
-		
 		return list;
 	}
 	
@@ -129,7 +126,6 @@ public class FollowServiceImpl implements FollowService {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String followingId = loginUser.getId();
 		String id = f.getProfile().getId();
-		System.out.println("서비스 임플 followingId : " + followingId);
 		
 		Map<String, Object> dbmap = new HashMap<String, Object>();
 		dbmap.put("followingId", followingId);
@@ -138,7 +134,6 @@ public class FollowServiceImpl implements FollowService {
 		
 		int result = followRepository.checkFollow(dbmap);
 		
-		System.out.println("디비다녀온결과" + result);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", result);
 		return map;

@@ -71,7 +71,7 @@ input[type="text"]:focus{
 /* 모든 버튼 */
 .input_wrap input[type="button"]{
     width: 100px; height: 45px;
-    background: linear-gradient(#ff6e56,#ff3268);
+    background:  #fe4662;
     border-radius: 10px;
     border: none;
     font-size: 12px;
@@ -124,6 +124,7 @@ input[type="text"]:focus{
 #authCode_box{
     width: 450px;
     display: none;
+    margin-top: 10px;
 }
 
 /* --- PW 박스 --- */

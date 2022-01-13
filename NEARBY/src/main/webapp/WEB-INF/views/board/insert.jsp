@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NearBy</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
@@ -234,7 +235,7 @@
 		    var sub = address.jibunAddress.split(' ');
 		    var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
 		    for(var i=0; i<3; i++){
-		    	console.log(sub[i]);
+		    //	console.log(sub[i]);
 		    	var addressSum = "";
 		    	
 		    	if( typeof sub[i] == "undefined" || sub[i] == null || sub[i] == ""  ){
@@ -286,15 +287,12 @@
 		    var htmlAddresses = [],
 		      item = response.v2.addresses[0],
 		      point = new naver.maps.Point(item.x, item.y);
-		    //console.log(item);	  // item 객체에 지번, 도로명, 위도, 경도 필드존재함
 		    document.insertBoard_Form.location.value = item.jibunAddress;
-		 //   console.log(item.jibunAddress);
-		   // var sub = item.jibunAddress.split(' ');
 	
 		    var sub = item.jibunAddress.split(' ');
 		    var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
 		    for(var i=0; i<3; i++){
-		    	console.log(sub[i]);
+		    //	console.log(sub[i]);
 		    	var addressSum = "";
 		    	// undefined가 나오는 부분은 ""로 처리함
 		    	if( typeof sub[i] == "undefined" || sub[i] == null || sub[i] == ""  ){
@@ -371,7 +369,7 @@
 		        cancelButtonText: '취소'	
 		     }).then((result) => {
 				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='/nearby/';
+					location.href='<%=request.getContextPath()%>/';
 				}
 		     })
 		}
@@ -388,13 +386,13 @@
 	</header>
 	
 	<div class="insert_wrap">
-	<form id="insertBoard_Form" action="/nearby/board/insertBoard" method="post" enctype="multipart/form-data" name="insertBoard_Form">
+	<form id="insertBoard_Form" action="/board/insertBoard" method="post" enctype="multipart/form-data" name="insertBoard_Form">
 		<div class="profileImg"  id="p_img">
 			<c:if test="${empty loginUser.profile.pSaved}">
 				<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"  class="pointer defaultImg">
 			</c:if>
 			<c:if test="${not empty loginUser.profile.pSaved}">
-	    		<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}"  class="pointer">
+	    		<img id="user_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}"  class="pointer">
 	    	</c:if>
 	    </div>
 		<div class="id_wrap">

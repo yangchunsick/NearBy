@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NearBy</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
@@ -50,28 +51,14 @@
 	  	  profile : {id : pId} 
 		  	});
 		$.ajax({
-			url: '/nearby/follow/checkFollow',
+			url: '<%=request.getContextPath()%>/follow/checkFollow',
 			type: 'post',
 			data: follow,
 	  	  	contentType: 'application/json',
 	  	  	dataType: 'json',
 		    success: function(map) {
-		    	  console.log(map);
-		    	  if(map.result == 1) { 
-			    	  console.log('팔로잉중');
-			    	 
-			    	 
-		    	  	
-		    	  
-		    	  } else if (map.result == 0) {
-		    	 	  console.log('팔로우하기');		  
-		    	 	 
-		    	 	  
-		    	 	  
-		    	  }
-		    	 
-		    	  
-		    	  
+		    	 // map.result == 1  '팔로잉중'
+				//  map.result == 0  '팔로우중 아님'	
 		      },
 		     error: function(xhr) {
 		    	  console.log(xhr.responseText);
@@ -82,11 +69,10 @@
 	
 	// fnMoveUserHome();
 	function fnMoveUserHome(id) {
-		location.href='/nearby/board/selectUserHome?id=' + id; 
+		location.href='<%=request.getContextPath()%>/board/selectUserHome?id=' + id; 
 	}
 	function fnCheckLogin(){
 		let loginInfo = '${loginUser.id}';
-		console.log('logincheck ???? : ' + loginInfo);
 		if (loginInfo == '') {
 			
 		 Swal.fire({
@@ -99,7 +85,7 @@
 		        cancelButtonText: '취소'	
 		     }).then((result) => {
 				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='/nearby/';
+					location.href='<%=request.getContextPath()%>/';
 				}
 		     })
 		}
@@ -129,11 +115,11 @@
         <!-- 프로필 사진, 이름, 게시물, 팔로워, 팔로잉, 프로필 설정-->
         <div class="user_box">
             <div class="user_img_box">
-           		<c:if test="${userProfile.pSaved == null}">
-					<img id="user_img" class="pointer" onclick="location.href='/nearby/board/selectUserHome?id=${userProfile.id}'"  src="${pageContext.request.contextPath}/resources/image/profile_default.png">
+           		<c:if test="${empty userProfile.pSaved}">
+					<img id="user_img" class="pointer" onclick="location.href='<%=request.getContextPath()%>/board/selectUserHome?id=${userProfile.id}'"  src="${pageContext.request.contextPath}/resources/image/profile_default.png">
             	</c:if>
-            	<c:if test="${userProfile.pSaved != null}">
-            		<img id="user_img" class="pointer" onclick="location.href='/nearby/board/selectUserHome?id=${userProfile.id}'" src="/nearby/${userProfile.pPath}/${userProfile.pSaved}">           				
+            	<c:if test="${not empty userProfile.pSaved}">
+            		<img id="user_img" class="pointer" onclick="location.href='<%=request.getContextPath()%>/board/selectUserHome?id=${userProfile.id}'" src="/${userProfile.pPath}/${userProfile.pSaved}">           				
             	</c:if>
             </div>
             

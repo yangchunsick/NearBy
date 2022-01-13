@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NearBy</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
@@ -64,7 +65,7 @@
 		        cancelButtonText: '취소'
 		        }).then((result) => {
                     if (result.isConfirmed) {
-                    	location.href= '/nearby/board/deleteBoard?bNo='+${board.bNo};
+                    	location.href= '<%=request.getContextPath()%>/board/deleteBoard?bNo='+${board.bNo};
                     }
 	      })
 	} // fnDelete
@@ -167,7 +168,6 @@
 		   
 		    var sub = address.jibunAddress.split(' ');
 		    var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
-		    console.log("nearbyAddress : "+ nearbyAddress)
 		    document.getElementById('address').value = nearbyAddress;
 
 		    if (address.jibunAddress !== '') {
@@ -207,13 +207,13 @@
 		      point = new naver.maps.Point(item.x, item.y);
 		  //  console.log(item);	  // item 객체에 지번, 도로명, 위도, 경도 필드존재함
 		 //   document.getElementById('address').value = address.jibunAddress;
-		    console.log(item.jibunAddress);
+		  //  console.log(item.jibunAddress);
 		    var sub = item.jibunAddress.split(' ');
 		   
 		    var nearbyAddress = sub[0]+" "+sub[1]+" "+sub[2];
 		    document.getElementById('address').value = nearbyAddress;
 		   
-		    console.log("검색 : " +nearbyAddress )
+		   // console.log("검색 : " +nearbyAddress )
 		    
          // 주소 검색 할 때 item.x   item.y
 
@@ -276,7 +276,7 @@
 		        cancelButtonText: '취소'	
 		     }).then((result) => {
 				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='/nearby/';
+					location.href='<%=request.getContextPath()%>/';
 				}
 		     })
 		}
@@ -289,14 +289,14 @@
 		<jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
 	</header>
  <div class="mainBoard_wrap">
-	<form id="mainBoardWrap_form" method="post" action="/nearby/board/updateBoard" enctype="multipart/form-data">
+	<form id="mainBoardWrap_form" method="post" action="/board/updateBoard" enctype="multipart/form-data">
 	    <div class="boardIntro"> 
 	    	<div class="profileImg"  id="p_img">
 	    	 <c:if test="${empty loginUser.profile.pSaved}">
 				<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
 			</c:if>
 	    	<c:if test="${not empty loginUser.profile.pSaved}">
-		    		<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}"  class="pointer">
+		    		<img id="user_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}"  class="pointer">
 	        </c:if>
 	        </div>
 	    	<input type="hidden" name="bNo" id="bNo" value="${board.bNo}">
@@ -344,13 +344,13 @@
   					   <c:set value="${board.saved}" var="video"></c:set>
 		  				 <c:if test="${not f:contains(video, 'video')}">
 		  						 <div class="imgSize">
-		  						   <img alt="${board.origin}" src="/nearby/${board.path}/${board.saved}" id="image" > 
+		  						   <img alt="${board.origin}" src="/${board.path}/${board.saved}" id="image" > 
 		  						 </div>
 		  				  </c:if>
 		  				<c:if test ="${f:contains(video, 'video')}">
 		  				   <div class="imgSize">
 			  				    <video autoplay controls loop muted poster="video"  id="video">
-			  						<source src="/nearby/${board.path}/${board.saved}"  type="video/mp4" >
+			  						<source src="/${board.path}/${board.saved}"  type="video/mp4" >
 			  					</video>
 		  					</div>
 		  				</c:if>
