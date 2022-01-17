@@ -85,6 +85,7 @@ function fnLike(i){
 						dataType: 'json',
 		 				success: function(board){
   			  			    $( '#like_count'+bNo ).text(board.likes);
+  			  			    location.href="<%=request.getContextPath()%>/board/searchBoardList?query=${query}";
 		 				},
 		 				error : function(xhr, error){
 		 					console.log(xhr.status);
@@ -106,6 +107,7 @@ function fnLike(i){
 	 				dataType: 'json',
 	  				success: function(board){
 	  				   $( '#like_count'+ bNo ).text(board.likes);
+	  				   location.href="<%=request.getContextPath()%>/board/searchBoardList?query=${query}";
 	  				},
 	  				error : function(xhr, error){
 	  					console.log(xhr.status);
@@ -255,7 +257,7 @@ function fnLike(i){
 			<div class="search_result_wrap"><h3>" ${query} " </h3> 에 대한 검색 결과가 없습니다.</div>
 		</c:if>
 		<c:if test="${not empty list[0] or not empty profileList}">
-			<div class="search_result_wrap"><h3>" ${query} " </h3> 에 대한 검색 결과</div>
+			<div class="search_result_wrap"><h3 >" ${query} " </h3> 에 대한 검색 결과</div>
 		</c:if>
 	</div>
 
@@ -263,7 +265,7 @@ function fnLike(i){
 	
 	 <c:if test="${not empty profileList}">
             <div class="profile_list_container">
-                <c:forEach items="${profileList}" var="profileList">
+                <c:forEach items="${profileList}" var="profileList" begin="0" end="4">
                     <c:if test="${not empty profileList.pSaved}" >
                         <div class="profile_each_container">
                             <img id="user_img" src="/${profileList.pPath}/${profileList.pSaved}" onclick="fnMoveUserHome('${profileList.id}')" class="pointer">
@@ -281,8 +283,6 @@ function fnLike(i){
                 </c:forEach>
             </div>
    	  </c:if>
-	 	 
-	 
 	 <c:if test="${not empty list[0]}"> 
 	  	<c:forEach items="${list}" var="board">
 
@@ -306,7 +306,7 @@ function fnLike(i){
 		    	</div>
 		 </div>
   		<!--------------------- 내용만 삽입할 때 ------------------------------->
- 			 <c:if test="${ null == board.origin }">
+ 			 <c:if test="${ empty board.origin }">
 	  			<div class="AddrAndContent"  onclick="location.href='<%=request.getContextPath()%>/board/selectBoard?bNo=${board.bNo}';">
 	  				  <div class="addrAndMap">
 						       		  <i class="fas board_icon fa-map-marker-alt" style="color:#fe4662; font-size:15px; width:30px"></i>
@@ -320,7 +320,7 @@ function fnLike(i){
 	  		    </div>
 		  </c:if>
   		<!-------------------- 이미지/비디오 삽입할 때---------------->		  
-		 <c:if test="${board.saved ne null}">	  
+		 <c:if test="${not empty board.saved}">	  
 		      <div class="addressAndImage"  onclick="location.href='<%=request.getContextPath()%>/board/selectBoard?bNo=${board.bNo}';">
 			      <div class="addrAndMap">
 			       		  <i class="fas board_icon fa-map-marker-alt" style="color:#fe4662; font-size:15px; width:30px"></i>

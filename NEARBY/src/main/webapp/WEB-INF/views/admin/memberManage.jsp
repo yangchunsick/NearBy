@@ -116,12 +116,12 @@ function fnMemberDelete(i){
 		<jsp:include page="/WEB-INF/views/layout/adminHeader.jsp" flush="true" />
 	</header>
     
-    <c:if test="${map.query == null }">
+    <c:if test="${empty map.query}">
 		 <div class="search_result">전체 회원 목록 </div>
 	</c:if>
    
 
-	<c:if test="${map.query != null }">
+	<c:if test="${not empty map.query}">
 		 <div class="search_result">"${map.query}" 검색결과  ${map.cnt}명이 조회되었습니다. </div>
 	</c:if>
 <input type="hidden" value="${map.cnt}" id="cnt">
@@ -145,7 +145,7 @@ function fnMemberDelete(i){
 		</thead>
 		<tbody>
 
-		<c:if test="${map.searchResult != null }">
+		<c:if test="${not empty map.searchResult }">
 		 <c:forEach items="${map.searchResult}" var="memberSearch" varStatus="vs">
 			<tr>
 				<td>${memberSearch.mNo}</td>

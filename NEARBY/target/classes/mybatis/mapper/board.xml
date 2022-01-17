@@ -149,10 +149,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    	    SELECT B.B_NO, B.ID, B.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE, P.ID, P.P_ORIGIN, P.P_SAVED, P.P_PATH
    	      FROM BOARD B LEFT JOIN PROFILE P
    	        ON B.ID = P.ID 
-   	     WHERE UPPER(B.ID) LIKE CONCAT('%', CONCAT(IFNULL(#{query}, ''), '%'))
+   	     WHERE B.STATE = 0 
+   	       AND UPPER(B.ID) LIKE CONCAT('%', CONCAT(IFNULL(#{query}, ''), '%'))
    	        OR UPPER(B.CONTENT)  LIKE CONCAT('%', CONCAT(IFNULL(#{query}, ''), '%'))
    	        OR B.LOCATION  LIKE CONCAT('%', CONCAT(IFNULL(#{query}, ''), '%'))
-   	       AND B.STATE = 0
    	     ORDER BY B.B_NO DESC
     </select>
     

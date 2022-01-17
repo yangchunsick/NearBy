@@ -73,9 +73,9 @@ function fnCheckFollow() {
   	  	dataType: 'json',
 	    success: function(map) {
 	    	  if(map.result == 1) { 
-		    	  $('#profile_setup').val('팔로잉').attr('onclick', 'fnUnfollowing()');
+		    	  $('#profile_setup').val('팔로우중').attr('onclick', 'fnUnfollowing()').css('background-color','#aeaeae');
 	    	  } else if (map.result == 0) {
-	    	 	  $('#profile_setup').val('팔로우').attr('onclick', 'fnFollowing()');
+	    	 	  $('#profile_setup').val('팔로우').attr('onclick', 'fnFollowing()').css('background-color', '#fe4662');
 	    	  }
 	      },
 	     error: function(xhr) {
@@ -160,6 +160,7 @@ function fnSendBno(){
 
 
 	function fnLike(i){
+		let id = '${userId}';
        let likeBtn = $('.like_btn');
        let bNo = likeBtn.attr('id');
           
@@ -172,6 +173,7 @@ function fnSendBno(){
 					dataType: 'json',
 	 				success: function(board){
 			  			   $( '#like_count'+bNo ).text(board.likes);
+			  			 location.href='<%=request.getContextPath()%>/board/selectUserHome?id=' +id;
 	 				},
 	 				error : function(xhr, error){
 	 					console.log(xhr.status);
@@ -191,6 +193,7 @@ function fnSendBno(){
  				dataType: 'json',
   				success: function(board){
   				   $( '#like_count'+ bNo ).text(board.likes);
+  				 location.href='<%=request.getContextPath()%>/board/selectUserHome?id=' +id;
   				},
   				error : function(xhr, error){
   					console.log(xhr.status);
@@ -357,8 +360,8 @@ function fnSendBno(){
                     <label for="my_follower" onclick="location.href='<%=request.getContextPath()%>/follow/userFollow?id='+ '${userId}'">${f:length(followedList)}</label>
 
                     <input id="my_following" type="button" value="팔로잉" onclick="location.href='<%=request.getContextPath()%>/follow/userFollow?id='+ '${userId}'">
-                    <label for="my_following" onclick="location.href='<%=request.getContextPath()%>/follow/userFollow?id='+ '${userId}'">${f:length(followingList)}</label>
-               	
+                    <label for="my_following" onclick="location.href='<%=request.getContextPath()%>/follow/userFollow?id='+ '${userId}'">${f:length(followingList)}</label>               	
+               
                 </div>
 
                 <div class="content_box">

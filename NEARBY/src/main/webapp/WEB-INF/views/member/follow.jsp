@@ -19,7 +19,6 @@
 	$(document).ready(function(){
 		fnFollowSeeNo();
 		fnCheckFollow();
-		fnCheckLogin();
 	});
 	
 	function fnFollowSeeNo(){
@@ -68,32 +67,6 @@
 	function fnMoveUserHome(id) {
 		location.href='<%=request.getContextPath()%>/board/selectUserHome?id='+ id; 
 	}
-	/* ----------------------------------------- fnCheckLogin() --------------------------------  */
- 	function fnCheckLogin(){
-		let loginInfo = '${loginUser.id}';
-	//	console.log('logincheck ???? : ' + loginInfo);
-		if (loginInfo == '') {
-			
-		 Swal.fire({
-				text: '로그인 세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
-		        icon: 'warning',
-		        showCancelButton: true,
-		        confirmButtonColor: '#D4D4D4',  // confirm
-		        cancelButtonColor: '#D4D4D4',   // cancel
-		        confirmButtonText: '이동',
-		        cancelButtonText: '취소'	
-		     }).then((result) => {
-				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='<%=request.getContextPath()%>/';
-				}
-		     })
-		}
-	}	 	 		
-
-	
-	
-	
-	
 	
 </script>
 <style>

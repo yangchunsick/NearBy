@@ -92,13 +92,12 @@
 	let regName = /^[a-zA-Z가-힣]{1,30}$/;
     // 핸드폰 번호
 	let regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
+    
 	let id_result = false;
 	let name_result = false;
 	let phone_result = false;
 	let pw_result = false;
    
- /* ************************************************************************************ */
-
 
 /* ------------------------------------------------------------ fnFindMemberInfo() ------------------------------------------------------------ */
 	// 회원 조회 함수
@@ -111,13 +110,10 @@
 			success: function(map){
 				if(map.loginErrorMsg != null) {
 					 Swal.fire({
-							text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
+							text: '세션이 만료되었습니다. 로그인 화면으로 이동합니다.',
 					        icon: 'warning',
-					        showCancelButton: true,
 					        confirmButtonColor: '#D4D4D4',  // confirm
-					        cancelButtonColor: '#D4D4D4',   // cancel
-					        confirmButtonText: '이동',
-					        cancelButtonText: '취소'	
+					        confirmButtonText: '로그인',
 					     }).then((result) => {
 							if(result.isConfirmed) { // confirm이 false이면 return
 								location.href='<%=request.getContextPath()%>/';
@@ -291,13 +287,13 @@
                     text: '이름은 16자 이내로 작성해주세요' ,
                 });
 				return;
-			} else if ( $('#phone').val().trim().length != 11 || $('#phone').val() == '' ) {
+			} else if ( regPhone.test( $('#phone') .val() ) == false ) {
 				$('#phone').focus();
-				Swal.fire({
-                    icon: 'error',
-                    text: '핸드폰 번호는 11자리 정수입니다' ,
-                });
-				return;
+	            Swal.fire({
+	                    icon: 'error',
+	                    text: '핸드폰 번호는 11자리 정수입니다' ,
+	                });
+	            return;
 			} else if ( birthday.length != 8 ) {
 				Swal.fire({
                     icon: 'error',
@@ -353,42 +349,46 @@
 
 	
 	
-/* ---------------------------------------------------------- fnLeave() ------------------------------ */
+/* ---------------------------------------------------------- fnLeave() ---------------------------------------------------------- */
 	// 회원 탈퇴
 	function fnLeave() {
-		$('#leave_btn').on('click', function(){
-			 Swal.fire({
-					text: '정말 탈퇴하시겠습니까?',
-			        icon: 'warning',
-			        showCancelButton: true,
-			        confirmButtonColor: '#D4D4D4',  // confirm
-			        cancelButtonColor: '#D4D4D4',   // cancel
-			        confirmButtonText: '탈퇴',
-			        cancelButtonText: '취소'	
-			     }).then((result) =>{
-					if(result.isConfirmed) { // confirm이 false이면 return
-						if(pw_result == true) { 
-								Swal.fire({
-						            title: '탈퇴되었습니다.',
-						            text: 'NearBy를 이용해주셔서 감사합니다.',
-						        });
-								$('#form').attr('action', '<%=request.getContextPath()%>/member/leaveMember/');
-								$('#form').submit();
-							} else if (pw_result == false || $('#pw').val()=='') { // pw_result == false 이면 return;
-								Swal.fire({
-						            icon: 'error',
-						            text: '비밀번호 확인 후 진행해 주세요',
-						        });
-							return;
-						}
-					} else { 
-						return;
-					} // End if
-		     	})
-
-		}) // End click event
+	   $('#leave_btn').on('click', function(){
+	       Swal.fire({
+				  text: '정말 탈퇴하시겠습니까?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#D4D4D4',  // confirm
+				  cancelButtonColor: '#D4D4D4',   // cancel
+				  confirmButtonText: '탈퇴',
+				  cancelButtonText: '취소'   
+			   }).then((result) =>{
+				  if(result.isConfirmed) { // confirm이 false이면 return
+	                  if(pw_result == true) { 
+	                     Swal.fire({
+	                         title: '탈퇴되었습니다.',
+	                         text: 'NearBy를 이용해주셔서 감사합니다.',
+							 confirmButtonColor: '#D4D4D4',  // confirm
+							 confirmButtonText: '메인으로',
+	                     }).then((result)=>{
+	                         if(result.isConfirmed) {
+	                         $('#form').attr('action', '/nearby/member/leaveMember/');
+	                         $('#form').submit();
+	                         }
+	                     })
+	                  } else if (pw_result == false || $('#pw').val()=='') { // pw_result == false 이면 return;
+	                      Swal.fire({
+	                          icon: 'error',
+	                          text: '비밀번호 확인 후 진행해 주세요',
+	                      });
+	                  return;
+	               }
+	            } else { 
+	               return;
+	            } // End if
+           })
+	   }) // End click event
 	} // End fnLeave
-	
+		
 /* ------------------------------------------------------------ fnCurrentPwCheck() ------------------------------------------------------------ */
 	// 현재 비밀번호 확인 함수
 	function fnCurrentPwCheck() {  // checkPassword

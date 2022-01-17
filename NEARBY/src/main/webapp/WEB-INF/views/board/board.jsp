@@ -248,7 +248,7 @@
 
   <div class="board_container">
 	 <c:if test="${not empty list[0]}"> 
-	  <c:forEach items="${list}" var="board">
+	  <c:forEach items="${list}" var="board" begin="0" end="30">
         
 		    <%-- 	보드 값 확인 용 ${board} --%>
 			<div id="mainBoardWrap" >
@@ -307,10 +307,10 @@
 			       		  <i class="fas board_icon fa-map-marker-alt" style="color:#fe4662; font-size:15px; width:30px"></i>
 			              <span class="address"> ${board.location} </span>
 				      </div>
-			    	  <!------------------ 이미지 및 영상 관련 ----------------------------------------->
+			    	  <!------------------ 이미지 및 비디오 관련 ----------------------------------------->
   					  <c:set value="${board.saved}" var="video"></c:set>
 		  			  <c:if test="${not f:contains(video, 'video')}">
-		  				 <div class="imgSize">  <img alt="${board.origin}" src="/${board.path}/${board.saved}" id="image">  </div>
+		  				 <div class="imgSize">  <img alt="${board.origin}" src="/${board.path}/${board.saved}" id="image"></div>
 		  			  </c:if>
 	  				  <c:if test ="${f:contains(video, 'video')}">
 		  				   <div class="imgSize">

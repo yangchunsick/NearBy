@@ -111,14 +111,11 @@ public class BoardServiceImpl implements BoardService {
 				
 				// 비디오 확장자 saved 네임에 "video" 붙이기!
 				for( int i =0; i<video.length; i++) {
-					// System.out.println(saved.contains(video[i]));
 				 	if(saved.contains(video[i])) {
 						saved = "video" + saved;
-						uploadFile = new File(realPath, saved); 
-						board.setSaved(saved);
+						uploadFile = new File(realPath, saved);  board.setSaved(saved);
 					} else {
-						 uploadFile = new File(realPath, saved); 
-						board.setSaved(saved);
+					    uploadFile = new File(realPath, saved);  board.setSaved(saved);
 					}
 				}
 				file.transferTo(uploadFile);

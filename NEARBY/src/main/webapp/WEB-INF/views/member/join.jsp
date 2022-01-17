@@ -59,7 +59,7 @@ $(document).ready(function(){
 			}else if(regId.test($(this).val()) == false ){
 				$('.idCheckTrue').css('display', 'none');
 				$('.idCheckFalse').css('display', 'block');
-	            $('#id_check_msg').text('아이디는 4~ 12자의 영문 대소문자/숫자 사용 가능합니다.')
+	            $('#id_check_msg').text('아이디는 4~ 12자의 영문 소문자/숫자만 사용 가능합니다.')
 								  .addClass('error_msg')
 								  .removeClass('pass_msg');
 	            id_result = false;
@@ -80,7 +80,7 @@ $(document).ready(function(){
 	                }else {
 						$('.idCheckTrue').css('display', 'none');
 						$('.idCheckFalse').css('display', 'block');
-	                    $('#id_check_msg').text('사용 중인 아이디 입니다.')
+	                    $('#id_check_msg').text('이미 사용 중인 아이디 입니다.')
 	                                      .removeClass('pass_msg')
 	                                      .addClass('error_msg');
 	                    id_result = false;
@@ -434,12 +434,7 @@ $(document).ready(function(){
 					text: '휴대폰 번호를 입력 해주세요.',
 				});
 	            return false;
-	        }else{
-				Swal.fire({
-					icon: 'success',
-					title: '필수 정보 입니다.',
-					text: '생년월일을 입력 해주세요.',
-				});
+	        } else {
 	            return true;
 	        }
 	    });

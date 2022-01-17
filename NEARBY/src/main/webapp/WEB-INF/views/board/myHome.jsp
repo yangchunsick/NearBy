@@ -118,7 +118,6 @@ function fnSendBno(){
 	            return
 	   }
 			
- 	//	  console.log("likehasClass = " + $("#"+i).children('i').hasClass('like') )
 
 
     if(  $("#"+i).find('i').hasClass('like') ) {

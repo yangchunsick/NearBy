@@ -161,7 +161,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT M_NO, ID, NAME, EMAIL, BIRTHDAY, PHONE, GENDER, STATE, M_CREATED
 		  FROM MEMBER
 	     WHERE STATE = 0 AND ID NOT LIKE 'admin'
-	       AND DATE_FORMAT( M_CREATED , 'YY/MM/DD') = DATE_FORMAT(NOW(), 'YY/MM/DD')
+	       AND DATE(M_CREATED) = DATE(NOW())
     </select>
     
     <!-- 10대  -->
