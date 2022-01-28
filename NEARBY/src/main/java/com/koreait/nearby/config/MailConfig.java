@@ -16,8 +16,8 @@ public class MailConfig {
 		JavaMailSenderImpl sender = new JavaMailSenderImpl();
 		sender.setHost("smtp.gmail.com");
 		sender.setPort(587);
-		sender.setUsername("nearby.corp@gmail.com");   // 구글아이디
-		sender.setPassword("nearby123!");            // 구글비밀번호
+		sender.setUsername("");   // 구글아이디
+		sender.setPassword("");            // 구글비밀번호
 		
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", true);
